@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:neumorphic_example/screen.dart';
+import 'package:neumorphic_example/screens/showcase.dart';
 
 void main() => runApp(NeumorphicApp());
 
@@ -14,6 +13,6 @@ class NeumorphicApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.grey[200],
           dialogBackgroundColor: Colors.grey[300],
         ),
-        home: Neumorphism(),
+        home: ShowcaseScreen(),
       );
 }
