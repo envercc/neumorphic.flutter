@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:neumorphic_example/utils/size_config.dart';
@@ -7,7 +9,14 @@ import 'package:neumorphic/neumorphic.dart';
 /// this screen is a copy from
 /// https://github.com/Tomison-E/neuomorphic_container/blob/master/example/lib/neuomorphism.dart
 /// OLUWATOMISIN ESAN (https://github.com/Tomison-E) is its copyright holder
-class Neumorphism extends StatelessWidget {
+class Neumorphism extends StatefulWidget {
+  @override
+  _NeumorphismState createState() => _NeumorphismState();
+}
+
+class _NeumorphismState extends State<Neumorphism> {
+  int switchValue = 0;
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -116,32 +125,75 @@ class Neumorphism extends StatelessWidget {
                                 ],
                                 border: Border.all(
                                     color: Color.fromRGBO(239, 238, 238, 1.0))),
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(left: 10.0),
-                                  child: Icon(
-                                    Icons.keyboard_backspace,
-                                    color: Colors.blueGrey[500],
+                            child: NeumorphicSwitch<int>(
+                              onValueChanged: (val) {
+                                setState(() {
+                                  switchValue = val;
+                                });
+                              },
+                              groupValue: switchValue,
+                              children: {
+                                0: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 2),
+                                  child: AnimatedSwitcher(
+                                    duration: Duration(milliseconds: 150),
+                                    transitionBuilder: (child, animation) =>
+                                        SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: Offset(0.15, 0),
+                                        end: Offset(0, 0),
+                                      ).animate(animation),
+                                      child: FadeTransition(
+                                        opacity: animation,
+                                        child: child,
+                                      ),
+                                    ),
+                                    child: switchValue == 1
+                                        ? Icon(
+                                            Icons.keyboard_backspace,
+                                            key: UniqueKey(),
+                                            color: Colors.blueGrey[500],
+                                          )
+                                        : Icon(
+                                            Icons.apps,
+                                            size: 30.0,
+                                            color: Colors.blueGrey[200],
+                                          ),
                                   ),
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(239, 238, 238, 1.0),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Icon(
-                                      Icons.apps,
-                                      size: 30.0,
-                                      color: Colors.blueGrey[200],
+                                1: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 2),
+                                  child: AnimatedSwitcher(
+                                    duration: Duration(milliseconds: 150),
+                                    transitionBuilder: (child, animation) =>
+                                        SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: Offset(-0.15, 0),
+                                        end: Offset(0, 0),
+                                      ).animate(animation),
+                                      child: FadeTransition(
+                                        opacity: animation,
+                                        child: child,
+                                      ),
                                     ),
+                                    child: switchValue == 1
+                                        ? Icon(
+                                            Icons.apps,
+                                            size: 30.0,
+                                            color: Colors.blueGrey[200],
+                                          )
+                                        : Transform.rotate(
+                                            angle: 180 * -math.pi / 180,
+                                            child: Icon(
+                                              Icons.keyboard_backspace,
+                                              color: Colors.blueGrey[500],
+                                            ),
+                                          ),
                                   ),
-                                  margin: EdgeInsets.only(left: 10.0),
-                                )
-                              ],
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                ),
+                              },
                             ),
                           ),
                           SizedBox(width: 20.0),

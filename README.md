@@ -13,6 +13,7 @@ Now implemented some widgets:
 
  - Neumorphic
  - NeumorphicButton
+ - NeumorphicSwitch
 
 ### Neumorphic
 It is container like a `Material` merged with `Container`, but implement Neumorphism
@@ -35,7 +36,7 @@ Neumorphic(
 )
 ```
 
-## NeumorphicButton
+### NeumorphicButton
 Button automatically when pressed toggle the status of NeumorphicStatus from `concave` to `convex` and back
 ```dart
 NeumorphicButton(
@@ -43,6 +44,29 @@ NeumorphicButton(
     print('Pressed !');
   },
   child: Text('Button'),
+);
+```
+
+### NeumorphicSwitch
+Remade `CupertinoSlidingSegmentedControl`
+```dart
+NeumorphicSwitch<int>(
+  onValueChanged: (val) {
+    setState(() {
+      switchValue = val;
+    });
+  },
+  groupValue: switchValue,
+  children: {
+    0: Padding(
+      padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
+      child: Text('First'),
+    ),
+    1: Padding(
+      padding: EdgeInsets.symmetric(vertical: 24, horizontal: 8),
+      child: Text('Second'),
+    ),
+  },
 );
 ```
 
