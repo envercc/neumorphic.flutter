@@ -83,5 +83,6 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Inspired by
 
-[Alexander Plyuto (figma)](https://www.figma.com/file/J1uPSOY5k577mDpSfGFven/Skeuomorph-Small-Style-Guide)
-[Ivan Cherepanov (medium)](https://medium.com/flutter-community/neumorphic-designs-in-flutter-eab9a4de2059)
+1) [Alexander Plyuto (figma)](https://www.figma.com/file/J1uPSOY5k577mDpSfGFven/Skeuomorph-Small-Style-Guide)
+
+2) [Ivan Cherepanov (medium)](https://medium.com/flutter-community/neumorphic-designs-in-flutter-eab9a4de2059)
