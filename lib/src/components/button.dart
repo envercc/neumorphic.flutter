@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:neumorphic/src/neumorphic.dart';
+import 'neumorphic.dart';
 
 class NeumorphicButton extends StatefulWidget {
   const NeumorphicButton({
