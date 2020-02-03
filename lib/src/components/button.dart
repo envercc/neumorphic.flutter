@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:neumorphic/src/card.dart';
+import 'neumorphic.dart';
+import 'neu_card.dart';
 
 class NeuButton extends StatefulWidget {
   const NeuButton({

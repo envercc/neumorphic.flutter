@@ -11,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:neumorphic/src/card.dart';
+import 'neu_card.dart';
+import '../constants.dart';
+import 'neumorphic.dart';
 
 // Minimum padding from edges of the segmented control to edges of
 // encompassing widget.

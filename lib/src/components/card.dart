@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart'
     show Brightness, CardTheme, Material, Theme;
 
-import 'enums.dart';
-import 'constants.dart';
+import '../constants.dart';
+import '../params.dart';
 
 /// A Neumorphic design based material card.
 ///
@@ -109,11 +109,8 @@ class Card extends StatelessWidget {
     // Checks if dark theme is enabled for application.
     // Instead of checking platform's brightness using
     // MediaQuery.of(context).platformBrightness, Theme's brightness is used
-    // If material is dark
-    bool _isDarkThemeOn = false;
-    if (Theme.of(context).brightness == Brightness.dark) {
-      _isDarkThemeOn = true;
-    }
+    // if material is dark
+    bool _isDarkThemeOn = Theme.of(context).brightness == Brightness.dark;
 
     // Assigns `SurfaceShape.concave` if surface is provided null
     SurfaceShape surface = this.surface ?? SurfaceShape.concave;
