@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:neumorphic_example/screen.dart';
+// import 'screen.dart';
+import 'compare.dart';
 
 void main() => runApp(NeumorphicApp());
 
