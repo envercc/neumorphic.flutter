@@ -2,8 +2,7 @@
 
 |   |   |
 |----------|:-------------:|------:|
-|![showcase](https://raw.githubusercontent.com/neumorphic/neumorphic.flutter/master/example/media/v0/all.gif?raw=true)|![cards](https://raw.githubusercontent.com/neumorphic/neumorphic.flutter/master/example/media/v0/cards.png?raw=true)|
-
+|![showcase](https://raw.githubusercontent.com/neumorphic/neumorphic.flutter/master/example/media/v0/all.gif)|![cards](https://raw.githubusercontent.com/neumorphic/neumorphic.flutter/master/example/media/v0/cards.png)|
 
 ## Api
 Now implemented some widgets:
