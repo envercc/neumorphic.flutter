@@ -1,30 +1,27 @@
-# neumorphic
+# Neumorphic Ui kit for flutter
 
-Neumorphic Ui for flutter
+|   |   |
+|----------|:-------------:|------:|
+|![showcase](https://raw.githubusercontent.com/neumorphic/neumorphic.flutter/master/example/media/v0/all.gif?raw=true)|![cards](https://raw.githubusercontent.com/neumorphic/neumorphic.flutter/master/example/media/v0/cards.png?raw=true)|
 
-![NeumorphicStatus](https://miro.medium.com/max/1024/1*EET5FBkpc738Xi75pgrH1w.png)
-
-Includes two states:
-`NeumorphicStatus.convex` (first) & 
-`NeumorphicStatus.concave` (second)
 
 ## Api
 Now implemented some widgets:
 
- - Neumorphic
- - NeumorphicButton
- - NeumorphicSwitch
+ - NeuCard
+ - NeuButton
+ - NeuSwitch
 
-### Neumorphic
+### NeuCard
 It is container like a `Material` merged with `Container`, but implement Neumorphism
 
 ```dart
-Neumorphic(
-  // State of Neumorphic (may be concave & convex)
-  status: NeumorphicStatus.concave,
+NeuCard(
+  // State of Neumorphic (may be convex, flat & emboss)
+  curveType: CurveType.concave,
 
   // Elevation relative to parent. Main constituent of Neumorphism
-  bevel: 10,
+  bevel: 12,
 
   // Specified decorations, like `BoxDecoration` but only limited
   decoration: NeumorphicDecoration(
@@ -36,10 +33,10 @@ Neumorphic(
 )
 ```
 
-### NeumorphicButton
+### NeuButton
 Button automatically when pressed toggle the status of NeumorphicStatus from `concave` to `convex` and back
 ```dart
-NeumorphicButton(
+NeuButton(
   onPressed: () {
     print('Pressed !');
   },
@@ -47,10 +44,10 @@ NeumorphicButton(
 );
 ```
 
-### NeumorphicSwitch
+### NeuSwitch
 Remade `CupertinoSlidingSegmentedControl`
 ```dart
-NeumorphicSwitch<int>(
+NeuSwitch<int>(
   onValueChanged: (val) {
     setState(() {
       switchValue = val;

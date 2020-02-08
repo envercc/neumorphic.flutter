@@ -22,7 +22,7 @@ class _NeumorphismState extends State<Neumorphism> {
     SizeConfig().init(context);
     final container = PageView.builder(
       controller: PageController(viewportFraction: 0.85, initialPage: 2),
-      itemBuilder: (_, i) => Neumorphic(
+      itemBuilder: (_, i) => NeuCard(
         bevel: 12,
         child: Column(
           children: <Widget>[
@@ -97,7 +97,6 @@ class _NeumorphismState extends State<Neumorphism> {
       ),
     );
     return Scaffold(
-      // backgroundColor: Colors.grey[400],
       body: Column(
         children: <Widget>[
           Flexible(
@@ -125,7 +124,7 @@ class _NeumorphismState extends State<Neumorphism> {
                                 ],
                                 border: Border.all(
                                     color: Color.fromRGBO(239, 238, 238, 1.0))),
-                            child: NeumorphicSwitch<int>(
+                            child: NeuSwitch<int>(
                               onValueChanged: (val) {
                                 setState(() {
                                   switchValue = val;
@@ -208,7 +207,7 @@ class _NeumorphismState extends State<Neumorphism> {
                         ],
                       ),
                     ),
-                    Neumorphic(
+                    NeuCard(
                       child: Row(
                         children: <Widget>[
                           Text(
@@ -227,7 +226,7 @@ class _NeumorphismState extends State<Neumorphism> {
                             ),
                           ),
                           SizedBox(width: 10.0),
-                          NeumorphicButton(
+                          NeuButton(
                             padding: EdgeInsets.all(3.0),
                             child: Icon(
                               Icons.navigate_next,
@@ -254,7 +253,7 @@ class _NeumorphismState extends State<Neumorphism> {
           ),
           Flexible(child: container, flex: 5),
           Flexible(
-              child: Neumorphic(
+              child: NeuCard(
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -316,7 +315,7 @@ class _NeumorphismState extends State<Neumorphism> {
             child: Padding(
               child: Row(
                 children: [
-                  NeumorphicButton(
+                  NeuButton(
                     // padding: EdgeInsets.all(10.0),
                     child: Icon(
                       Icons.account_balance,
@@ -325,7 +324,7 @@ class _NeumorphismState extends State<Neumorphism> {
                     ),
                     onPressed: () {},
                   ),
-                  NeumorphicButton(
+                  NeuButton(
                     // padding: EdgeInsets.all(10.0),
                     child: Icon(
                       Icons.home,
@@ -334,7 +333,7 @@ class _NeumorphismState extends State<Neumorphism> {
                     ),
                     onPressed: () {},
                   ),
-                  NeumorphicButton(
+                  NeuButton(
                     // padding: EdgeInsets.all(10.0),
                     child: Icon(
                       Icons.credit_card,
@@ -343,7 +342,7 @@ class _NeumorphismState extends State<Neumorphism> {
                     ),
                     onPressed: () {},
                   ),
-                  NeumorphicButton(
+                  NeuButton(
                     child: Icon(
                       Icons.settings,
                       color: Colors.blueGrey[300],

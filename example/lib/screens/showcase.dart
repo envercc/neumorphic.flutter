@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:neumorphic_example/data/item.dart';
 import 'package:neumorphic_example/screens/widget_details.dart';
 import 'package:neumorphic_example/screens/widget_listing.dart';
+import 'package:neumorphic/neumorphic.dart';
 
 class ShowcaseScreen extends StatefulWidget {
   @override
@@ -64,7 +65,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: NeuAppBar(
         title: Text('UI Showcase'),
       ),
       body: content,

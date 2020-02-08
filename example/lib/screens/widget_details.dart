@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:neumorphic_example/data/item.dart';
+import 'package:neumorphic/neumorphic.dart';
 
 class WidgetDetailsScreen extends StatelessWidget {
   const WidgetDetailsScreen({
@@ -22,11 +23,11 @@ class WidgetDetailsScreen extends StatelessWidget {
           children: [
             Text(
               item?.title ?? 'No item selected!',
-              style: textTheme.headline,
+              style: textTheme.headline5,
             ),
             Text(
               item?.subtitle ?? 'Please select one on the left.',
-              style: textTheme.subhead,
+              style: textTheme.subtitle2,
             ),
           ],
         ),
@@ -42,7 +43,7 @@ class WidgetDetailsScreen extends StatelessWidget {
 
     if (!isInTabletLayout) {
       content = Scaffold(
-        appBar: AppBar(
+        appBar: NeuAppBar(
           title: Text(item.title),
         ),
         body: content,

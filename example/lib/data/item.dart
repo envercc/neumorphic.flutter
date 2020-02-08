@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
+import 'package:neumorphic_example/widgets/section_button.dart';
 import 'package:neumorphic_example/widgets/section_neumorphic.dart';
+import 'package:neumorphic_example/widgets/section_switch.dart';
 
 class Item {
   Item({
@@ -16,16 +18,18 @@ class Item {
 
 final List<Item> items = <Item>[
   Item(
-    title: 'Neumorphic',
+    title: 'NeuCard',
     subtitle: 'Main container',
     section: SectionNeumorphic(),
   ),
   Item(
-    title: 'NeumorphicButton',
+    title: 'NeuButton',
     subtitle: 'Button implementation',
+    section: SectionNeuButton()
   ),
   Item(
-    title: 'NeumorphicSwitch',
+    title: 'NeuSwitch',
     subtitle: 'Button implementation',
+    section: SectionNeuSwitch(),
   ),
 ];

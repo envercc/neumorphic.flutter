@@ -11,8 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:neumorphic/src/neumorphic.dart';
-import 'package:neumorphic/src/helpers.dart';
+import 'package:neumorphic/src/card.dart';
 
 // Minimum padding from edges of the segmented control to edges of
 // encompassing widget.
@@ -26,7 +25,7 @@ const Radius _kThumbRadius = Radius.circular(6.93);
 const EdgeInsets _kThumbInsets = EdgeInsets.symmetric(horizontal: 1);
 
 // Minimum height of the segmented control.
-const double _kMinNeumorphicSwitchHeight = 28.0;
+const double _kMinNeuSwitchHeight = 28.0;
 
 const Color _kSeparatorColor = Color(0x4D8E8E93);
 
@@ -50,7 +49,7 @@ const double _kSegmentMinPadding = 9.25;
 
 // The threshold value used in hasDraggedTooFar, for checking against the square
 // L2 distance from the location of the current drag pointer, to the closest
-// vertice of the NeumorphicSwitch's Rect.
+// vertice of the NeuSwitch's Rect.
 //
 // Both the mechanism and the value are speculated.
 const double _kTouchYDistanceThreshold = 50.0 * 50.0;
@@ -124,7 +123,7 @@ class _FontWeightTween extends Tween<FontWeight> {
 /// See also:
 ///
 ///  * <https://developer.apple.com/design/human-interface-guidelines/ios/controls/segmented-controls/>
-class NeumorphicSwitch<T> extends StatefulWidget {
+class NeuSwitch<T> extends StatefulWidget {
   /// Creates an iOS-style segmented control bar.
   ///
   /// The [children] and [onValueChanged] arguments must not be null. The
@@ -141,7 +140,7 @@ class NeumorphicSwitch<T> extends StatefulWidget {
   /// no widget will appear as selected. The [groupValue] must be either
   /// null or one of the keys
   /// in the [children] map.
-  NeumorphicSwitch({
+  NeuSwitch({
     @required this.children,
     @required this.onValueChanged,
     Key key,
@@ -188,12 +187,12 @@ class NeumorphicSwitch<T> extends StatefulWidget {
   /// {@tool sample}
   ///
   /// ```dart
-  /// class NeumorphicSwitchExample extends StatefulWidget {
+  /// class NeuSwitchExample extends StatefulWidget {
   ///   @override
-  ///   State createState() => NeumorphicSwitchExampleState();
+  ///   State createState() => NeuSwitchExampleState();
   /// }
-  /// class NeumorphicSwitchExampleState
-  ///   extends State<NeumorphicSwitchExample> {
+  /// class NeuSwitchExampleState
+  ///   extends State<NeuSwitchExample> {
   ///   final Map<int, Widget> children = const {
   ///     0: Text('Child 1'),
   ///     1: Text('Child 2'),
@@ -204,7 +203,7 @@ class NeumorphicSwitch<T> extends StatefulWidget {
   ///   @override
   ///   Widget build(BuildContext context) {
   ///     return Container(
-  ///       child: NeumorphicSwitch<int>(
+  ///       child: NeuSwitch<int>(
   ///         children: children,
   ///         onValueChanged: (int newValue) {
   ///           setState(() {
@@ -241,11 +240,11 @@ class NeumorphicSwitch<T> extends StatefulWidget {
   final EdgeInsetsGeometry padding;
 
   @override
-  _NeumorphicSwitchState<T> createState() => _NeumorphicSwitchState<T>();
+  _NeuSwitchState<T> createState() => _NeuSwitchState<T>();
 }
 
-class _NeumorphicSwitchState<T> extends State<NeumorphicSwitch<T>>
-    with TickerProviderStateMixin<NeumorphicSwitch<T>> {
+class _NeuSwitchState<T> extends State<NeuSwitch<T>>
+    with TickerProviderStateMixin<NeuSwitch<T>> {
   final Map<T, AnimationController> _highlightControllers =
       <T, AnimationController>{};
   final Tween<FontWeight> _highlightTween =
@@ -323,7 +322,7 @@ class _NeumorphicSwitchState<T> extends State<NeumorphicSwitch<T>>
   }
 
   @override
-  void didUpdateWidget(NeumorphicSwitch<T> oldWidget) {
+  void didUpdateWidget(NeuSwitch<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     // Update animation controllers.
@@ -467,7 +466,7 @@ class _NeumorphicSwitchState<T> extends State<NeumorphicSwitch<T>>
         final int selectedIndex =
             widget.groupValue == null ? null : keys.indexOf(widget.groupValue);
 
-        final Widget box = _NeumorphicSwitchRenderWidget<T>(
+        final Widget box = _NeuSwitchRenderWidget<T>(
           children: children,
           selectedIndex: selectedIndex,
           thumbColor: CupertinoDynamicColor.resolve(widget.thumbColor, context),
@@ -476,14 +475,13 @@ class _NeumorphicSwitchState<T> extends State<NeumorphicSwitch<T>>
 
         return UnconstrainedBox(
           constrainedAxis: Axis.horizontal,
-          child: Neumorphic(
-            status: NeumorphicStatus.concave,
+          child: NeuCard(
+            bevel: 12,
+            curveType: CurveType.emboss,
             padding: widget.padding.resolve(Directionality.of(context)),
             decoration: NeumorphicDecoration(
               borderRadius:
                   const BorderRadius.all(Radius.circular(_kCornerRadius)),
-              color: CupertinoDynamicColor.resolve(
-                  widget.backgroundColor, context),
             ),
             child: box,
           ),
@@ -493,8 +491,8 @@ class _NeumorphicSwitchState<T> extends State<NeumorphicSwitch<T>>
   }
 }
 
-class _NeumorphicSwitchRenderWidget<T> extends MultiChildRenderObjectWidget {
-  _NeumorphicSwitchRenderWidget({
+class _NeuSwitchRenderWidget<T> extends MultiChildRenderObjectWidget {
+  _NeuSwitchRenderWidget({
     @required this.selectedIndex,
     @required this.thumbColor,
     @required this.state,
@@ -504,11 +502,11 @@ class _NeumorphicSwitchRenderWidget<T> extends MultiChildRenderObjectWidget {
 
   final int selectedIndex;
   final Color thumbColor;
-  final _NeumorphicSwitchState<T> state;
+  final _NeuSwitchState<T> state;
 
   @override
   RenderObject createRenderObject(BuildContext context) =>
-      _RenderNeumorphicSwitch<T>(
+      _RenderNeuSwitch<T>(
         selectedIndex: selectedIndex,
         thumbColor: CupertinoDynamicColor.resolve(thumbColor, context),
         state: state,
@@ -516,7 +514,7 @@ class _NeumorphicSwitchRenderWidget<T> extends MultiChildRenderObjectWidget {
 
   @override
   void updateRenderObject(
-      BuildContext context, _RenderNeumorphicSwitch<T> renderObject) {
+      BuildContext context, _RenderNeuSwitch<T> renderObject) {
     renderObject
       ..thumbColor = CupertinoDynamicColor.resolve(thumbColor, context)
       ..guardedSetHighlightedIndex(selectedIndex);
@@ -539,10 +537,10 @@ class _ChildAnimationManifest {
   Tween<double> separatorTween;
 }
 
-class _NeumorphicSwitchContainerBoxParentData
+class _NeuSwitchContainerBoxParentData
     extends ContainerBoxParentData<RenderBox> {}
 
-// The behavior of a NeumorphicSwitch:
+// The behavior of a NeuSwitch:
 //
 // 1. Tap up inside events will set the current selected index to
 //    the index of the segment at the tap up location instantaneously
@@ -575,13 +573,13 @@ class _NeumorphicSwitchContainerBoxParentData
 //    a tap up event or the pointer moves out of the region  (either outside of
 //    the segmented control's vicinity or to a different segment). The reverse
 //    animation has the same duration and timing function.
-class _RenderNeumorphicSwitch<T> extends RenderBox
+class _RenderNeuSwitch<T> extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox,
             ContainerBoxParentData<RenderBox>>,
         RenderBoxContainerDefaultsMixin<RenderBox,
             ContainerBoxParentData<RenderBox>> {
-  _RenderNeumorphicSwitch({
+  _RenderNeuSwitch({
     @required int selectedIndex,
     @required Color thumbColor,
     @required this.state,
@@ -599,7 +597,7 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
     state.longPress.onLongPress = () {};
   }
 
-  final _NeumorphicSwitchState<T> state;
+  final _NeuSwitchState<T> state;
 
   Map<RenderBox, _ChildAnimationManifest> _childAnimations =
       <RenderBox, _ChildAnimationManifest>{};
@@ -808,7 +806,7 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
     RenderBox child = firstChild;
     double maxMinChildWidth = 0;
     while (child != null) {
-      final _NeumorphicSwitchContainerBoxParentData childParentData =
+      final _NeuSwitchContainerBoxParentData childParentData =
           child.parentData;
       final double childWidth = child.getMinIntrinsicWidth(height);
       maxMinChildWidth = math.max(maxMinChildWidth, childWidth);
@@ -823,7 +821,7 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
     RenderBox child = firstChild;
     double maxMaxChildWidth = 0;
     while (child != null) {
-      final _NeumorphicSwitchContainerBoxParentData childParentData =
+      final _NeuSwitchContainerBoxParentData childParentData =
           child.parentData;
       final double childWidth = child.getMaxIntrinsicWidth(height);
       maxMaxChildWidth = math.max(maxMaxChildWidth, childWidth);
@@ -838,7 +836,7 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
     RenderBox child = firstChild;
     double maxMinChildHeight = 0;
     while (child != null) {
-      final _NeumorphicSwitchContainerBoxParentData childParentData =
+      final _NeuSwitchContainerBoxParentData childParentData =
           child.parentData;
       final double childHeight = child.getMinIntrinsicHeight(width);
       maxMinChildHeight = math.max(maxMinChildHeight, childHeight);
@@ -852,7 +850,7 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
     RenderBox child = firstChild;
     double maxMaxChildHeight = 0;
     while (child != null) {
-      final _NeumorphicSwitchContainerBoxParentData childParentData =
+      final _NeuSwitchContainerBoxParentData childParentData =
           child.parentData;
       final double childHeight = child.getMaxIntrinsicHeight(width);
       maxMaxChildHeight = math.max(maxMaxChildHeight, childHeight);
@@ -867,8 +865,8 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
 
   @override
   void setupParentData(RenderBox child) {
-    if (child.parentData is! _NeumorphicSwitchContainerBoxParentData) {
-      child.parentData = _NeumorphicSwitchContainerBoxParentData();
+    if (child.parentData is! _NeuSwitchContainerBoxParentData) {
+      child.parentData = _NeuSwitchContainerBoxParentData();
     }
   }
 
@@ -876,7 +874,7 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
   void performLayout() {
     double childWidth =
         (constraints.minWidth - totalSeparatorWidth) / childCount;
-    double maxHeight = _kMinNeumorphicSwitchHeight;
+    double maxHeight = _kMinNeuSwitchHeight;
 
     for (RenderBox child in getChildrenAsList()) {
       childWidth = math.max(
@@ -915,7 +913,7 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
     child = firstChild;
 
     while (child != null) {
-      final _NeumorphicSwitchContainerBoxParentData childParentData =
+      final _NeuSwitchContainerBoxParentData childParentData =
           child.parentData;
       final Offset childOffset = Offset(start, 0);
       childParentData.offset = childOffset;
@@ -950,7 +948,7 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
 
       final RenderBox selectedChild = children[highlightedIndex];
 
-      final _NeumorphicSwitchContainerBoxParentData childParentData =
+      final _NeuSwitchContainerBoxParentData childParentData =
           selectedChild.parentData;
       final Rect unscaledThumbTargetRect = _kThumbInsets
           .inflateRect(childParentData.offset & selectedChild.size);
@@ -1020,7 +1018,7 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
   void _paintSeparator(
       PaintingContext context, Offset offset, RenderBox child) {
     assert(child != null);
-    final _NeumorphicSwitchContainerBoxParentData childParentData =
+    final _NeuSwitchContainerBoxParentData childParentData =
         child.parentData;
 
     final Paint paint = Paint();
@@ -1050,7 +1048,7 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
   void _paintChild(
       PaintingContext context, Offset offset, RenderBox child, int childIndex) {
     assert(child != null);
-    final _NeumorphicSwitchContainerBoxParentData childParentData =
+    final _NeuSwitchContainerBoxParentData childParentData =
         child.parentData;
     context.paintChild(child, childParentData.offset + offset);
   }
@@ -1083,10 +1081,14 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
       // begin: Alignment.topLeft,
       // end: Alignment.bottomRight,
       colors: [
-        isConcave ? color.mix(Colors.black, .01) : color,
-        isConcave ? color.mix(Colors.white, .01) : color.mix(Colors.black, .01),
-        isConcave ? color.mix(Colors.white, .01) : color.mix(Colors.black, .01),
-        isConcave ? color.mix(Colors.black, .01) : color,
+        isConcave ? Color.lerp(color, Colors.black, .01) : color,
+        isConcave
+            ? Color.lerp(color, Colors.white, .01)
+            : Color.lerp(color, Colors.black, .01),
+        isConcave
+            ? Color.lerp(color, Colors.white, .01)
+            : Color.lerp(color, Colors.black, .01),
+        isConcave ? Color.lerp(color, Colors.black, .01) : color,
       ],
       stops: [
         0.0,
@@ -1123,7 +1125,7 @@ class _RenderNeumorphicSwitch<T> extends RenderBox
     assert(position != null);
     RenderBox child = lastChild;
     while (child != null) {
-      final _NeumorphicSwitchContainerBoxParentData childParentData =
+      final _NeuSwitchContainerBoxParentData childParentData =
           child.parentData;
       if ((childParentData.offset & child.size).contains(position)) {
         final Offset center = (Offset.zero & child.size).center;
