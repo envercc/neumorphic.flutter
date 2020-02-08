@@ -23,11 +23,11 @@ class WidgetDetailsScreen extends StatelessWidget {
           children: [
             Text(
               item?.title ?? 'No item selected!',
-              style: textTheme.headline5,
+              style: textTheme.headline,
             ),
             Text(
               item?.subtitle ?? 'Please select one on the left.',
-              style: textTheme.subtitle2,
+              style: textTheme.body2,
             ),
           ],
         ),

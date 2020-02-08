@@ -55,7 +55,7 @@ class NeuAppBar extends StatelessWidget implements PreferredSizeWidget {
               padding: EdgeInsets.all(16)
                   .copyWith(right: (leading != null) ? kToolbarHeight : 0),
               child: DefaultTextStyle(
-                style: textTheme.headline5.copyWith(
+                style: textTheme.headline.copyWith(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                 ),

@@ -7,7 +7,7 @@ class NeuBackButton extends StatelessWidget {
 
   /// The color to use for the icon.
   ///
-  /// Defaults to the [IconThemeData.color] 
+  /// Defaults to the [IconThemeData.color]
   /// specified in the ambient [IconTheme],
   /// which usually matches the ambient [Theme]'s [ThemeData.iconTheme].
   final Color color;

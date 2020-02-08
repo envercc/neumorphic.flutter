@@ -505,8 +505,7 @@ class _NeuSwitchRenderWidget<T> extends MultiChildRenderObjectWidget {
   final _NeuSwitchState<T> state;
 
   @override
-  RenderObject createRenderObject(BuildContext context) =>
-      _RenderNeuSwitch<T>(
+  RenderObject createRenderObject(BuildContext context) => _RenderNeuSwitch<T>(
         selectedIndex: selectedIndex,
         thumbColor: CupertinoDynamicColor.resolve(thumbColor, context),
         state: state,
@@ -806,8 +805,7 @@ class _RenderNeuSwitch<T> extends RenderBox
     RenderBox child = firstChild;
     double maxMinChildWidth = 0;
     while (child != null) {
-      final _NeuSwitchContainerBoxParentData childParentData =
-          child.parentData;
+      final _NeuSwitchContainerBoxParentData childParentData = child.parentData;
       final double childWidth = child.getMinIntrinsicWidth(height);
       maxMinChildWidth = math.max(maxMinChildWidth, childWidth);
       child = childParentData.nextSibling;
@@ -821,8 +819,7 @@ class _RenderNeuSwitch<T> extends RenderBox
     RenderBox child = firstChild;
     double maxMaxChildWidth = 0;
     while (child != null) {
-      final _NeuSwitchContainerBoxParentData childParentData =
-          child.parentData;
+      final _NeuSwitchContainerBoxParentData childParentData = child.parentData;
       final double childWidth = child.getMaxIntrinsicWidth(height);
       maxMaxChildWidth = math.max(maxMaxChildWidth, childWidth);
       child = childParentData.nextSibling;
@@ -836,8 +833,7 @@ class _RenderNeuSwitch<T> extends RenderBox
     RenderBox child = firstChild;
     double maxMinChildHeight = 0;
     while (child != null) {
-      final _NeuSwitchContainerBoxParentData childParentData =
-          child.parentData;
+      final _NeuSwitchContainerBoxParentData childParentData = child.parentData;
       final double childHeight = child.getMinIntrinsicHeight(width);
       maxMinChildHeight = math.max(maxMinChildHeight, childHeight);
       child = childParentData.nextSibling;
@@ -850,8 +846,7 @@ class _RenderNeuSwitch<T> extends RenderBox
     RenderBox child = firstChild;
     double maxMaxChildHeight = 0;
     while (child != null) {
-      final _NeuSwitchContainerBoxParentData childParentData =
-          child.parentData;
+      final _NeuSwitchContainerBoxParentData childParentData = child.parentData;
       final double childHeight = child.getMaxIntrinsicHeight(width);
       maxMaxChildHeight = math.max(maxMaxChildHeight, childHeight);
       child = childParentData.nextSibling;
@@ -913,8 +908,7 @@ class _RenderNeuSwitch<T> extends RenderBox
     child = firstChild;
 
     while (child != null) {
-      final _NeuSwitchContainerBoxParentData childParentData =
-          child.parentData;
+      final _NeuSwitchContainerBoxParentData childParentData = child.parentData;
       final Offset childOffset = Offset(start, 0);
       childParentData.offset = childOffset;
       start +=
@@ -1018,8 +1012,7 @@ class _RenderNeuSwitch<T> extends RenderBox
   void _paintSeparator(
       PaintingContext context, Offset offset, RenderBox child) {
     assert(child != null);
-    final _NeuSwitchContainerBoxParentData childParentData =
-        child.parentData;
+    final _NeuSwitchContainerBoxParentData childParentData = child.parentData;
 
     final Paint paint = Paint();
 
@@ -1048,8 +1041,7 @@ class _RenderNeuSwitch<T> extends RenderBox
   void _paintChild(
       PaintingContext context, Offset offset, RenderBox child, int childIndex) {
     assert(child != null);
-    final _NeuSwitchContainerBoxParentData childParentData =
-        child.parentData;
+    final _NeuSwitchContainerBoxParentData childParentData = child.parentData;
     context.paintChild(child, childParentData.offset + offset);
   }
 
@@ -1125,8 +1117,7 @@ class _RenderNeuSwitch<T> extends RenderBox
     assert(position != null);
     RenderBox child = lastChild;
     while (child != null) {
-      final _NeuSwitchContainerBoxParentData childParentData =
-          child.parentData;
+      final _NeuSwitchContainerBoxParentData childParentData = child.parentData;
       if ((childParentData.offset & child.size).contains(position)) {
         final Offset center = (Offset.zero & child.size).center;
         return result.addWithRawTransform(

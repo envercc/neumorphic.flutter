@@ -5,8 +5,7 @@ import 'package:neumorphic/neumorphic.dart';
 
 class SectionNeuSwitch extends StatefulWidget {
   @override
-  _SectionNeuSwitchState createState() =>
-      _SectionNeuSwitchState();
+  _SectionNeuSwitchState createState() => _SectionNeuSwitchState();
 }
 
 class _SectionNeuSwitchState extends State<SectionNeuSwitch> {

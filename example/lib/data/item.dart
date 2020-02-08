@@ -25,7 +25,7 @@ final List<Item> items = <Item>[
   Item(
     title: 'NeuButton',
     subtitle: 'Button implementation',
-    section: SectionNeuButton()
+    section: SectionNeuButton(),
   ),
   Item(
     title: 'NeuSwitch',

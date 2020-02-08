@@ -1,3 +1,7 @@
+## 0.1.1
+
+* Fixed support flutter stable version
+
 ## 0.1.0
 
 * Renamed `Neumorphic => NeuCard`, `NeumorphicButton => NeuButton` and `NeumorphicSwitch => NeuSwitch`
