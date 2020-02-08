@@ -1,7 +1,7 @@
 # Neumorphic Ui kit for flutter
 
 |   |   |
-|----------|:-------------:|------:|
+| --- | --- |
 |![showcase](https://raw.githubusercontent.com/neumorphic/neumorphic.flutter/master/example/media/v0/all.gif)|![cards](https://raw.githubusercontent.com/neumorphic/neumorphic.flutter/master/example/media/v0/cards.png)|
 
 ## Api
