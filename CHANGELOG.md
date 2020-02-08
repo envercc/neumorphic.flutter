@@ -1,3 +1,7 @@
+## 0.1.1+1
+
+* Added `Getting Started` section in readme
+
 ## 0.1.1
 
 * Fixed support flutter stable version
