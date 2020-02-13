@@ -7,14 +7,17 @@ import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-
-import 'arc.dart';
-import 'colors.dart';
-import 'floating_action_button.dart';
-import 'icons.dart';
-import 'material_localizations.dart';
-import 'page.dart';
-import 'theme.dart';
+import 'package:flutter/material.dart'
+    show
+        Colors,
+        FloatingActionButton,
+        Icons,
+        Theme,
+        ThemeData,
+        AnimatedTheme,
+        MaterialRectArcTween,
+        DefaultMaterialLocalizations,
+        MaterialPageRoute;
 
 /// [MaterialApp] uses this [TextStyle] as its [DefaultTextStyle] to encourage
 /// developers to be intentional about their [DefaultTextStyle].
@@ -189,16 +192,16 @@ class MaterialApp extends StatefulWidget {
     this.checkerboardOffscreenLayers = false,
     this.showSemanticsDebugger = false,
     this.debugShowCheckedModeBanner = true,
-  }) : assert(routes != null),
-       assert(navigatorObservers != null),
-       assert(title != null),
-       assert(debugShowMaterialGrid != null),
-       assert(showPerformanceOverlay != null),
-       assert(checkerboardRasterCacheImages != null),
-       assert(checkerboardOffscreenLayers != null),
-       assert(showSemanticsDebugger != null),
-       assert(debugShowCheckedModeBanner != null),
-       super(key: key);
+  })  : assert(routes != null),
+        assert(navigatorObservers != null),
+        assert(title != null),
+        assert(debugShowMaterialGrid != null),
+        assert(showPerformanceOverlay != null),
+        assert(checkerboardRasterCacheImages != null),
+        assert(checkerboardOffscreenLayers != null),
+        assert(showSemanticsDebugger != null),
+        assert(debugShowCheckedModeBanner != null),
+        super(key: key);
 
   /// {@macro flutter.widgets.widgetsApp.navigatorKey}
   final GlobalKey<NavigatorState> navigatorKey;
@@ -476,7 +479,8 @@ class _MaterialScrollBehavior extends ScrollBehavior {
   }
 
   @override
-  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
     // When modifying this function, consider modifying the implementation in
     // the base class as well.
     switch (getPlatform(context)) {
@@ -524,8 +528,9 @@ class _MaterialAppState extends State<MaterialApp> {
         widget.routes.isNotEmpty ||
         widget.onGenerateRoute != null ||
         widget.onUnknownRoute != null) {
-      _navigatorObservers = List<NavigatorObserver>.from(widget.navigatorObservers)
-        ..add(_heroController);
+      _navigatorObservers =
+          List<NavigatorObserver>.from(widget.navigatorObservers)
+            ..add(_heroController);
     } else {
       _navigatorObservers = const <NavigatorObserver>[];
     }
@@ -566,9 +571,11 @@ class _MaterialAppState extends State<MaterialApp> {
         final ThemeMode mode = widget.themeMode ?? ThemeMode.system;
         ThemeData theme;
         if (widget.darkTheme != null) {
-          final ui.Brightness platformBrightness = MediaQuery.platformBrightnessOf(context);
+          final ui.Brightness platformBrightness =
+              MediaQuery.platformBrightnessOf(context);
           if (mode == ThemeMode.dark ||
-              (mode == ThemeMode.system && platformBrightness == ui.Brightness.dark)) {
+              (mode == ThemeMode.system &&
+                  platformBrightness == ui.Brightness.dark)) {
             theme = widget.darkTheme;
           }
         }
@@ -618,7 +625,8 @@ class _MaterialAppState extends State<MaterialApp> {
       checkerboardOffscreenLayers: widget.checkerboardOffscreenLayers,
       showSemanticsDebugger: widget.showSemanticsDebugger,
       debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
-      inspectorSelectButtonBuilder: (BuildContext context, VoidCallback onPressed) {
+      inspectorSelectButtonBuilder:
+          (BuildContext context, VoidCallback onPressed) {
         return FloatingActionButton(
           child: const Icon(Icons.search),
           onPressed: onPressed,
