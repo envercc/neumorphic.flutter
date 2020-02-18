@@ -480,6 +480,7 @@ class _NeuSwitchState<T> extends State<NeuSwitch<T>>
             curveType: CurveType.emboss,
             padding: widget.padding.resolve(Directionality.of(context)),
             decoration: NeumorphicDecoration(
+              color: widget.backgroundColor,
               borderRadius:
                   const BorderRadius.all(Radius.circular(_kCornerRadius)),
             ),
