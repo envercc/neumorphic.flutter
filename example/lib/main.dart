@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:neumorphic_example/screens/showcase.dart';
+import 'package:neumorphic_example/screens/showcase.dart';
 
 // import 'screen.dart';
-import 'compare.dart';
+// import 'compare.dart';
 
 void main() => runApp(NeumorphicApp());
+
+Color _color = Color(0xFFf2f2f2); // Colors.grey[200]
 
 class NeumorphicApp extends StatelessWidget {
   @override
@@ -15,11 +17,34 @@ class NeumorphicApp extends StatelessWidget {
       statusBarBrightness: Brightness.light,
       statusBarIconBrightness: Brightness.dark,
       systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: _color,
     ));
 
     return MaterialApp(
       title: 'Neumorphic App',
-      home: Neumorphism(),
+      theme: ThemeData(
+        platform: TargetPlatform.iOS,
+        primarySwatch: Colors.blue,
+        backgroundColor: Color.lerp(_color, Colors.black, 0.005),
+        scaffoldBackgroundColor: _color,
+        dialogBackgroundColor: Colors.grey[300],
+        appBarTheme: AppBarTheme(
+          brightness: Brightness.light,
+          color: _color,
+          textTheme: TextTheme(
+            title: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+        ),
+      ),
+      home: ShowcaseScreen(),
+      // home: Neumorphism(),
     );
   }
 }
