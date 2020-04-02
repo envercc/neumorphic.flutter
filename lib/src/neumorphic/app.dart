@@ -14,7 +14,6 @@ import 'package:flutter/material.dart' as material_design
         Icons,
         Theme,
         ThemeData,
-        AnimatedTheme,
         MaterialRectArcTween,
         DefaultMaterialLocalizations,
         MaterialPageRoute;
@@ -22,7 +21,7 @@ import 'package:neumorphic/src/neumorphic/theme_data.dart';
 
 import 'theme.dart';
 
-/// [NeumorphicApp] uses this [TextStyle] as its [DefaultTextStyle] to encourage
+/// [NeuApp] uses this [TextStyle] as its [DefaultTextStyle] to encourage
 /// developers to be intentional about their [DefaultTextStyle].
 ///
 /// In most [Text] widgets are contained in widgets
@@ -40,7 +39,7 @@ const TextStyle _errorTextStyle = TextStyle(
   debugLabel: 'fallback style; consider putting your text in a Material',
 );
 
-/// Describes which theme will be used by [NeumorphicApp].
+/// Describes which theme will be used by [NeuApp].
 enum ThemeMode {
   /// Use either the light or dark theme based on what the user has selected in
   /// the system settings.
@@ -55,15 +54,15 @@ enum ThemeMode {
 
 /// An application that uses neumorphic design with material design.
 ///
-/// You can provide a [NeumorphicThemeData] with
-/// [NeumorphicThemeData.surfaceType] & [NeumorphicThemeData.lightSource].
+/// You can provide a [NeuThemeData] with
+/// [NeuThemeData.surfaceType] & [NeuThemeData.lightSource].
 ///
 /// A convenience widget that wraps a number of widgets that are commonly
 /// required for material design applications. It builds upon a [WidgetsApp] by
 /// adding material-design specific functionality, such as [AnimatedTheme] and
 /// [GridPaper].
 ///
-/// The [NeumorphicApp] configures the top-level [Navigator] to search for routes
+/// The [NeuApp] configures the top-level [Navigator] to search for routes
 /// in the following order:
 ///
 ///  1. For the `/` route, the [home] property, if non-null, is used.
@@ -87,7 +86,7 @@ enum ThemeMode {
 /// and [builder] is not null, then no [Navigator] is created.
 ///
 /// {@tool sample}
-/// This example shows how to create a [NeumorphicApp] that disables the "debug"
+/// This example shows how to create a [NeuApp] that disables the "debug"
 /// banner with a [home] route that will be displayed when the app is launched.
 ///
 /// The NeumorphicApp displays a Scaffold
@@ -105,7 +104,7 @@ enum ThemeMode {
 /// {@end-tool}
 ///
 /// {@tool sample}
-/// This example shows how to create a [NeumorphicApp] that uses the [routes]
+/// This example shows how to create a [NeuApp] that uses the [routes]
 /// `Map` to define the "home" route and an "about" route.
 ///
 /// ```dart
@@ -131,7 +130,7 @@ enum ThemeMode {
 /// {@end-tool}
 ///
 /// {@tool sample}
-/// This example shows how to create a [NeumorphicApp] that defines a a [theme] and/or a [materialTheme] that
+/// This example shows how to create a [NeuApp] that defines a a [theme] and/or a [materialTheme] that
 /// will be used for material widgets in the app.
 ///
 /// ![The NeumorphicApp displays a Scaffold with a dark background and a blue / grey AppBar at the top](https://flutter.github.io/assets-for-api-docs/assets/material/theme_material_app.png)
@@ -156,8 +155,8 @@ enum ThemeMode {
 /// )
 /// ```
 /// {@end-tool}
-class NeumorphicApp extends StatefulWidget {
-  /// Creates a NeumorphicApp which utilizes [NeumorphicThemeData].
+class NeuApp extends StatefulWidget {
+  /// Creates a NeumorphicApp which utilizes [NeuThemeData].
   /// Is compatible with [material_design].
   ///
   /// At least one of [home], [routes], [onGenerateRoute], or [builder] must be
@@ -169,7 +168,7 @@ class NeumorphicApp extends StatefulWidget {
   /// This class creates an instance of [WidgetsApp].
   ///
   /// The boolean arguments, [routes], and [navigatorObservers], must not be null.
-  const NeumorphicApp({
+  const NeuApp({
     Key key,
     this.navigatorKey,
     this.home,
@@ -274,10 +273,10 @@ class NeumorphicApp extends StatefulWidget {
   /// Default visual properties, like colors fonts and shapes, for this app's
   /// material widgets.
   ///
-  /// A second [darkTheme] [NeumorphicThemeData] value, which is used to provide a dark
+  /// A second [darkTheme] [NeuThemeData] value, which is used to provide a dark
   /// version of the user interface can also be specified. [themeMode] will
   /// control which theme will be used if a [darkTheme] is provided.
-  final NeumorphicThemeData theme;
+  final NeuThemeData theme;
 
   /// The [material_design.ThemeData] to use when a 'dark mode' is requested by the system.
   ///
@@ -301,13 +300,13 @@ class NeumorphicApp extends StatefulWidget {
   ///    [MediaQueryData.platformBrightness].
   // final material_design.ThemeData materialDarkTheme;
 
-  /// The [NeumorphicThemeData] to use when a 'dark mode' is requested by the system.
+  /// The [NeuThemeData] to use when a 'dark mode' is requested by the system.
   ///
   /// Some host platforms allow the users to select a system-wide 'dark mode',
   /// or the application may want to offer the user the ability to choose a
   /// dark theme just for this application. This is theme that will be used for
   /// such cases. [themeMode] will control which theme will be used.
-  final NeumorphicThemeData darkTheme;
+  final NeuThemeData darkTheme;
 
   /// Determines which theme will be used by the application if both [materialTheme]
   /// and [materialDarkTheme] are provided.
@@ -489,7 +488,7 @@ class NeumorphicApp extends StatefulWidget {
   final bool debugShowMaterialGrid;
 
   @override
-  _NeumorphicAppState createState() => _NeumorphicAppState();
+  _NeuAppState createState() => _NeuAppState();
 }
 
 class _MaterialScrollBehavior extends ScrollBehavior {
@@ -518,7 +517,7 @@ class _MaterialScrollBehavior extends ScrollBehavior {
   }
 }
 
-class _NeumorphicAppState extends State<NeumorphicApp> {
+class _NeuAppState extends State<NeuApp> {
   HeroController _heroController;
   material_design.ThemeData materialTheme;
   material_design.ThemeData materialDarkTheme;
@@ -532,7 +531,7 @@ class _NeumorphicAppState extends State<NeumorphicApp> {
   }
 
   @override
-  void didUpdateWidget(NeumorphicApp oldWidget) {
+  void didUpdateWidget(NeuApp oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.navigatorKey != oldWidget.navigatorKey) {
       // If the Navigator changes, we have to create a new observer, because the
@@ -595,7 +594,7 @@ class _NeumorphicAppState extends State<NeumorphicApp> {
       builder: (BuildContext context, Widget child) {
         // Use a light theme, dark theme, or fallback theme.
         final ThemeMode mode = widget.themeMode ?? ThemeMode.system;
-        NeumorphicThemeData theme;
+        NeuThemeData theme;
         if (widget.darkTheme != null) {
           final ui.Brightness platformBrightness =
               MediaQuery.platformBrightnessOf(context);
@@ -605,9 +604,9 @@ class _NeumorphicAppState extends State<NeumorphicApp> {
             theme = widget.darkTheme;
           }
         }
-        theme ??= theme ?? NeumorphicThemeData.fallback();
+        theme ??= theme ?? NeuThemeData.fallback();
 
-        return AnimatedNeumorphicTheme(
+        return AnimatedNeuTheme(
           data: theme,
           isNeumorphicAppTheme: true,
           // To prevent side effects

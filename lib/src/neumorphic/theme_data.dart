@@ -31,7 +31,7 @@ const Color _kDarkThemeSplashColor = Color(0x40CCCCCC);
 
 /// Configures the tap target and layout size of certain Nuemorphic widgets.
 ///
-/// Changing the value in [NeumorphicThemeData.materialTapTargetSize] will affect the
+/// Changing the value in [NeuThemeData.materialTapTargetSize] will affect the
 /// accessibility experience.
 ///
 /// Some of the impacted widgets include:
@@ -126,8 +126,8 @@ const Color _kDarkThemeSplashColor = Color(0x40CCCCCC);
 /// ```
 /// {@end-tool}
 @immutable
-class NeumorphicThemeData extends Diagnosticable {
-  /// Create a [NeumorphicThemeData] given a set of preferred values.
+class NeuThemeData extends Diagnosticable {
+  /// Create a [NeuThemeData] given a set of preferred values.
   ///
   /// Please consider providing a [LightSource] and [SurfaceType] although default
   /// values will be provided.
@@ -153,7 +153,7 @@ class NeumorphicThemeData extends Diagnosticable {
   ///    ([accentColorBrightness]), so that the right contrasting text
   ///    color will be used over the accent color.
   ///
-  /// Most of these parameters map to the [NeumorphicThemeData] field with the same name,
+  /// Most of these parameters map to the [NeuThemeData] field with the same name,
   /// all of which are described in more detail on the fields themselves. The
   /// exceptions are:
   ///
@@ -169,7 +169,7 @@ class NeumorphicThemeData extends Diagnosticable {
   ///
   /// See <https://material.io/design/color/> for
   /// more discussion on how to pick the right colors.
-  factory NeumorphicThemeData({
+  factory NeuThemeData({
     Brightness brightness,
     MaterialColor primarySwatch,
     Color primaryColor,
@@ -365,7 +365,7 @@ class NeumorphicThemeData extends Diagnosticable {
     dividerTheme ??= const DividerThemeData();
     buttonBarTheme ??= const ButtonBarThemeData();
 
-    return NeumorphicThemeData.raw(
+    return NeuThemeData.raw(
       surfaceType: surfaceType,
       lightSource: lightSource,
       brightness: brightness,
@@ -434,14 +434,14 @@ class NeumorphicThemeData extends Diagnosticable {
     );
   }
 
-  /// Create a [NeumorphicThemeData] given a set of exact values. All the values must be
+  /// Create a [NeuThemeData] given a set of exact values. All the values must be
   /// specified. They all must also be non-null except for
   /// [cupertinoOverrideTheme].
   ///
   /// This will rarely be used directly. It is used by [lerp] to
   /// create intermediate themes based on two themes created with the
   /// [new ThemeData] constructor.
-  const NeumorphicThemeData.raw({
+  const NeuThemeData.raw({
     // Warning: make sure these properties are in the exact same order as in
     // operator == and in the hashValues method and in the order of fields
     // in this class, and in the lerp() method.
@@ -572,13 +572,13 @@ class NeumorphicThemeData extends Diagnosticable {
         assert(dividerTheme != null),
         assert(buttonBarTheme != null);
 
-  /// Create a [NeumorphicThemeData] based on the colors in the given [colorScheme] and
+  /// Create a [NeuThemeData] based on the colors in the given [colorScheme] and
   /// text styles of the optional [textTheme].
   ///
   /// The [colorScheme] can not be null.
   ///
   /// If [colorScheme.brightness] is [Brightness.dark] then
-  /// [NeumorphicThemeData.applyElevationOverlayColor] will be set to true to support
+  /// [NeuThemeData.applyElevationOverlayColor] will be set to true to support
   /// the Material dark theme method for indicating elevation by applying
   /// a semi-transparent onSurface color on top of the surface color.
   ///
@@ -600,7 +600,7 @@ class NeumorphicThemeData extends Diagnosticable {
   ///
   /// See <https://material.io/design/color/> for
   /// more discussion on how to pick the right colors.
-  factory NeumorphicThemeData.from({
+  factory NeuThemeData.from({
     @required ColorScheme colorScheme,
     TextTheme textTheme,
   }) {
@@ -614,17 +614,17 @@ class NeumorphicThemeData extends Diagnosticable {
     final Color onPrimarySurfaceColor =
         isDark ? colorScheme.onSurface : colorScheme.onPrimary;
 
-    return NeumorphicThemeData(
+    return NeuThemeData(
       surfaceType: SurfaceType.concave,
       lightSource: LightSource.topLeft,
       brightness: colorScheme.brightness,
       primaryColor: primarySurfaceColor,
       primaryColorBrightness:
-          NeumorphicThemeData.estimateBrightnessForColor(primarySurfaceColor),
+          NeuThemeData.estimateBrightnessForColor(primarySurfaceColor),
       canvasColor: colorScheme.background,
       accentColor: colorScheme.secondary,
       accentColorBrightness:
-          NeumorphicThemeData.estimateBrightnessForColor(colorScheme.secondary),
+          NeuThemeData.estimateBrightnessForColor(colorScheme.secondary),
       scaffoldBackgroundColor: colorScheme.background,
       bottomAppBarColor: colorScheme.surface,
       cardColor: colorScheme.surface,
@@ -642,27 +642,27 @@ class NeumorphicThemeData extends Diagnosticable {
   /// A default light blue theme.
   ///
   /// This theme does not contain text geometry. Instead, it is expected that
-  /// this theme is localized using text geometry using [NeumorphicThemeData.localize].
-  factory NeumorphicThemeData.light() =>
-      NeumorphicThemeData(brightness: Brightness.light);
+  /// this theme is localized using text geometry using [NeuThemeData.localize].
+  factory NeuThemeData.light() =>
+      NeuThemeData(brightness: Brightness.light);
 
   /// A default dark theme with a teal accent color.
   ///
   /// This theme does not contain text geometry. Instead, it is expected that
-  /// this theme is localized using text geometry using [NeumorphicThemeData.localize].
-  factory NeumorphicThemeData.dark() =>
-      NeumorphicThemeData(brightness: Brightness.dark);
+  /// this theme is localized using text geometry using [NeuThemeData.localize].
+  factory NeuThemeData.dark() =>
+      NeuThemeData(brightness: Brightness.dark);
 
-  /// The default color theme. Same as [new NeumorphicThemeData.light].
+  /// The default color theme. Same as [new NeuThemeData.light].
   ///
   /// This is used by [Theme.of] when no theme has been specified.
   ///
   /// This theme does not contain text geometry. Instead, it is expected that
-  /// this theme is localized using text geometry using [NeumorphicThemeData.localize].
+  /// this theme is localized using text geometry using [NeuThemeData.localize].
   ///
   /// Most applications would use [Theme.of], which provides correct localized
   /// text geometry.
-  factory NeumorphicThemeData.fallback() => NeumorphicThemeData.light();
+  factory NeuThemeData.fallback() => NeuThemeData.light();
 
   // Warning: make sure these properties are in the exact same order as in
   // hashValues() and in the raw constructor and in the order of fields in
@@ -974,11 +974,11 @@ class NeumorphicThemeData extends Diagnosticable {
   final Typography typography;
 
   /// Components of the [CupertinoThemeData] to override from the Material
-  /// [NeumorphicThemeData] adaptation.
+  /// [NeuThemeData] adaptation.
   ///
   /// By default, [cupertinoOverrideTheme] is null and Cupertino widgets
   /// descendant to the Material [Theme] will adhere to a [CupertinoTheme]
-  /// derived from the Material [NeumorphicThemeData]. e.g. [NeumorphicThemeData]'s [ColorTheme]
+  /// derived from the Material [NeuThemeData]. e.g. [NeuThemeData]'s [ColorTheme]
   /// will also inform the [CupertinoThemeData]'s `primaryColor` etc.
   ///
   /// This cascading effect for individual attributes of the [CupertinoThemeData]
@@ -1003,7 +1003,7 @@ class NeumorphicThemeData extends Diagnosticable {
   final ButtonBarThemeData buttonBarTheme;
 
   /// Creates a copy of this theme but with the given fields replaced with the new values.
-  NeumorphicThemeData copyWith({
+  NeuThemeData copyWith({
     Brightness brightness,
     Color primaryColor,
     Brightness primaryColorBrightness,
@@ -1071,7 +1071,7 @@ class NeumorphicThemeData extends Diagnosticable {
     TextSelectionControls selectionControls,
   }) {
     cupertinoOverrideTheme = cupertinoOverrideTheme?.noDefault();
-    return NeumorphicThemeData.raw(
+    return NeuThemeData.raw(
       surfaceType: surfaceType ?? this.surfaceType,
       lightSource: lightSource ?? this.lightSource,
       brightness: brightness ?? this.brightness,
@@ -1158,9 +1158,9 @@ class NeumorphicThemeData extends Diagnosticable {
   static const int _localizedThemeDataCacheSize = 5;
 
   /// Caches localized themes to speed up the [localize] method.
-  static final _FifoCache<_IdentityThemeDataCacheKey, NeumorphicThemeData>
+  static final _FifoCache<_IdentityThemeDataCacheKey, NeuThemeData>
       _localizedThemeDataCache =
-      _FifoCache<_IdentityThemeDataCacheKey, NeumorphicThemeData>(
+      _FifoCache<_IdentityThemeDataCacheKey, NeuThemeData>(
           _localizedThemeDataCacheSize);
 
   /// Returns a new theme built by merging the text geometry provided by the
@@ -1170,8 +1170,8 @@ class NeumorphicThemeData extends Diagnosticable {
   /// to true, the returned theme's text styles inherit the geometric properties
   /// of [localTextGeometry]. The resulting text styles' [TextStyle.inherit] is
   /// set to those provided by [localTextGeometry].
-  static NeumorphicThemeData localize(
-      NeumorphicThemeData baseTheme, TextTheme localTextGeometry) {
+  static NeuThemeData localize(
+      NeuThemeData baseTheme, TextTheme localTextGeometry) {
     // WARNING: this method memoizes the result in a cache based on the
     // previously seen baseTheme and localTextGeometry. Memoization is safe
     // because all inputs and outputs of this function are deeply immutable, and
@@ -1221,7 +1221,7 @@ class NeumorphicThemeData extends Diagnosticable {
 
   /// Mix with this theme with other theme.
   /// Performs Linear interpolation with this theme & ThemeData.
-  NeumorphicThemeData mix(NeumorphicThemeData other, double t) =>
+  NeuThemeData mix(NeuThemeData other, double t) =>
       lerp(this, other, t);
 
   /// Linearly interpolate between two themes.
@@ -1229,15 +1229,15 @@ class NeumorphicThemeData extends Diagnosticable {
   /// The arguments must not be null.
   ///
   /// {@macro dart.ui.shadow.lerp}
-  static NeumorphicThemeData lerp(
-      NeumorphicThemeData a, NeumorphicThemeData b, double t) {
+  static NeuThemeData lerp(
+      NeuThemeData a, NeuThemeData b, double t) {
     assert(a != null);
     assert(b != null);
     assert(t != null);
     // Warning: make sure these properties are in the exact same order as in
     // hashValues() and in the raw constructor and in the order of fields in
     // the class and in the lerp() method.
-    return NeumorphicThemeData.raw(
+    return NeuThemeData.raw(
       selectionControls: t < 0.5 ? a.selectionControls : b.selectionControls,
       surfaceType: t < 0.5 ? a.surfaceType : b.surfaceType,
       lightSource: t < 0.5 ? a.lightSource : b.lightSource,
@@ -1333,7 +1333,7 @@ class NeumorphicThemeData extends Diagnosticable {
     );
   }
 
-  /// Returns a [ThemeData] from properties & fields of this [NeumorphicThemeData]
+  /// Returns a [ThemeData] from properties & fields of this [NeuThemeData]
   ThemeData get themeData => ThemeData.raw(
         brightness: brightness,
         primaryColor: primaryColor,
@@ -1401,7 +1401,7 @@ class NeumorphicThemeData extends Diagnosticable {
 
   /// Mix with this NeumorphicThemeData theme & a Material's ThemeData theme.
   /// Performs Linear interpolation with this theme & ThemeData.
-  NeumorphicThemeData mixWithThemeData(ThemeData b, double t) =>
+  NeuThemeData mixWithThemeData(ThemeData b, double t) =>
       lerpWithThemeData(this, b, t);
 
   /// Linearly interpolate between a NeumorphicThemeData theme & Material's ThemeData theme.
@@ -1409,15 +1409,15 @@ class NeumorphicThemeData extends Diagnosticable {
   /// The arguments must not be null.
   ///
   /// {@macro dart.ui.shadow.lerp}
-  static NeumorphicThemeData lerpWithThemeData(
-      NeumorphicThemeData a, ThemeData b, double t) {
+  static NeuThemeData lerpWithThemeData(
+      NeuThemeData a, ThemeData b, double t) {
     assert(a != null);
     assert(b != null);
     assert(t != null);
     // Warning: make sure these properties are in the exact same order as in
     // hashValues() and in the raw constructor and in the order of fields in
     // the class and in the lerp() method.
-    return NeumorphicThemeData.raw(
+    return NeuThemeData.raw(
       selectionControls: a.selectionControls,
       surfaceType: a.surfaceType,
       lightSource: a.lightSource,
@@ -1518,7 +1518,7 @@ class NeumorphicThemeData extends Diagnosticable {
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    final NeumorphicThemeData otherData = other;
+    final NeuThemeData otherData = other;
     // Warning: make sure these properties are in the exact same order as in
     // hashValues() and in the raw constructor and in the order of fields in
     // the class and in the lerp() method.
@@ -1664,13 +1664,13 @@ class NeumorphicThemeData extends Diagnosticable {
 }
 
 /// A [CupertinoThemeData] that defers unspecified theme attributes to an
-/// upstream Material [NeumorphicThemeData].
+/// upstream Material [NeuThemeData].
 ///
 /// This type of [CupertinoThemeData] is used by the Material [Theme] to
 /// harmonize the [CupertinoTheme] with the material theme's colors and text
 /// styles.
 ///
-/// In the most basic case, [NeumorphicThemeData]'s `cupertinoOverrideTheme` is null and
+/// In the most basic case, [NeuThemeData]'s `cupertinoOverrideTheme` is null and
 /// and descendant Cupertino widgets' styling is derived from the Material theme.
 ///
 /// To override individual parts of the Material-derived Cupertino styling,
@@ -1693,12 +1693,12 @@ class NeumorphicThemeData extends Diagnosticable {
 // is from the superclass and based on the primaryColor but the primaryColor
 // comes from the Material theme unless overridden.
 class MaterialBasedCupertinoThemeData extends CupertinoThemeData {
-  /// Create a [MaterialBasedCupertinoThemeData] based on a Material [NeumorphicThemeData]
+  /// Create a [MaterialBasedCupertinoThemeData] based on a Material [NeuThemeData]
   /// and its `cupertinoOverrideTheme`.
   ///
   /// The [materialTheme] parameter must not be null.
   MaterialBasedCupertinoThemeData({
-    @required NeumorphicThemeData materialTheme,
+    @required NeuThemeData materialTheme,
   }) : this._(
           materialTheme,
           (materialTheme.cupertinoOverrideTheme ?? const CupertinoThemeData())
@@ -1722,7 +1722,7 @@ class MaterialBasedCupertinoThemeData extends CupertinoThemeData {
           _cupertinoOverrideTheme.scaffoldBackgroundColor,
         );
 
-  final NeumorphicThemeData _materialTheme;
+  final NeuThemeData _materialTheme;
   final CupertinoThemeData _cupertinoOverrideTheme;
 
   @override
@@ -1744,16 +1744,16 @@ class MaterialBasedCupertinoThemeData extends CupertinoThemeData {
       _cupertinoOverrideTheme.scaffoldBackgroundColor ??
       _materialTheme.scaffoldBackgroundColor;
 
-  /// Copies the [NeumorphicThemeData]'s `cupertinoOverrideTheme`.
+  /// Copies the [NeuThemeData]'s `cupertinoOverrideTheme`.
   ///
-  /// Only the specified override attributes of the [NeumorphicThemeData]'s
+  /// Only the specified override attributes of the [NeuThemeData]'s
   /// `cupertinoOverrideTheme` and the newly specified parameters are in the
   /// returned [CupertinoThemeData]. No derived attributes from iOS defaults or
   /// from cascaded Material theme attributes are copied.
   ///
   /// [MaterialBasedCupertinoThemeData.copyWith] cannot change the base
-  /// Material [NeumorphicThemeData]. To change the base Material [NeumorphicThemeData], create a
-  /// new Material [Theme] and use `copyWith` on the Material [NeumorphicThemeData]
+  /// Material [NeuThemeData]. To change the base Material [NeuThemeData], create a
+  /// new Material [Theme] and use `copyWith` on the Material [NeuThemeData]
   /// instead.
   @override
   MaterialBasedCupertinoThemeData copyWith({
@@ -1791,7 +1791,7 @@ class MaterialBasedCupertinoThemeData extends CupertinoThemeData {
 class _IdentityThemeDataCacheKey {
   _IdentityThemeDataCacheKey(this.baseTheme, this.localTextGeometry);
 
-  final NeumorphicThemeData baseTheme;
+  final NeuThemeData baseTheme;
   final TextTheme localTextGeometry;
 
   // Using XOR to make the hash function as fast as possible (e.g. Jenkins is

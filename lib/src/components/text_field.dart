@@ -63,7 +63,7 @@ class _TextFieldSelectionGestureDetectorBuilder
   @override
   void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
     if (delegate.selectionEnabled) {
-      switch (NeumorphicTheme.of(_state.context).platform) {
+      switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
           renderEditable.selectPositionAt(
             from: details.globalPosition,
@@ -86,7 +86,7 @@ class _TextFieldSelectionGestureDetectorBuilder
   void onSingleTapUp(TapUpDetails details) {
     editableText.hideToolbar();
     if (delegate.selectionEnabled) {
-      switch (NeumorphicTheme.of(_state.context).platform) {
+      switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
           renderEditable.selectWordEdge(cause: SelectionChangedCause.tap);
           break;
@@ -105,7 +105,7 @@ class _TextFieldSelectionGestureDetectorBuilder
   @override
   void onSingleLongTapStart(LongPressStartDetails details) {
     if (delegate.selectionEnabled) {
-      switch (NeumorphicTheme.of(_state.context).platform) {
+      switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
           renderEditable.selectPositionAt(
             from: details.globalPosition,
@@ -122,7 +122,7 @@ class _TextFieldSelectionGestureDetectorBuilder
   }
 }
 
-/// A material design text field.
+/// A neu text field.
 ///
 /// A text field lets the user enter text, either with hardware keyboard or with
 /// an onscreen keyboard.
@@ -786,7 +786,7 @@ class _NeuTextFieldState extends State<NeuTextField>
   InputDecoration _getEffectiveDecoration() {
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
-    final NeumorphicThemeData themeData = NeumorphicTheme.of(context);
+    final ThemeData themeData = Theme.of(context);
     final InputDecoration effectiveDecoration =
         (widget.decoration ?? const InputDecoration())
             .applyDefaults(themeData.inputDecorationTheme)
@@ -925,7 +925,7 @@ class _NeuTextFieldState extends State<NeuTextField>
       });
     }
 
-    switch (NeumorphicTheme.of(context).platform) {
+    switch (Theme.of(context).platform) {
       case TargetPlatform.iOS:
         if (cause == SelectionChangedCause.longPress) {
           _editableText?.bringIntoView(selection.base);
@@ -964,7 +964,7 @@ class _NeuTextFieldState extends State<NeuTextField>
       'inherit false style must supply fontSize and textBaseline',
     );
 
-    final NeumorphicThemeData themeData = NeumorphicTheme.of(context);
+    final ThemeData themeData = Theme.of(context);
     final TextStyle style = themeData.textTheme.subhead.merge(widget.style);
     final Brightness keyboardAppearance =
         widget.keyboardAppearance ?? themeData.primaryColorBrightness;

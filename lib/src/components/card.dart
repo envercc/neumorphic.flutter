@@ -1,18 +1,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart'
     show Brightness, CardTheme, Material, Theme;
+import 'package:neumorphic/src/neumorphic/theme.dart';
 
 import '../constants.dart';
 import '../params.dart';
 
 /// A Neumorphic design based material card.
 ///
-/// A card is a sheet of [Material] used to represent some related information,
+/// A card is a sheet of [Neumorphic] used to represent some related information,
 /// for example an album, a geographical location, a meal, contact details, etc.
 class Card extends StatelessWidget {
   /// Creates a Neumorphic design card.
-  ///
-  /// Compatible with Material Card.
   ///
   /// The [borderOnForeground] must not be null.
   const Card({
@@ -110,12 +109,13 @@ class Card extends StatelessWidget {
     // Instead of checking platform's brightness using
     // MediaQuery.of(context).platformBrightness, Theme's brightness is used
     // if material is dark
-    bool _isDarkThemeOn = Theme.of(context).brightness == Brightness.dark;
+    final bool _isDarkThemeOn =
+        Theme.of(context).brightness == Brightness.dark;
 
     // Assigns `SurfaceShape.concave` if surface is provided null
-    SurfaceType surface = this.surface ?? SurfaceType.concave;
+    final SurfaceType surface = this.surface ?? SurfaceType.concave;
 
-    bool isConcave = (surface != SurfaceType.convex);
+    final bool isConcave = surface != SurfaceType.convex;
 
     final CardTheme cardTheme = CardTheme.of(context);
     final Color mainCardColor = color ?? Theme.of(context).cardColor;
@@ -126,12 +126,12 @@ class Card extends StatelessWidget {
     // Mixing colors with mainCardColor to obtain proper shades & gradients
     // Didn't use dart extensions to make this code compatible
     // with dart 2.2 & above
-    Color lightShade = Color.lerp(mainCardColor, cLightColor, 0.6);
-    Color darkShade = Color.lerp(mainCardColor, cDarkColor, 0.3);
-    Color lightGradient = Color.lerp(mainCardColor, cLightColor, 0.1);
-    Color darkGradient = Color.lerp(mainCardColor, cDarkColor, 0.5);
-    bool isLightOnTop = (lightSource == LightSource.topLeft ||
-        lightSource == LightSource.topRight);
+    final Color lightShade = Color.lerp(mainCardColor, cLightColor, 0.6);
+    final Color darkShade = Color.lerp(mainCardColor, cDarkColor, 0.3);
+    final Color lightGradient = Color.lerp(mainCardColor, cLightColor, 0.1);
+    final Color darkGradient = Color.lerp(mainCardColor, cDarkColor, 0.5);
+    final bool isLightOnTop = lightSource == LightSource.topLeft ||
+        lightSource == LightSource.topRight;
 
     Color topShade,
         bottomShade,
@@ -165,7 +165,7 @@ class Card extends StatelessWidget {
       container: semanticContainer,
       child: Container(
         margin: margin ?? cardTheme.margin ?? const EdgeInsets.all(4.0),
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
           border: Border.all(
             width: 0.1,

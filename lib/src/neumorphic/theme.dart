@@ -9,7 +9,7 @@ import 'package:flutter/material.dart'
     show MaterialLocalizations, ScriptCategory, Theme, ThemeDataTween;
 import 'theme_data.dart';
 
-export 'theme_data.dart' show Brightness, NeumorphicThemeData;
+export 'theme_data.dart' show Brightness, NeuThemeData;
 
 /// The duration over which theme changes animate by default.
 const Duration kThemeAnimationDuration = Duration(milliseconds: 200);
@@ -18,25 +18,25 @@ const Duration kThemeAnimationDuration = Duration(milliseconds: 200);
 ///
 /// A theme describes the colors and typographic choices of an application.
 ///
-/// Descendant widgets obtain the current theme's [NeumorphicThemeData] object using
-/// [NeumorphicTheme.of]. When a widget uses [NeumorphicTheme.of], it is automatically rebuilt if
+/// Descendant widgets obtain the current theme's [NeuThemeData] & [ThemeData] object using
+/// [NeuTheme.of]. When a widget uses [NeuTheme.of], it is automatically rebuilt if
 /// the theme later changes, so that the changes can be applied.
 ///
-/// The [NeumorphicTheme] widget implies an [IconTheme] widget, set to the value of the
-/// [NeumorphicThemeData.iconTheme] of the [data] for the [NeumorphicTheme].
+/// The [NeuTheme] widget implies an [IconTheme] widget, set to the value of the
+/// [NeuThemeData.iconTheme] of the [data] for the [NeuTheme].
 ///
 /// See also:
 ///
-///  * [NeumorphicThemeData], which describes the actual configuration of a theme.
-///  * [AnimatedNeumorphicTheme], which animates the [NeumorphicThemeData] when it changes rather
+///  * [NeuThemeData], which describes the actual configuration of a theme.
+///  * [AnimatedNeuTheme], which animates the [NeuThemeData] when it changes rather
 ///    than changing the theme all at once.
-///  * [NeumorphicApp], which includes an [AnimatedNeumorphicTheme] widget configured via
-///    the [NeumorphicApp.theme] argument.
-class NeumorphicTheme extends StatelessWidget {
+///  * [NeuApp], which includes an [AnimatedNeuTheme] widget configured via
+///    the [NeuApp.theme] argument.
+class NeuTheme extends StatelessWidget {
   /// Applies the given theme [data] to [child].
   ///
   /// The [data] and [child] arguments must not be null.
-  const NeumorphicTheme({
+  const NeuTheme({
     Key key,
     @required this.data,
     this.isNeumorphicAppTheme = false,
@@ -46,7 +46,7 @@ class NeumorphicTheme extends StatelessWidget {
         super(key: key);
 
   /// Specifies the color and typography values for descendant widgets.
-  final NeumorphicThemeData data;
+  final NeuThemeData data;
 
   /// True if this theme was installed by the [NeumorphicApp].
   ///
@@ -64,25 +64,25 @@ class NeumorphicTheme extends StatelessWidget {
   /// {@macro flutter.widgets.child}
   final Widget child;
 
-  static final NeumorphicThemeData _kFallbackTheme =
-      NeumorphicThemeData.fallback();
+  static final NeuThemeData _kFallbackTheme =
+      NeuThemeData.fallback();
 
-  /// The data from the closest [NeumorphicTheme] instance that encloses the given
+  /// The data from the closest [NeuTheme] instance that encloses the given
   /// context.
   ///
   /// If the given context is enclosed in a [Localizations] widget providing
   /// [MaterialLocalizations], the returned data is localized according to the
   /// nearest available [MaterialLocalizations].
   ///
-  /// Defaults to [new NeumorphicThemeData.fallback] if there is no [NeumorphicTheme] in the given
+  /// Defaults to [new NeuThemeData.fallback] if there is no [NeuTheme] in the given
   /// build context.
   ///
-  /// If [shadowThemeOnly] is true and the closest [NeumorphicTheme] ancestor was
-  /// installed by the [NeumorphicApp] — in other words if the closest [NeumorphicTheme]
+  /// If [shadowThemeOnly] is true and the closest [NeuTheme] ancestor was
+  /// installed by the [NeumorphicApp] — in other words if the closest [NeuTheme]
   /// ancestor does not shadow the application's theme — then this returns null.
   /// This argument should be used in situations where its useful to wrap a
-  /// route's widgets with a [NeumorphicTheme], but only when the application's overall
-  /// theme is being shadowed by a [NeumorphicTheme] widget that is deeper in the tree.
+  /// route's widgets with a [NeuTheme], but only when the application's overall
+  /// theme is being shadowed by a [NeuTheme] widget that is deeper in the tree.
   /// See [isNeumorphicAppTheme].
   ///
   /// Typical usage is as follows:
@@ -97,9 +97,9 @@ class NeumorphicTheme extends StatelessWidget {
   /// }
   /// ```
   ///
-  /// When the [NeumorphicTheme] is actually created in the same `build` function
+  /// When the [NeuTheme] is actually created in the same `build` function
   /// (possibly indirectly, e.g. as part of a [NeumorphicApp]), the `context`
-  /// argument to the `build` function can't be used to find the [NeumorphicTheme] (since
+  /// argument to the `build` function can't be used to find the [NeuTheme] (since
   /// it's "above" the widget being returned). In such cases, the following
   /// technique with a [Builder] can be used to provide a new scope with a
   /// [BuildContext] that is "under" the [Theme]:
@@ -124,7 +124,7 @@ class NeumorphicTheme extends StatelessWidget {
   ///   );
   /// }
   /// ```
-  static NeumorphicThemeData of(BuildContext context,
+  static NeuThemeData of(BuildContext context,
       {bool shadowThemeOnly = false}) {
     final _InheritedTheme inheritedTheme =
         context.dependOnInheritedWidgetOfExactType<_InheritedTheme>();
@@ -138,9 +138,9 @@ class NeumorphicTheme extends StatelessWidget {
         MaterialLocalizations.of(context);
     final ScriptCategory category =
         localizations?.scriptCategory ?? ScriptCategory.englishLike;
-    final NeumorphicThemeData theme =
+    final NeuThemeData theme =
         inheritedTheme?.theme?.data ?? _kFallbackTheme;
-    return NeumorphicThemeData.localize(
+    return NeuThemeData.localize(
         theme, theme.typography.geometryThemeFor(category));
   }
 
@@ -166,7 +166,7 @@ class NeumorphicTheme extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<NeumorphicThemeData>('data', data,
+    properties.add(DiagnosticsProperty<NeuThemeData>('data', data,
         showName: false));
   }
 }
@@ -179,7 +179,7 @@ class _InheritedTheme extends InheritedTheme {
   })  : assert(theme != null),
         super(key: key, child: child);
 
-  final NeumorphicTheme theme;
+  final NeuTheme theme;
 
   @override
   Widget wrap(BuildContext context, Widget child) {
@@ -187,33 +187,33 @@ class _InheritedTheme extends InheritedTheme {
         context.findAncestorWidgetOfExactType<_InheritedTheme>();
     return identical(this, ancestorTheme)
         ? child
-        : NeumorphicTheme(data: theme.data, child: child);
+        : NeuTheme(data: theme.data, child: child);
   }
 
   @override
   bool updateShouldNotify(_InheritedTheme old) => theme.data != old.theme.data;
 }
 
-/// An interpolation between two [NeumorphicThemeData]s.
+/// An interpolation between two [NeuThemeData]s.
 ///
 /// This class specializes the interpolation of [Tween<ThemeData>] to call the
-/// [NeumorphicThemeData.lerp] method.
+/// [NeuThemeData.lerp] method.
 ///
 /// See [Tween] for a discussion on how to use interpolation objects.
-class NeumorphicThemeDataTween extends Tween<NeumorphicThemeData> {
-  /// Creates a [NeumorphicThemeData] tween.
+class NeumorphicThemeDataTween extends Tween<NeuThemeData> {
+  /// Creates a [NeuThemeData] tween.
   ///
   /// The [begin] and [end] properties must be non-null before the tween is
   /// first used, but the arguments can be null if the values are going to be
   /// filled in later.
-  NeumorphicThemeDataTween({NeumorphicThemeData begin, NeumorphicThemeData end})
+  NeumorphicThemeDataTween({NeuThemeData begin, NeuThemeData end})
       : super(begin: begin, end: end);
 
   @override
-  NeumorphicThemeData lerp(double t) => NeumorphicThemeData.lerp(begin, end, t);
+  NeuThemeData lerp(double t) => NeuThemeData.lerp(begin, end, t);
 }
 
-/// Animated version of [NeumorphicTheme] which automatically transitions the colors,
+/// Animated version of [NeuTheme] which automatically transitions the colors,
 /// etc, over a given duration whenever the given theme changes.
 ///
 /// Here's an illustration of what using this widget looks like, using a [curve]
@@ -222,17 +222,17 @@ class NeumorphicThemeDataTween extends Tween<NeumorphicThemeData> {
 ///
 /// See also:
 ///
-///  * [NeumorphicTheme], which [AnimatedNeumorphicTheme] uses to actually apply the interpolated
+///  * [NeuTheme], which [AnimatedNeuTheme] uses to actually apply the interpolated
 ///    theme.
-///  * [NeumorphicThemeData], which describes the actual configuration of a theme.
-///  * [NeumorphicApp], which includes an [AnimatedNeumorphicTheme] widget configured via
+///  * [NeuThemeData], which describes the actual configuration of a theme.
+///  * [NeumorphicApp], which includes an [AnimatedNeuTheme] widget configured via
 ///    the [NeumorphicApp.theme] argument.
-class AnimatedNeumorphicTheme extends ImplicitlyAnimatedWidget {
+class AnimatedNeuTheme extends ImplicitlyAnimatedWidget {
   /// Creates an animated theme.
   ///
   /// By default, the theme transition uses a linear curve. The [data] and
   /// [child] arguments must not be null.
-  const AnimatedNeumorphicTheme({
+  const AnimatedNeuTheme({
     Key key,
     @required this.data,
     this.isNeumorphicAppTheme = false,
@@ -246,12 +246,12 @@ class AnimatedNeumorphicTheme extends ImplicitlyAnimatedWidget {
         super(key: key, curve: curve, duration: duration, onEnd: onEnd);
 
   /// Specifies the color and typography values for descendant widgets.
-  final NeumorphicThemeData data;
+  final NeuThemeData data;
 
-  /// True if this theme was created by the [NeumorphicApp]. See [NeumorphicTheme.isNeumorphicAppTheme].
+  /// True if this theme was created by the [NeumorphicApp]. See [NeuTheme.isNeumorphicAppTheme].
   final bool isNeumorphicAppTheme;
 
-  /// True if this theme was created by the [MaterialApp]. See [NeumorphicTheme.isNeumorphicAppTheme].
+  /// True if this theme was created by the [MaterialApp]. See [NeuTheme.isNeumorphicAppTheme].
   final bool isMaterialAppTheme;
 
   /// The widget below this widget in the tree.
@@ -264,7 +264,7 @@ class AnimatedNeumorphicTheme extends ImplicitlyAnimatedWidget {
 }
 
 class _AnimatedThemeState
-    extends AnimatedWidgetBaseState<AnimatedNeumorphicTheme> {
+    extends AnimatedWidgetBaseState<AnimatedNeuTheme> {
   NeumorphicThemeDataTween _data;
   ThemeDataTween _mData;
   @override
@@ -283,7 +283,7 @@ class _AnimatedThemeState
     return Theme(
       isMaterialAppTheme: widget.isMaterialAppTheme,
       data: _mData.evaluate(animation),
-      child: NeumorphicTheme(
+      child: NeuTheme(
         isNeumorphicAppTheme: widget.isNeumorphicAppTheme,
         child: widget.child,
         data: _data.evaluate(animation),
