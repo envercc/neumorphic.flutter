@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:neumorphic/src/back_button.dart';
 
-/// The height of the toolbar component of the [AppBar].
-const double kToolbarHeight = 56.0;
+import '../constants.dart';
 
 class NeuAppBar extends StatelessWidget implements PreferredSizeWidget {
   const NeuAppBar({
@@ -40,7 +39,7 @@ class NeuAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
     if (leading != null) {
       leading = ConstrainedBox(
-        constraints: const BoxConstraints.tightFor(width: kToolbarHeight),
+        constraints: const BoxConstraints.tightFor(width: cToolbarHeight),
         child: leading,
       );
     }
@@ -53,7 +52,7 @@ class NeuAppBar extends StatelessWidget implements PreferredSizeWidget {
           Expanded(
             child: Padding(
               padding: EdgeInsets.all(16)
-                  .copyWith(right: (leading != null) ? kToolbarHeight : 0),
+                  .copyWith(right: (leading != null) ? cToolbarHeight : 0),
               child: DefaultTextStyle(
                 style: textTheme.headline.copyWith(
                   fontSize: 24,
@@ -70,5 +69,5 @@ class NeuAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(cToolbarHeight);
 }

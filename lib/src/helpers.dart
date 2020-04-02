@@ -1,9 +1,6 @@
 import 'dart:ui';
 
 extension ColorUtils on Color {
+  /// Mix this [Color] with another [Color] in [amount]
   Color mix(Color another, double amount) => Color.lerp(this, another, amount);
-}
-
-Color mixColor(Color firstColor, Color secondColor, double amount) {
-  return Color.lerp(firstColor, secondColor, amount);
 }

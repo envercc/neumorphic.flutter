@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class NeuBackButton extends StatelessWidget {
   /// Creates an [IconButton] with the appropriate "back" icon for the current
   /// target platform.
-  const NeuBackButton({Key key, this.color, this.onPressed}) : super(key: key);
+  const NeuBackButton({Key key, this.color, this.onPressed, this.icon})
+      : super(key: key);
 
   /// The color to use for the icon.
   ///
@@ -22,11 +23,15 @@ class NeuBackButton extends StatelessWidget {
   /// Defaults to null.
   final VoidCallback onPressed;
 
+  /// The Widget to be used as [icon] in place of "back" icon for the current
+  /// target platform. Usually an [Icon] widget.
+  final Widget icon;
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterialLocalizations(context));
     return IconButton(
-      icon: Icon(Icons.arrow_back_ios),
+      icon: icon ?? Icon(Icons.arrow_back_ios),
       color: color,
       onPressed: () {
         if (onPressed != null) {

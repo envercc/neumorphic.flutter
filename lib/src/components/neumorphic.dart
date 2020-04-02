@@ -2,19 +2,15 @@
 /// https://medium.com/flutter-community/neumorphic-designs-in-flutter-eab9a4de2059
 import 'package:flutter/material.dart';
 import 'package:neumorphic/src/helpers.dart';
+import '../params.dart';
 import 'neu_card.dart';
 
-enum NeumorphicStatus {
-  concave,
-  convex,
-}
-
-// TODO(predatorx7): NEEDS TO BE CHANGED. This is replaced by components/neumorphic
+/// A [Neumorphic] design widget.
 class Neumorphic extends StatelessWidget {
   Neumorphic({
     this.child,
     this.bevel = 12.0,
-    this.status = NeumorphicStatus.convex,
+    this.status = SurfaceType.convex,
     this.color,
     NeumorphicDecoration decoration,
     this.alignment,
@@ -24,6 +20,8 @@ class Neumorphic extends StatelessWidget {
     this.margin,
     this.padding,
     this.transform,
+    this.clipBehavior = Clip.none,
+    this.shape,
     Key key,
   })  : blurOffset = Offset(bevel / 2, bevel / 2),
         decoration = decoration ?? NeumorphicDecoration(color: color),
@@ -38,7 +36,7 @@ class Neumorphic extends StatelessWidget {
   /// Elevation relative to parent. Main constituent of Neumorphism
   final double bevel;
   final Offset blurOffset;
-  final NeumorphicStatus status;
+  final SurfaceType status;
   final Color color;
 
   /// The decoration to paint behind the [child].
@@ -55,13 +53,23 @@ class Neumorphic extends StatelessWidget {
   final EdgeInsetsGeometry margin;
   final EdgeInsets padding;
   final Matrix4 transform;
+  final ShapeBorder shape;
+
+  /// {@template flutter.widgets.Clip}
+  /// The content will be clipped (or not) according to this option.
+  ///
+  /// See the enum [Clip] for details of all possible options and their common
+  /// use cases.
+  /// {@endtemplate}
+  ///
+  /// Defaults to [Clip.none], and must not be null.
+  final Clip clipBehavior;
 
   @override
   Widget build(BuildContext context) {
     final color = decoration?.color ?? Theme.of(context).backgroundColor;
-    final isConcave = status == NeumorphicStatus.concave;
-
-    return AnimatedContainer(
+    final isConcave = status == SurfaceType.concave;
+    Widget _child = AnimatedContainer(
       duration: const Duration(milliseconds: 150),
       alignment: alignment,
       width: width,
@@ -108,6 +116,17 @@ class Neumorphic extends StatelessWidget {
         border: decoration.border,
       ),
       child: child,
+    );
+    if (clipBehavior == Clip.none) {
+      return child;
+    }
+    return ClipPath(
+      child: _child,
+      clipper: ShapeBorderClipper(
+        shape: shape ?? const RoundedRectangleBorder(),
+        textDirection: Directionality.of(context),
+      ),
+      clipBehavior: clipBehavior,
     );
   }
 }

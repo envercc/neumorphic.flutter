@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'neumorphic.dart';
-import 'neu_card.dart';
+
+import '../../neumorphic.dart';
 
 class NeuButton extends StatefulWidget {
   const NeuButton({
@@ -42,7 +42,7 @@ class _NeuButtonState extends State<NeuButton> {
         onTapCancel: _tapUp,
         onTap: widget.onPressed,
         child: NeuCard(
-          curveType: _isPressed ? CurveType.concave : CurveType.flat,
+          curveType: _isPressed ? SurfaceType.concave : SurfaceType.flat,
           padding: widget.padding,
           child: widget.child,
           alignment: Alignment.center,

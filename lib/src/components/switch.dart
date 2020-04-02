@@ -11,9 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import '../params.dart';
 import 'neu_card.dart';
-import '../constants.dart';
-import 'neumorphic.dart';
 
 // Minimum padding from edges of the segmented control to edges of
 // encompassing widget.
@@ -479,7 +478,7 @@ class _NeuSwitchState<T> extends State<NeuSwitch<T>>
           constrainedAxis: Axis.horizontal,
           child: NeuCard(
             bevel: 12,
-            curveType: CurveType.emboss,
+            curveType: SurfaceType.emboss,
             padding: widget.padding.resolve(Directionality.of(context)),
             decoration: NeumorphicDecoration(
               color: widget.backgroundColor,

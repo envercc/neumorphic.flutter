@@ -2,18 +2,13 @@
 /// https://medium.com/flutter-community/neumorphic-designs-in-flutter-eab9a4de2059
 import 'package:flutter/material.dart';
 
-enum CurveType {
-  concave,
-  convex,
-  emboss,
-  flat,
-}
+import '../params.dart';
 
 class NeuCard extends StatelessWidget {
   NeuCard({
     this.child,
     this.bevel = 12.0,
-    this.curveType = CurveType.convex,
+    this.curveType = SurfaceType.convex,
     Color color,
     NeumorphicDecoration decoration,
     this.alignment,
@@ -35,7 +30,7 @@ class NeuCard extends StatelessWidget {
 
   /// Elevation relative to parent. Main constituent of Neumorphism
   final double bevel;
-  final CurveType curveType;
+  final SurfaceType curveType;
 
   /// The decoration to paint behind the [child].
   ///
@@ -55,7 +50,7 @@ class NeuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = decoration?.color ?? Theme.of(context).backgroundColor;
-    final emboss = curveType == CurveType.emboss;
+    final emboss = curveType == SurfaceType.emboss;
 
     Color colorValue = color;
 
@@ -91,14 +86,14 @@ class NeuCard extends StatelessWidget {
 
     Gradient gradient;
     switch (curveType) {
-      case CurveType.concave:
+      case SurfaceType.concave:
         gradient = _getConcaveGradients(colorValue, bevel);
         break;
-      case CurveType.convex:
+      case SurfaceType.convex:
         gradient = _getConvexGradients(colorValue, bevel);
         break;
-      case CurveType.emboss:
-      case CurveType.flat:
+      case SurfaceType.emboss:
+      case SurfaceType.flat:
         gradient = _getFlatGradients(colorValue, bevel);
         break;
     }

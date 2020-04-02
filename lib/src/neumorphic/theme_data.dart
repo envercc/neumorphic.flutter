@@ -7,6 +7,8 @@ import 'dart:ui' show Color, hashList;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:neumorphic/src/components/selection_controls.dart';
+import 'package:neumorphic/src/params.dart';
 
 export 'package:flutter/services.dart' show Brightness;
 
@@ -27,9 +29,9 @@ const Color _kLightThemeSplashColor = Color(0x66C8C8C8);
 const Color _kDarkThemeHighlightColor = Color(0x40CCCCCC);
 const Color _kDarkThemeSplashColor = Color(0x40CCCCCC);
 
-/// Configures the tap target and layout size of certain Material widgets.
+/// Configures the tap target and layout size of certain Nuemorphic widgets.
 ///
-/// Changing the value in [ThemeData.materialTapTargetSize] will affect the
+/// Changing the value in [NeumorphicThemeData.materialTapTargetSize] will affect the
 /// accessibility experience.
 ///
 /// Some of the impacted widgets include:
@@ -124,12 +126,20 @@ const Color _kDarkThemeSplashColor = Color(0x40CCCCCC);
 /// ```
 /// {@end-tool}
 @immutable
-class ThemeData extends Diagnosticable {
-  /// Create a [ThemeData] given a set of preferred values.
+class NeumorphicThemeData extends Diagnosticable {
+  /// Create a [NeumorphicThemeData] given a set of preferred values.
+  ///
+  /// Please consider providing a [LightSource] and [SurfaceType] although default
+  /// values will be provided.
   ///
   /// Default values will be derived for arguments that are omitted.
   ///
   /// The most useful values to give are, in order of importance:
+  ///
+  ///  * The desired surface type with [surfaceType].
+  ///
+  ///  * [lightSource] to be simulated on [surfaceType].
+  ///    (under development, not all Neumorphic widgets supports this.)
   ///
   ///  * The desired theme [brightness].
   ///
@@ -143,7 +153,7 @@ class ThemeData extends Diagnosticable {
   ///    ([accentColorBrightness]), so that the right contrasting text
   ///    color will be used over the accent color.
   ///
-  /// Most of these parameters map to the [ThemeData] field with the same name,
+  /// Most of these parameters map to the [NeumorphicThemeData] field with the same name,
   /// all of which are described in more detail on the fields themselves. The
   /// exceptions are:
   ///
@@ -159,7 +169,7 @@ class ThemeData extends Diagnosticable {
   ///
   /// See <https://material.io/design/color/> for
   /// more discussion on how to pick the right colors.
-  factory ThemeData({
+  factory NeumorphicThemeData({
     Brightness brightness,
     MaterialColor primarySwatch,
     Color primaryColor,
@@ -224,7 +234,13 @@ class ThemeData extends Diagnosticable {
     MaterialBannerThemeData bannerTheme,
     DividerThemeData dividerTheme,
     ButtonBarThemeData buttonBarTheme,
+    LightSource lightSource,
+    SurfaceType surfaceType,
+    TextSelectionControls selectionControls,
   }) {
+    selectionControls ??= neuSelectionControls;
+    lightSource ??= LightSource.topLeft;
+    surfaceType ??= SurfaceType.concave;
     brightness ??= Brightness.light;
     final bool isDark = brightness == Brightness.dark;
     primarySwatch ??= Colors.blue;
@@ -256,7 +272,8 @@ class ThemeData extends Diagnosticable {
       brightness: brightness,
     );
 
-    splashFactory ??= InkSplash.splashFactory;
+    // For agressive fast ripples
+    splashFactory ??= InkRipple.splashFactory;
     selectedRowColor ??= Colors.grey[100];
     unselectedWidgetColor ??= isDark ? Colors.white70 : Colors.black54;
     // Spec doesn't specify a dark theme secondaryHeaderColor, this is a guess.
@@ -348,7 +365,9 @@ class ThemeData extends Diagnosticable {
     dividerTheme ??= const DividerThemeData();
     buttonBarTheme ??= const ButtonBarThemeData();
 
-    return ThemeData.raw(
+    return NeumorphicThemeData.raw(
+      surfaceType: surfaceType,
+      lightSource: lightSource,
       brightness: brightness,
       primaryColor: primaryColor,
       primaryColorBrightness: primaryColorBrightness,
@@ -411,20 +430,24 @@ class ThemeData extends Diagnosticable {
       bannerTheme: bannerTheme,
       dividerTheme: dividerTheme,
       buttonBarTheme: buttonBarTheme,
+      selectionControls: selectionControls,
     );
   }
 
-  /// Create a [ThemeData] given a set of exact values. All the values must be
+  /// Create a [NeumorphicThemeData] given a set of exact values. All the values must be
   /// specified. They all must also be non-null except for
   /// [cupertinoOverrideTheme].
   ///
   /// This will rarely be used directly. It is used by [lerp] to
   /// create intermediate themes based on two themes created with the
   /// [new ThemeData] constructor.
-  const ThemeData.raw({
+  const NeumorphicThemeData.raw({
     // Warning: make sure these properties are in the exact same order as in
     // operator == and in the hashValues method and in the order of fields
     // in this class, and in the lerp() method.
+    @required this.selectionControls,
+    @required this.surfaceType,
+    @required this.lightSource,
     @required this.brightness,
     @required this.primaryColor,
     @required this.primaryColorBrightness,
@@ -487,7 +510,9 @@ class ThemeData extends Diagnosticable {
     @required this.bannerTheme,
     @required this.dividerTheme,
     @required this.buttonBarTheme,
-  })  : assert(brightness != null),
+  })  : assert(surfaceType != null),
+        assert(lightSource != null),
+        assert(brightness != null),
         assert(primaryColor != null),
         assert(primaryColorBrightness != null),
         assert(primaryColorLight != null),
@@ -547,13 +572,13 @@ class ThemeData extends Diagnosticable {
         assert(dividerTheme != null),
         assert(buttonBarTheme != null);
 
-  /// Create a [ThemeData] based on the colors in the given [colorScheme] and
+  /// Create a [NeumorphicThemeData] based on the colors in the given [colorScheme] and
   /// text styles of the optional [textTheme].
   ///
   /// The [colorScheme] can not be null.
   ///
   /// If [colorScheme.brightness] is [Brightness.dark] then
-  /// [ThemeData.applyElevationOverlayColor] will be set to true to support
+  /// [NeumorphicThemeData.applyElevationOverlayColor] will be set to true to support
   /// the Material dark theme method for indicating elevation by applying
   /// a semi-transparent onSurface color on top of the surface color.
   ///
@@ -575,7 +600,7 @@ class ThemeData extends Diagnosticable {
   ///
   /// See <https://material.io/design/color/> for
   /// more discussion on how to pick the right colors.
-  factory ThemeData.from({
+  factory NeumorphicThemeData.from({
     @required ColorScheme colorScheme,
     TextTheme textTheme,
   }) {
@@ -589,15 +614,17 @@ class ThemeData extends Diagnosticable {
     final Color onPrimarySurfaceColor =
         isDark ? colorScheme.onSurface : colorScheme.onPrimary;
 
-    return ThemeData(
+    return NeumorphicThemeData(
+      surfaceType: SurfaceType.concave,
+      lightSource: LightSource.topLeft,
       brightness: colorScheme.brightness,
       primaryColor: primarySurfaceColor,
       primaryColorBrightness:
-          ThemeData.estimateBrightnessForColor(primarySurfaceColor),
+          NeumorphicThemeData.estimateBrightnessForColor(primarySurfaceColor),
       canvasColor: colorScheme.background,
       accentColor: colorScheme.secondary,
       accentColorBrightness:
-          ThemeData.estimateBrightnessForColor(colorScheme.secondary),
+          NeumorphicThemeData.estimateBrightnessForColor(colorScheme.secondary),
       scaffoldBackgroundColor: colorScheme.background,
       bottomAppBarColor: colorScheme.surface,
       cardColor: colorScheme.surface,
@@ -615,25 +642,27 @@ class ThemeData extends Diagnosticable {
   /// A default light blue theme.
   ///
   /// This theme does not contain text geometry. Instead, it is expected that
-  /// this theme is localized using text geometry using [ThemeData.localize].
-  factory ThemeData.light() => ThemeData(brightness: Brightness.light);
+  /// this theme is localized using text geometry using [NeumorphicThemeData.localize].
+  factory NeumorphicThemeData.light() =>
+      NeumorphicThemeData(brightness: Brightness.light);
 
   /// A default dark theme with a teal accent color.
   ///
   /// This theme does not contain text geometry. Instead, it is expected that
-  /// this theme is localized using text geometry using [ThemeData.localize].
-  factory ThemeData.dark() => ThemeData(brightness: Brightness.dark);
+  /// this theme is localized using text geometry using [NeumorphicThemeData.localize].
+  factory NeumorphicThemeData.dark() =>
+      NeumorphicThemeData(brightness: Brightness.dark);
 
-  /// The default color theme. Same as [new ThemeData.light].
+  /// The default color theme. Same as [new NeumorphicThemeData.light].
   ///
   /// This is used by [Theme.of] when no theme has been specified.
   ///
   /// This theme does not contain text geometry. Instead, it is expected that
-  /// this theme is localized using text geometry using [ThemeData.localize].
+  /// this theme is localized using text geometry using [NeumorphicThemeData.localize].
   ///
   /// Most applications would use [Theme.of], which provides correct localized
   /// text geometry.
-  factory ThemeData.fallback() => ThemeData.light();
+  factory NeumorphicThemeData.fallback() => NeumorphicThemeData.light();
 
   // Warning: make sure these properties are in the exact same order as in
   // hashValues() and in the raw constructor and in the order of fields in
@@ -650,6 +679,17 @@ class ThemeData extends Diagnosticable {
   /// card and canvas colors when the brightness is dark; when the brightness is
   /// dark, use Colors.white or the accentColor for a contrasting color.
   final Brightness brightness;
+
+  /// A Selection UI, to be provided by the implementor of the toolbar widget.
+  // TODO(predator): add
+  final TextSelectionControls selectionControls;
+
+  /// The [SurfaceType] of [Neumorphic] material.
+  /// Can be [concave], [convex], [emboss] or [flat].
+  final SurfaceType surfaceType;
+
+  /// The [LightSource] direction to be simulated on [Neumorphic] material.
+  final LightSource lightSource;
 
   /// The background color for major parts of the app (toolbars, tab bars, etc)
   ///
@@ -934,11 +974,11 @@ class ThemeData extends Diagnosticable {
   final Typography typography;
 
   /// Components of the [CupertinoThemeData] to override from the Material
-  /// [ThemeData] adaptation.
+  /// [NeumorphicThemeData] adaptation.
   ///
   /// By default, [cupertinoOverrideTheme] is null and Cupertino widgets
   /// descendant to the Material [Theme] will adhere to a [CupertinoTheme]
-  /// derived from the Material [ThemeData]. e.g. [ThemeData]'s [ColorTheme]
+  /// derived from the Material [NeumorphicThemeData]. e.g. [NeumorphicThemeData]'s [ColorTheme]
   /// will also inform the [CupertinoThemeData]'s `primaryColor` etc.
   ///
   /// This cascading effect for individual attributes of the [CupertinoThemeData]
@@ -963,7 +1003,7 @@ class ThemeData extends Diagnosticable {
   final ButtonBarThemeData buttonBarTheme;
 
   /// Creates a copy of this theme but with the given fields replaced with the new values.
-  ThemeData copyWith({
+  NeumorphicThemeData copyWith({
     Brightness brightness,
     Color primaryColor,
     Brightness primaryColorBrightness,
@@ -1026,9 +1066,14 @@ class ThemeData extends Diagnosticable {
     MaterialBannerThemeData bannerTheme,
     DividerThemeData dividerTheme,
     ButtonBarThemeData buttonBarTheme,
+    SurfaceType surfaceType,
+    LightSource lightSource,
+    TextSelectionControls selectionControls,
   }) {
     cupertinoOverrideTheme = cupertinoOverrideTheme?.noDefault();
-    return ThemeData.raw(
+    return NeumorphicThemeData.raw(
+      surfaceType: surfaceType ?? this.surfaceType,
+      lightSource: lightSource ?? this.lightSource,
       brightness: brightness ?? this.brightness,
       primaryColor: primaryColor ?? this.primaryColor,
       primaryColorBrightness:
@@ -1102,6 +1147,7 @@ class ThemeData extends Diagnosticable {
       bannerTheme: bannerTheme ?? this.bannerTheme,
       dividerTheme: dividerTheme ?? this.dividerTheme,
       buttonBarTheme: buttonBarTheme ?? this.buttonBarTheme,
+      selectionControls: selectionControls ?? this.selectionControls,
     );
   }
 
@@ -1112,9 +1158,9 @@ class ThemeData extends Diagnosticable {
   static const int _localizedThemeDataCacheSize = 5;
 
   /// Caches localized themes to speed up the [localize] method.
-  static final _FifoCache<_IdentityThemeDataCacheKey, ThemeData>
+  static final _FifoCache<_IdentityThemeDataCacheKey, NeumorphicThemeData>
       _localizedThemeDataCache =
-      _FifoCache<_IdentityThemeDataCacheKey, ThemeData>(
+      _FifoCache<_IdentityThemeDataCacheKey, NeumorphicThemeData>(
           _localizedThemeDataCacheSize);
 
   /// Returns a new theme built by merging the text geometry provided by the
@@ -1124,7 +1170,8 @@ class ThemeData extends Diagnosticable {
   /// to true, the returned theme's text styles inherit the geometric properties
   /// of [localTextGeometry]. The resulting text styles' [TextStyle.inherit] is
   /// set to those provided by [localTextGeometry].
-  static ThemeData localize(ThemeData baseTheme, TextTheme localTextGeometry) {
+  static NeumorphicThemeData localize(
+      NeumorphicThemeData baseTheme, TextTheme localTextGeometry) {
     // WARNING: this method memoizes the result in a cache based on the
     // previously seen baseTheme and localTextGeometry. Memoization is safe
     // because all inputs and outputs of this function are deeply immutable, and
@@ -1172,19 +1219,208 @@ class ThemeData extends Diagnosticable {
     return Brightness.dark;
   }
 
+  /// Mix with this theme with other theme.
+  /// Performs Linear interpolation with this theme & ThemeData.
+  NeumorphicThemeData mix(NeumorphicThemeData other, double t) =>
+      lerp(this, other, t);
+
   /// Linearly interpolate between two themes.
   ///
   /// The arguments must not be null.
   ///
   /// {@macro dart.ui.shadow.lerp}
-  static ThemeData lerp(ThemeData a, ThemeData b, double t) {
+  static NeumorphicThemeData lerp(
+      NeumorphicThemeData a, NeumorphicThemeData b, double t) {
     assert(a != null);
     assert(b != null);
     assert(t != null);
     // Warning: make sure these properties are in the exact same order as in
     // hashValues() and in the raw constructor and in the order of fields in
     // the class and in the lerp() method.
-    return ThemeData.raw(
+    return NeumorphicThemeData.raw(
+      selectionControls: t < 0.5 ? a.selectionControls : b.selectionControls,
+      surfaceType: t < 0.5 ? a.surfaceType : b.surfaceType,
+      lightSource: t < 0.5 ? a.lightSource : b.lightSource,
+      brightness: t < 0.5 ? a.brightness : b.brightness,
+      primaryColor: Color.lerp(a.primaryColor, b.primaryColor, t),
+      primaryColorBrightness:
+          t < 0.5 ? a.primaryColorBrightness : b.primaryColorBrightness,
+      primaryColorLight:
+          Color.lerp(a.primaryColorLight, b.primaryColorLight, t),
+      primaryColorDark: Color.lerp(a.primaryColorDark, b.primaryColorDark, t),
+      canvasColor: Color.lerp(a.canvasColor, b.canvasColor, t),
+      accentColor: Color.lerp(a.accentColor, b.accentColor, t),
+      accentColorBrightness:
+          t < 0.5 ? a.accentColorBrightness : b.accentColorBrightness,
+      scaffoldBackgroundColor:
+          Color.lerp(a.scaffoldBackgroundColor, b.scaffoldBackgroundColor, t),
+      bottomAppBarColor:
+          Color.lerp(a.bottomAppBarColor, b.bottomAppBarColor, t),
+      cardColor: Color.lerp(a.cardColor, b.cardColor, t),
+      dividerColor: Color.lerp(a.dividerColor, b.dividerColor, t),
+      focusColor: Color.lerp(a.focusColor, b.focusColor, t),
+      hoverColor: Color.lerp(a.hoverColor, b.hoverColor, t),
+      highlightColor: Color.lerp(a.highlightColor, b.highlightColor, t),
+      splashColor: Color.lerp(a.splashColor, b.splashColor, t),
+      splashFactory: t < 0.5 ? a.splashFactory : b.splashFactory,
+      selectedRowColor: Color.lerp(a.selectedRowColor, b.selectedRowColor, t),
+      unselectedWidgetColor:
+          Color.lerp(a.unselectedWidgetColor, b.unselectedWidgetColor, t),
+      disabledColor: Color.lerp(a.disabledColor, b.disabledColor, t),
+      buttonTheme: t < 0.5 ? a.buttonTheme : b.buttonTheme,
+      toggleButtonsTheme: ToggleButtonsThemeData.lerp(
+          a.toggleButtonsTheme, b.toggleButtonsTheme, t),
+      buttonColor: Color.lerp(a.buttonColor, b.buttonColor, t),
+      secondaryHeaderColor:
+          Color.lerp(a.secondaryHeaderColor, b.secondaryHeaderColor, t),
+      textSelectionColor:
+          Color.lerp(a.textSelectionColor, b.textSelectionColor, t),
+      cursorColor: Color.lerp(a.cursorColor, b.cursorColor, t),
+      textSelectionHandleColor:
+          Color.lerp(a.textSelectionHandleColor, b.textSelectionHandleColor, t),
+      backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
+      dialogBackgroundColor:
+          Color.lerp(a.dialogBackgroundColor, b.dialogBackgroundColor, t),
+      indicatorColor: Color.lerp(a.indicatorColor, b.indicatorColor, t),
+      hintColor: Color.lerp(a.hintColor, b.hintColor, t),
+      errorColor: Color.lerp(a.errorColor, b.errorColor, t),
+      toggleableActiveColor:
+          Color.lerp(a.toggleableActiveColor, b.toggleableActiveColor, t),
+      textTheme: TextTheme.lerp(a.textTheme, b.textTheme, t),
+      primaryTextTheme:
+          TextTheme.lerp(a.primaryTextTheme, b.primaryTextTheme, t),
+      accentTextTheme: TextTheme.lerp(a.accentTextTheme, b.accentTextTheme, t),
+      inputDecorationTheme:
+          t < 0.5 ? a.inputDecorationTheme : b.inputDecorationTheme,
+      iconTheme: IconThemeData.lerp(a.iconTheme, b.iconTheme, t),
+      primaryIconTheme:
+          IconThemeData.lerp(a.primaryIconTheme, b.primaryIconTheme, t),
+      accentIconTheme:
+          IconThemeData.lerp(a.accentIconTheme, b.accentIconTheme, t),
+      sliderTheme: SliderThemeData.lerp(a.sliderTheme, b.sliderTheme, t),
+      tabBarTheme: TabBarTheme.lerp(a.tabBarTheme, b.tabBarTheme, t),
+      tooltipTheme: TooltipThemeData.lerp(a.tooltipTheme, b.tooltipTheme, t),
+      cardTheme: CardTheme.lerp(a.cardTheme, b.cardTheme, t),
+      chipTheme: ChipThemeData.lerp(a.chipTheme, b.chipTheme, t),
+      platform: t < 0.5 ? a.platform : b.platform,
+      materialTapTargetSize:
+          t < 0.5 ? a.materialTapTargetSize : b.materialTapTargetSize,
+      applyElevationOverlayColor:
+          t < 0.5 ? a.applyElevationOverlayColor : b.applyElevationOverlayColor,
+      pageTransitionsTheme:
+          t < 0.5 ? a.pageTransitionsTheme : b.pageTransitionsTheme,
+      appBarTheme: AppBarTheme.lerp(a.appBarTheme, b.appBarTheme, t),
+      bottomAppBarTheme:
+          BottomAppBarTheme.lerp(a.bottomAppBarTheme, b.bottomAppBarTheme, t),
+      colorScheme: ColorScheme.lerp(a.colorScheme, b.colorScheme, t),
+      dialogTheme: DialogTheme.lerp(a.dialogTheme, b.dialogTheme, t),
+      floatingActionButtonTheme: FloatingActionButtonThemeData.lerp(
+          a.floatingActionButtonTheme, b.floatingActionButtonTheme, t),
+      typography: Typography.lerp(a.typography, b.typography, t),
+      cupertinoOverrideTheme:
+          t < 0.5 ? a.cupertinoOverrideTheme : b.cupertinoOverrideTheme,
+      snackBarTheme:
+          SnackBarThemeData.lerp(a.snackBarTheme, b.snackBarTheme, t),
+      bottomSheetTheme:
+          BottomSheetThemeData.lerp(a.bottomSheetTheme, b.bottomSheetTheme, t),
+      popupMenuTheme:
+          PopupMenuThemeData.lerp(a.popupMenuTheme, b.popupMenuTheme, t),
+      bannerTheme:
+          MaterialBannerThemeData.lerp(a.bannerTheme, b.bannerTheme, t),
+      dividerTheme: DividerThemeData.lerp(a.dividerTheme, b.dividerTheme, t),
+      buttonBarTheme:
+          ButtonBarThemeData.lerp(a.buttonBarTheme, b.buttonBarTheme, t),
+    );
+  }
+
+  /// Returns a [ThemeData] from properties & fields of this [NeumorphicThemeData]
+  ThemeData get themeData => ThemeData.raw(
+        brightness: brightness,
+        primaryColor: primaryColor,
+        primaryColorBrightness: primaryColorBrightness,
+        primaryColorLight: primaryColorLight,
+        primaryColorDark: primaryColorDark,
+        accentColor: accentColor,
+        accentColorBrightness: accentColorBrightness,
+        canvasColor: canvasColor,
+        scaffoldBackgroundColor: scaffoldBackgroundColor,
+        bottomAppBarColor: bottomAppBarColor,
+        cardColor: cardColor,
+        dividerColor: dividerColor,
+        focusColor: focusColor,
+        hoverColor: hoverColor,
+        highlightColor: highlightColor,
+        splashColor: splashColor,
+        splashFactory: splashFactory,
+        selectedRowColor: selectedRowColor,
+        unselectedWidgetColor: unselectedWidgetColor,
+        disabledColor: disabledColor,
+        buttonTheme: buttonTheme,
+        buttonColor: buttonColor,
+        toggleButtonsTheme: toggleButtonsTheme,
+        toggleableActiveColor: toggleableActiveColor,
+        secondaryHeaderColor: secondaryHeaderColor,
+        textSelectionColor: textSelectionColor,
+        cursorColor: cursorColor,
+        textSelectionHandleColor: textSelectionHandleColor,
+        backgroundColor: backgroundColor,
+        dialogBackgroundColor: dialogBackgroundColor,
+        indicatorColor: indicatorColor,
+        hintColor: hintColor,
+        errorColor: errorColor,
+        textTheme: textTheme,
+        primaryTextTheme: primaryTextTheme,
+        accentTextTheme: accentTextTheme,
+        inputDecorationTheme: inputDecorationTheme,
+        iconTheme: iconTheme,
+        primaryIconTheme: primaryIconTheme,
+        accentIconTheme: accentIconTheme,
+        sliderTheme: sliderTheme,
+        tabBarTheme: tabBarTheme,
+        tooltipTheme: tooltipTheme,
+        cardTheme: cardTheme,
+        chipTheme: chipTheme,
+        platform: platform,
+        materialTapTargetSize: materialTapTargetSize,
+        applyElevationOverlayColor: applyElevationOverlayColor,
+        pageTransitionsTheme: pageTransitionsTheme,
+        appBarTheme: appBarTheme,
+        bottomAppBarTheme: bottomAppBarTheme,
+        colorScheme: colorScheme,
+        dialogTheme: dialogTheme,
+        floatingActionButtonTheme: floatingActionButtonTheme,
+        typography: typography,
+        cupertinoOverrideTheme: cupertinoOverrideTheme,
+        snackBarTheme: snackBarTheme,
+        bottomSheetTheme: bottomSheetTheme,
+        popupMenuTheme: popupMenuTheme,
+        bannerTheme: bannerTheme,
+        dividerTheme: dividerTheme,
+        buttonBarTheme: buttonBarTheme,
+      );
+
+  /// Mix with this NeumorphicThemeData theme & a Material's ThemeData theme.
+  /// Performs Linear interpolation with this theme & ThemeData.
+  NeumorphicThemeData mixWithThemeData(ThemeData b, double t) =>
+      lerpWithThemeData(this, b, t);
+
+  /// Linearly interpolate between a NeumorphicThemeData theme & Material's ThemeData theme.
+  ///
+  /// The arguments must not be null.
+  ///
+  /// {@macro dart.ui.shadow.lerp}
+  static NeumorphicThemeData lerpWithThemeData(
+      NeumorphicThemeData a, ThemeData b, double t) {
+    assert(a != null);
+    assert(b != null);
+    assert(t != null);
+    // Warning: make sure these properties are in the exact same order as in
+    // hashValues() and in the raw constructor and in the order of fields in
+    // the class and in the lerp() method.
+    return NeumorphicThemeData.raw(
+      selectionControls: a.selectionControls,
+      surfaceType: a.surfaceType,
+      lightSource: a.lightSource,
       brightness: t < 0.5 ? a.brightness : b.brightness,
       primaryColor: Color.lerp(a.primaryColor, b.primaryColor, t),
       primaryColorBrightness:
@@ -1282,11 +1518,14 @@ class ThemeData extends Diagnosticable {
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    final ThemeData otherData = other;
+    final NeumorphicThemeData otherData = other;
     // Warning: make sure these properties are in the exact same order as in
     // hashValues() and in the raw constructor and in the order of fields in
     // the class and in the lerp() method.
-    return (otherData.brightness == brightness) &&
+    return (otherData.selectionControls == selectionControls) &&
+        (otherData.surfaceType == surfaceType) &&
+        (otherData.lightSource == lightSource) &&
+        (otherData.brightness == brightness) &&
         (otherData.primaryColor == primaryColor) &&
         (otherData.primaryColorBrightness == primaryColorBrightness) &&
         (otherData.primaryColorLight == primaryColorLight) &&
@@ -1354,6 +1593,9 @@ class ThemeData extends Diagnosticable {
     // are in the exact same order as in operator == and in the raw constructor
     // and in the order of fields in the class and in the lerp() method.
     final List<Object> values = <Object>[
+      selectionControls,
+      surfaceType,
+      lightSource,
       brightness,
       primaryColor,
       primaryColorBrightness,
@@ -1422,13 +1664,13 @@ class ThemeData extends Diagnosticable {
 }
 
 /// A [CupertinoThemeData] that defers unspecified theme attributes to an
-/// upstream Material [ThemeData].
+/// upstream Material [NeumorphicThemeData].
 ///
 /// This type of [CupertinoThemeData] is used by the Material [Theme] to
 /// harmonize the [CupertinoTheme] with the material theme's colors and text
 /// styles.
 ///
-/// In the most basic case, [ThemeData]'s `cupertinoOverrideTheme` is null and
+/// In the most basic case, [NeumorphicThemeData]'s `cupertinoOverrideTheme` is null and
 /// and descendant Cupertino widgets' styling is derived from the Material theme.
 ///
 /// To override individual parts of the Material-derived Cupertino styling,
@@ -1451,12 +1693,12 @@ class ThemeData extends Diagnosticable {
 // is from the superclass and based on the primaryColor but the primaryColor
 // comes from the Material theme unless overridden.
 class MaterialBasedCupertinoThemeData extends CupertinoThemeData {
-  /// Create a [MaterialBasedCupertinoThemeData] based on a Material [ThemeData]
+  /// Create a [MaterialBasedCupertinoThemeData] based on a Material [NeumorphicThemeData]
   /// and its `cupertinoOverrideTheme`.
   ///
   /// The [materialTheme] parameter must not be null.
   MaterialBasedCupertinoThemeData({
-    @required ThemeData materialTheme,
+    @required NeumorphicThemeData materialTheme,
   }) : this._(
           materialTheme,
           (materialTheme.cupertinoOverrideTheme ?? const CupertinoThemeData())
@@ -1480,7 +1722,7 @@ class MaterialBasedCupertinoThemeData extends CupertinoThemeData {
           _cupertinoOverrideTheme.scaffoldBackgroundColor,
         );
 
-  final ThemeData _materialTheme;
+  final NeumorphicThemeData _materialTheme;
   final CupertinoThemeData _cupertinoOverrideTheme;
 
   @override
@@ -1502,16 +1744,16 @@ class MaterialBasedCupertinoThemeData extends CupertinoThemeData {
       _cupertinoOverrideTheme.scaffoldBackgroundColor ??
       _materialTheme.scaffoldBackgroundColor;
 
-  /// Copies the [ThemeData]'s `cupertinoOverrideTheme`.
+  /// Copies the [NeumorphicThemeData]'s `cupertinoOverrideTheme`.
   ///
-  /// Only the specified override attributes of the [ThemeData]'s
+  /// Only the specified override attributes of the [NeumorphicThemeData]'s
   /// `cupertinoOverrideTheme` and the newly specified parameters are in the
   /// returned [CupertinoThemeData]. No derived attributes from iOS defaults or
   /// from cascaded Material theme attributes are copied.
   ///
   /// [MaterialBasedCupertinoThemeData.copyWith] cannot change the base
-  /// Material [ThemeData]. To change the base Material [ThemeData], create a
-  /// new Material [Theme] and use `copyWith` on the Material [ThemeData]
+  /// Material [NeumorphicThemeData]. To change the base Material [NeumorphicThemeData], create a
+  /// new Material [Theme] and use `copyWith` on the Material [NeumorphicThemeData]
   /// instead.
   @override
   MaterialBasedCupertinoThemeData copyWith({
@@ -1549,7 +1791,7 @@ class MaterialBasedCupertinoThemeData extends CupertinoThemeData {
 class _IdentityThemeDataCacheKey {
   _IdentityThemeDataCacheKey(this.baseTheme, this.localTextGeometry);
 
-  final ThemeData baseTheme;
+  final NeumorphicThemeData baseTheme;
   final TextTheme localTextGeometry;
 
   // Using XOR to make the hash function as fast as possible (e.g. Jenkins is

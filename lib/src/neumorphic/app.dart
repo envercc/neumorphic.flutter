@@ -18,13 +18,16 @@ import 'package:flutter/material.dart' as material_design
         MaterialRectArcTween,
         DefaultMaterialLocalizations,
         MaterialPageRoute;
+import 'package:neumorphic/src/neumorphic/theme_data.dart';
+
+import 'theme.dart';
 
 /// [NeumorphicApp] uses this [TextStyle] as its [DefaultTextStyle] to encourage
 /// developers to be intentional about their [DefaultTextStyle].
 ///
-/// In Material Design, most [Text] widgets are contained in [Material] widgets,
+/// In most [Text] widgets are contained in widgets
 /// which sets a specific [DefaultTextStyle]. If you're seeing text that uses
-/// this text style, consider putting your text in a [Material] widget (or
+/// this text style, consider putting your text in a [Material] or [Neumorphic] widget (or
 /// another widget that sets a [DefaultTextStyle]).
 const TextStyle _errorTextStyle = TextStyle(
   color: Color(0xD0FF0000),
@@ -51,7 +54,9 @@ enum ThemeMode {
 }
 
 /// An application that uses neumorphic design with material design.
-/// Requires [NeumThemeData] to work.
+///
+/// You can provide a [NeumorphicThemeData] with
+/// [NeumorphicThemeData.surfaceType] & [NeumorphicThemeData.lightSource].
 ///
 /// A convenience widget that wraps a number of widgets that are commonly
 /// required for material design applications. It builds upon a [WidgetsApp] by
@@ -126,17 +131,23 @@ enum ThemeMode {
 /// {@end-tool}
 ///
 /// {@tool sample}
-/// This example shows how to create a [NeumorphicApp] that defines a [theme] that
+/// This example shows how to create a [NeumorphicApp] that defines a a [theme] and/or a [materialTheme] that
 /// will be used for material widgets in the app.
 ///
-/// ![The MaterialApp displays a Scaffold with a dark background and a blue / grey AppBar at the top](https://flutter.github.io/assets-for-api-docs/assets/material/theme_material_app.png)
+/// ![The NeumorphicApp displays a Scaffold with a dark background and a blue / grey AppBar at the top](https://flutter.github.io/assets-for-api-docs/assets/material/theme_material_app.png)
 ///
 /// ```dart
-/// MaterialApp(
-///   theme: ThemeData(
+/// NeumorphicApp(
+///   theme: NeumorphicThemeData(
 ///     brightness: Brightness.dark,
 ///     primaryColor: Colors.blueGrey
+///     surfaceType: SurfaceType.concave,
+///     lightSource: LightSource.topLeft,
 ///   ),
+///   materialTheme: ThemeData(
+///     brightness: Brightness.dark,
+///     primaryColor: Colors.blueGrey
+///   )
 ///   home: Scaffold(
 ///     appBar: AppBar(
 ///       title: const Text('MaterialApp Theme'),
@@ -145,17 +156,9 @@ enum ThemeMode {
 /// )
 /// ```
 /// {@end-tool}
-///
-/// See also:
-///
-///  * [Scaffold], which provides standard app elements like an [AppBar] and a [Drawer].
-///  * [Navigator], which is used to manage the app's stack of pages.
-///  * [MaterialPageRoute], which defines an app page that transitions in a material-specific way.
-///  * [WidgetsApp], which defines the basic app elements but does not depend on the material library.
-///  * The Flutter Internationalization Tutorial,
-///    <https://flutter.dev/tutorials/internationalization/>.
 class NeumorphicApp extends StatefulWidget {
-  /// Creates a NeumorphicApp.
+  /// Creates a NeumorphicApp which utilizes [NeumorphicThemeData].
+  /// Is compatible with [material_design].
   ///
   /// At least one of [home], [routes], [onGenerateRoute], or [builder] must be
   /// non-null. If only [routes] is given, it must include an entry for the
@@ -252,9 +255,9 @@ class NeumorphicApp extends StatefulWidget {
   /// Default visual properties, like colors fonts and shapes, for this app's
   /// material widgets.
   ///
-  /// A second [darkTheme] [ThemeData] value, which is used to provide a dark
+  /// A second [darkTheme] [material_design.ThemeData] value, which is used to provide a dark
   /// version of the user interface can also be specified. [themeMode] will
-  /// control which theme will be used if a [darkTheme] is provided.
+  /// control which theme will be used if a [materialDarkTheme] is provided.
   ///
   /// The default value of this property is the value of [ThemeData.light()].
   ///
@@ -264,21 +267,29 @@ class NeumorphicApp extends StatefulWidget {
   ///  * [MediaQueryData.platformBrightness], which indicates the platform's
   ///    desired brightness and is used to automatically toggle between [theme]
   ///    and [darkTheme] in [MaterialApp].
-  ///  * [ThemeData.brightness], which indicates the [Brightness] of a theme's
+  ///  * [material_design.ThemeData.brightness], which indicates the [Brightness] of a theme's
   ///    colors.
-  final material_design.ThemeData theme;
+  // material_design.ThemeData materialTheme;
 
-  /// The [ThemeData] to use when a 'dark mode' is requested by the system.
+  /// Default visual properties, like colors fonts and shapes, for this app's
+  /// material widgets.
+  ///
+  /// A second [darkTheme] [NeumorphicThemeData] value, which is used to provide a dark
+  /// version of the user interface can also be specified. [themeMode] will
+  /// control which theme will be used if a [darkTheme] is provided.
+  final NeumorphicThemeData theme;
+
+  /// The [material_design.ThemeData] to use when a 'dark mode' is requested by the system.
   ///
   /// Some host platforms allow the users to select a system-wide 'dark mode',
   /// or the application may want to offer the user the ability to choose a
   /// dark theme just for this application. This is theme that will be used for
   /// such cases. [themeMode] will control which theme will be used.
   ///
-  /// This theme should have a [ThemeData.brightness] set to [Brightness.dark].
+  /// This theme should have a [material_design.ThemeData.brightness] set to [Brightness.dark].
   ///
-  /// Uses [theme] instead when null. Defaults to the value of
-  /// [ThemeData.light()] when both [darkTheme] and [theme] are null.
+  /// Uses [materialTheme] instead when null. Defaults to the value of
+  /// [ThemeData.light()] when both [materialDarkTheme] and [materialTheme] are null.
   ///
   /// See also:
   ///
@@ -286,32 +297,40 @@ class NeumorphicApp extends StatefulWidget {
   ///  * [MediaQueryData.platformBrightness], which indicates the platform's
   ///    desired brightness and is used to automatically toggle between [theme]
   ///    and [darkTheme] in [MaterialApp].
-  ///  * [ThemeData.brightness], which is typically set to the value of
+  ///  * [material_design.ThemeData.brightness], which is typically set to the value of
   ///    [MediaQueryData.platformBrightness].
-  final material_design.ThemeData darkTheme;
+  // final material_design.ThemeData materialDarkTheme;
 
-  /// Determines which theme will be used by the application if both [theme]
-  /// and [darkTheme] are provided.
+  /// The [NeumorphicThemeData] to use when a 'dark mode' is requested by the system.
+  ///
+  /// Some host platforms allow the users to select a system-wide 'dark mode',
+  /// or the application may want to offer the user the ability to choose a
+  /// dark theme just for this application. This is theme that will be used for
+  /// such cases. [themeMode] will control which theme will be used.
+  final NeumorphicThemeData darkTheme;
+
+  /// Determines which theme will be used by the application if both [materialTheme]
+  /// and [materialDarkTheme] are provided.
   ///
   /// If set to [ThemeMode.system], the choice of which theme to use will
   /// be based on the user's system preferences. If the [MediaQuery.platformBrightnessOf]
-  /// is [Brightness.light], [theme] will be used. If it is [Brightness.dark],
-  /// [darkTheme] will be used (unless it is [null], in which case [theme]
+  /// is [Brightness.light], [materialTheme] will be used. If it is [Brightness.dark],
+  /// [materialDarkTheme] will be used (unless it is [null], in which case [materialTheme]
   /// will be used.
   ///
-  /// If set to [ThemeMode.light] the [theme] will always be used,
+  /// If set to [ThemeMode.light] the [materialTheme] will always be used,
   /// regardless of the user's system preference.
   ///
-  /// If set to [ThemeMode.dark] the [darkTheme] will be used
-  /// regardless of the user's system preference. If [darkTheme] is [null]
-  /// then it will fallback to using [theme].
+  /// If set to [ThemeMode.dark] the [materialDarkTheme] will be used
+  /// regardless of the user's system preference. If [materialDarkTheme] is [null]
+  /// then it will fallback to using [materialTheme].
   ///
   /// The default value is [ThemeMode.system].
   ///
   /// See also:
   ///
-  ///   * [theme], which is used when a light mode is selected.
-  ///   * [darkTheme], which is used when a dark mode is selected.
+  ///   * [materialTheme], which is used when a light mode is selected.
+  ///   * [materialDarkTheme], which is used when a dark mode is selected.
   ///   * [ThemeData.brightness], which indicates to various parts of the
   ///     system what kind of theme is being used.
   final ThemeMode themeMode;
@@ -501,11 +520,14 @@ class _MaterialScrollBehavior extends ScrollBehavior {
 
 class _NeumorphicAppState extends State<NeumorphicApp> {
   HeroController _heroController;
-
+  material_design.ThemeData materialTheme;
+  material_design.ThemeData materialDarkTheme;
   @override
   void initState() {
     super.initState();
     _heroController = HeroController(createRectTween: _createRectTween);
+    materialTheme = widget.theme.themeData;
+    materialDarkTheme = widget.darkTheme.themeData;
     _updateNavigator();
   }
 
@@ -519,6 +541,8 @@ class _NeumorphicAppState extends State<NeumorphicApp> {
       // Navigator has a GlobalKey).
       _heroController = HeroController(createRectTween: _createRectTween);
     }
+    materialTheme = widget.theme.themeData;
+    materialDarkTheme = widget.darkTheme.themeData;
     _updateNavigator();
   }
 
@@ -571,7 +595,7 @@ class _NeumorphicAppState extends State<NeumorphicApp> {
       builder: (BuildContext context, Widget child) {
         // Use a light theme, dark theme, or fallback theme.
         final ThemeMode mode = widget.themeMode ?? ThemeMode.system;
-        material_design.ThemeData theme;
+        NeumorphicThemeData theme;
         if (widget.darkTheme != null) {
           final ui.Brightness platformBrightness =
               MediaQuery.platformBrightnessOf(context);
@@ -581,10 +605,12 @@ class _NeumorphicAppState extends State<NeumorphicApp> {
             theme = widget.darkTheme;
           }
         }
-        theme ??= widget.theme ?? material_design.ThemeData.fallback();
+        theme ??= theme ?? NeumorphicThemeData.fallback();
 
-        return material_design.AnimatedTheme(
+        return AnimatedNeumorphicTheme(
           data: theme,
+          isNeumorphicAppTheme: true,
+          // To prevent side effects
           isMaterialAppTheme: true,
           child: widget.builder != null
               ? Builder(
@@ -617,7 +643,7 @@ class _NeumorphicAppState extends State<NeumorphicApp> {
       //
       // blue is the primary color of the default theme
       color: widget.color ??
-          widget.theme?.primaryColor ??
+          materialTheme?.primaryColor ??
           material_design.Colors.blue,
       locale: widget.locale,
       localizationsDelegates: _localizationsDelegates,

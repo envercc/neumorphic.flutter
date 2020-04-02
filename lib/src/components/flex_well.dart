@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-// TODO: Don't export this, for use only with selection controls
+// Don't export this, for use only with selection controls
 class FlexWell extends StatefulWidget {
-  const FlexWell(
-      {Key key,
-      this.onTap,
-      this.text,
-      this.padding,
-      this.color,
-      this.icon,
-      this.style})
-      : super(key: key);
+  const FlexWell({
+    Key key,
+    this.onTap,
+    this.text,
+    this.padding,
+    this.color,
+    this.icon,
+    this.style,
+  }) : super(key: key);
   final void Function() onTap;
   final String text;
   final Icon icon;
@@ -22,12 +22,20 @@ class FlexWell extends StatefulWidget {
 }
 
 class _FlexWellState extends State<FlexWell> {
+  String _text;
+
+  static String _toUpperCamelcase(String text) {
+    return '${text[0].toUpperCase()}${text.substring(1).toLowerCase()}';
+  }
+
   @override
   Widget build(BuildContext context) {
     final EdgeInsetsGeometry _padding =
         widget.padding ?? EdgeInsets.fromLTRB(10, 12, 10, 12);
     Widget child;
+
     if (widget.text.toString() != null.toString()) {
+      // text is not null or a String representation of null
       child = Text(
         '${widget.text[0].toUpperCase()}${widget.text.substring(1).toLowerCase()}',
         style: widget.style ??
@@ -39,18 +47,13 @@ class _FlexWellState extends State<FlexWell> {
     } else {
       child = widget.icon;
     }
-    if (widget.color == null) {
-      child = Padding(
-        padding: _padding,
-        child: child,
-      );
-    } else {
-      child = Container(
-        padding: _padding,
-        color: widget.color,
-        child: child,
-      );
-    }
+
+    child = Container(
+      padding: _padding,
+      color: widget.color,
+      child: child,
+    );
+
     return Flexible(
       flex: 1,
       child: InkWell(

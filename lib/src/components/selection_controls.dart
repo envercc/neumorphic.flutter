@@ -11,15 +11,15 @@ import 'package:flutter/material.dart'
 
 import 'flex_well.dart';
 
-const double _kHandleSize = 22.0;
+const double _cHandleSize = 22.0;
 
 // Minimal padding from all edges of the selection toolbar to all edges of the
 // viewport.
-const double _kToolbarScreenPadding = 8.0;
-const double _kToolbarHeight = 44.0;
+const double _cToolbarScreenPadding = 8.0;
+const double _cToolbarHeight = 44.0;
 // Padding when positioning toolbar below selection.
-const double _kToolbarContentDistanceBelow = 16.0;
-const double _kToolbarContentDistance = 8.0;
+const double _cToolbarContentDistanceBelow = 16.0;
+const double _cToolbarContentDistance = 8.0;
 
 /// Manages a copy/paste text selection toolbar.
 class _TextSelectionToolbar extends StatelessWidget {
@@ -40,6 +40,7 @@ class _TextSelectionToolbar extends StatelessWidget {
   Widget build(BuildContext context) {
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
+    // TODO(predatorx7): Fix padding of elements with their position i.e first & last options should have different padding
     final List<Widget> items = <Widget>[
       if (handleCut != null)
         FlexWell(
@@ -61,7 +62,7 @@ class _TextSelectionToolbar extends StatelessWidget {
           text: localizations.selectAllButtonLabel,
           onTap: handleSelectAll,
         ),
-      // TODO: Throws Deactivated widget Error
+      // TODO(predatorx7): Solve throwing of Deactivated widget Error to implement additional options selectable text.
       // if (handleSelectAll != null)
       // PopupMenuButton<String>(
       //   onSelected: (String value) {},
@@ -90,7 +91,7 @@ class _TextSelectionToolbar extends StatelessWidget {
       borderRadius: new BorderRadius.circular(10.0),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: Container(
-        height: _kToolbarHeight,
+        height: _cToolbarHeight,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -131,15 +132,15 @@ class _TextSelectionToolbarLayout extends SingleChildLayoutDelegate {
     double x = globalPosition.dx - childSize.width / 2.0;
     double y = globalPosition.dy - childSize.height;
 
-    if (x < _kToolbarScreenPadding)
-      x = _kToolbarScreenPadding;
-    else if (x + childSize.width > screenSize.width - _kToolbarScreenPadding)
-      x = screenSize.width - childSize.width - _kToolbarScreenPadding;
+    if (x < _cToolbarScreenPadding)
+      x = _cToolbarScreenPadding;
+    else if (x + childSize.width > screenSize.width - _cToolbarScreenPadding)
+      x = screenSize.width - childSize.width - _cToolbarScreenPadding;
 
-    if (y < _kToolbarScreenPadding)
-      y = _kToolbarScreenPadding;
-    else if (y + childSize.height > screenSize.height - _kToolbarScreenPadding)
-      y = screenSize.height - childSize.height - _kToolbarScreenPadding;
+    if (y < _cToolbarScreenPadding)
+      y = _cToolbarScreenPadding;
+    else if (y + childSize.height > screenSize.height - _cToolbarScreenPadding)
+      y = screenSize.height - childSize.height - _cToolbarScreenPadding;
 
     return Offset(x, y);
   }
@@ -170,11 +171,11 @@ class _TextSelectionHandlePainter extends CustomPainter {
   }
 }
 
-class _CodeSelectionControls extends TextSelectionControls {
+class _NeuSelectionControls extends TextSelectionControls {
   /// Returns the size of the Material handle.
   @override
   Size getHandleSize(double textLineHeight) =>
-      const Size(_kHandleSize, _kHandleSize);
+      const Size(_cHandleSize, _cHandleSize);
 
   /// Builder for material-style copy/paste text selection toolbar.
   @override
@@ -193,19 +194,19 @@ class _CodeSelectionControls extends TextSelectionControls {
     // when there is not enough space above the TextField to show it.
     final TextSelectionPoint startTextSelectionPoint = endpoints[0];
     final double toolbarHeightNeeded = MediaQuery.of(context).padding.top +
-        _kToolbarScreenPadding +
-        _kToolbarHeight +
-        _kToolbarContentDistance;
+        _cToolbarScreenPadding +
+        _cToolbarHeight +
+        _cToolbarContentDistance;
     final double availableHeight =
         globalEditableRegion.top + endpoints.first.point.dy - textLineHeight;
     final bool fitsAbove = toolbarHeightNeeded <= availableHeight;
     final double y = fitsAbove
         ? startTextSelectionPoint.point.dy -
-            _kToolbarContentDistance -
+            _cToolbarContentDistance -
             textLineHeight
         : startTextSelectionPoint.point.dy +
-            _kToolbarHeight +
-            _kToolbarContentDistanceBelow;
+            _cToolbarHeight +
+            _cToolbarContentDistanceBelow;
     final Offset preciseMidpoint = Offset(position.dx, y);
 
     return ConstrainedBox(
@@ -232,8 +233,8 @@ class _CodeSelectionControls extends TextSelectionControls {
   Widget buildHandle(
       BuildContext context, TextSelectionHandleType type, double textHeight) {
     final Widget handle = SizedBox(
-      width: _kHandleSize,
-      height: _kHandleSize,
+      width: _cHandleSize,
+      height: _cHandleSize,
       child: CustomPaint(
         painter: _TextSelectionHandlePainter(
             color: Theme.of(context).textSelectionHandleColor),
@@ -268,11 +269,11 @@ class _CodeSelectionControls extends TextSelectionControls {
   Offset getHandleAnchor(TextSelectionHandleType type, double textLineHeight) {
     switch (type) {
       case TextSelectionHandleType.left:
-        return const Offset(_kHandleSize, 0);
+        return const Offset(_cHandleSize, 0);
       case TextSelectionHandleType.right:
         return Offset.zero;
       default:
-        return const Offset(_kHandleSize / 2, -4);
+        return const Offset(_cHandleSize / 2, -4);
     }
   }
 
@@ -288,5 +289,5 @@ class _CodeSelectionControls extends TextSelectionControls {
   }
 }
 
-/// Text selection controls that follow the Material Design specification.
-final TextSelectionControls codeSelectionControls = _CodeSelectionControls();
+/// Text selection controls for Neumorphic widgets.
+final TextSelectionControls neuSelectionControls = _NeuSelectionControls();

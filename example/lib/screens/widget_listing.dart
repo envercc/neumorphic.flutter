@@ -19,7 +19,7 @@ class WidgetListingScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         margin: EdgeInsets.all(16).copyWith(top: 8),
-        curveType: CurveType.emboss,
+        curveType: SurfaceType.emboss,
         child: ListView.separated(
           itemBuilder: (_, index) => ListTile(
             title: Text(items[index].title),
