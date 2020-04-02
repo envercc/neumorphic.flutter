@@ -7,7 +7,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/material.dart'
+import 'package:flutter/material.dart' as material_design
     show
         Colors,
         FloatingActionButton,
@@ -19,7 +19,7 @@ import 'package:flutter/material.dart'
         DefaultMaterialLocalizations,
         MaterialPageRoute;
 
-/// [MaterialApp] uses this [TextStyle] as its [DefaultTextStyle] to encourage
+/// [NeumorphicApp] uses this [TextStyle] as its [DefaultTextStyle] to encourage
 /// developers to be intentional about their [DefaultTextStyle].
 ///
 /// In Material Design, most [Text] widgets are contained in [Material] widgets,
@@ -37,7 +37,7 @@ const TextStyle _errorTextStyle = TextStyle(
   debugLabel: 'fallback style; consider putting your text in a Material',
 );
 
-/// Describes which theme will be used by [MaterialApp].
+/// Describes which theme will be used by [NeumorphicApp].
 enum ThemeMode {
   /// Use either the light or dark theme based on what the user has selected in
   /// the system settings.
@@ -50,14 +50,15 @@ enum ThemeMode {
   dark,
 }
 
-/// An application that uses material design.
-///
+/// An application that uses neumorphic design with material design.
+/// Requires [NeumThemeData] to work.
+/// 
 /// A convenience widget that wraps a number of widgets that are commonly
 /// required for material design applications. It builds upon a [WidgetsApp] by
 /// adding material-design specific functionality, such as [AnimatedTheme] and
 /// [GridPaper].
 ///
-/// The [MaterialApp] configures the top-level [Navigator] to search for routes
+/// The [NeumorphicApp] configures the top-level [Navigator] to search for routes
 /// in the following order:
 ///
 ///  1. For the `/` route, the [home] property, if non-null, is used.
@@ -81,13 +82,13 @@ enum ThemeMode {
 /// and [builder] is not null, then no [Navigator] is created.
 ///
 /// {@tool sample}
-/// This example shows how to create a [MaterialApp] that disables the "debug"
+/// This example shows how to create a [NeumorphicApp] that disables the "debug"
 /// banner with a [home] route that will be displayed when the app is launched.
 ///
-/// ![The MaterialApp displays a Scaffold ](https://flutter.github.io/assets-for-api-docs/assets/material/basic_material_app.png)
+/// The NeumorphicApp displays a Scaffold
 ///
 /// ```dart
-/// MaterialApp(
+/// NeumorphicApp(
 ///   home: Scaffold(
 ///     appBar: AppBar(
 ///       title: const Text('Home'),
@@ -99,11 +100,11 @@ enum ThemeMode {
 /// {@end-tool}
 ///
 /// {@tool sample}
-/// This example shows how to create a [MaterialApp] that uses the [routes]
+/// This example shows how to create a [NeumorphicApp] that uses the [routes]
 /// `Map` to define the "home" route and an "about" route.
 ///
 /// ```dart
-/// MaterialApp(
+/// NeumorphicApp(
 ///   routes: <String, WidgetBuilder>{
 ///     '/': (BuildContext context) {
 ///       return Scaffold(
@@ -125,7 +126,7 @@ enum ThemeMode {
 /// {@end-tool}
 ///
 /// {@tool sample}
-/// This example shows how to create a [MaterialApp] that defines a [theme] that
+/// This example shows how to create a [NeumorphicApp] that defines a [theme] that
 /// will be used for material widgets in the app.
 ///
 /// ![The MaterialApp displays a Scaffold with a dark background and a blue / grey AppBar at the top](https://flutter.github.io/assets-for-api-docs/assets/material/theme_material_app.png)
@@ -153,8 +154,8 @@ enum ThemeMode {
 ///  * [WidgetsApp], which defines the basic app elements but does not depend on the material library.
 ///  * The Flutter Internationalization Tutorial,
 ///    <https://flutter.dev/tutorials/internationalization/>.
-class MaterialApp extends StatefulWidget {
-  /// Creates a MaterialApp.
+class NeumorphicApp extends StatefulWidget {
+  /// Creates a NeumorphicApp.
   ///
   /// At least one of [home], [routes], [onGenerateRoute], or [builder] must be
   /// non-null. If only [routes] is given, it must include an entry for the
@@ -165,7 +166,7 @@ class MaterialApp extends StatefulWidget {
   /// This class creates an instance of [WidgetsApp].
   ///
   /// The boolean arguments, [routes], and [navigatorObservers], must not be null.
-  const MaterialApp({
+  const NeumorphicApp({
     Key key,
     this.navigatorKey,
     this.home,
@@ -265,7 +266,7 @@ class MaterialApp extends StatefulWidget {
   ///    and [darkTheme] in [MaterialApp].
   ///  * [ThemeData.brightness], which indicates the [Brightness] of a theme's
   ///    colors.
-  final ThemeData theme;
+  final material_design.ThemeData theme;
 
   /// The [ThemeData] to use when a 'dark mode' is requested by the system.
   ///
@@ -287,7 +288,7 @@ class MaterialApp extends StatefulWidget {
   ///    and [darkTheme] in [MaterialApp].
   ///  * [ThemeData.brightness], which is typically set to the value of
   ///    [MediaQueryData.platformBrightness].
-  final ThemeData darkTheme;
+  final material_design.ThemeData darkTheme;
 
   /// Determines which theme will be used by the application if both [theme]
   /// and [darkTheme] are provided.
@@ -469,13 +470,13 @@ class MaterialApp extends StatefulWidget {
   final bool debugShowMaterialGrid;
 
   @override
-  _MaterialAppState createState() => _MaterialAppState();
+  _NeumorphicAppState createState() => _NeumorphicAppState();
 }
 
 class _MaterialScrollBehavior extends ScrollBehavior {
   @override
   TargetPlatform getPlatform(BuildContext context) {
-    return Theme.of(context).platform;
+    return material_design.Theme.of(context).platform;
   }
 
   @override
@@ -491,14 +492,14 @@ class _MaterialScrollBehavior extends ScrollBehavior {
         return GlowingOverscrollIndicator(
           child: child,
           axisDirection: axisDirection,
-          color: Theme.of(context).accentColor,
+          color: material_design.Theme.of(context).accentColor,
         );
     }
     return null;
   }
 }
 
-class _MaterialAppState extends State<MaterialApp> {
+class _NeumorphicAppState extends State<NeumorphicApp> {
   HeroController _heroController;
 
   @override
@@ -537,7 +538,7 @@ class _MaterialAppState extends State<MaterialApp> {
   }
 
   RectTween _createRectTween(Rect begin, Rect end) {
-    return MaterialRectArcTween(begin: begin, end: end);
+    return material_design.MaterialRectArcTween(begin: begin, end: end);
   }
 
   // Combine the Localizations for Material with the ones contributed
@@ -548,7 +549,7 @@ class _MaterialAppState extends State<MaterialApp> {
   Iterable<LocalizationsDelegate<dynamic>> get _localizationsDelegates sync* {
     if (widget.localizationsDelegates != null)
       yield* widget.localizationsDelegates;
-    yield DefaultMaterialLocalizations.delegate;
+    yield material_design.DefaultMaterialLocalizations.delegate;
     yield DefaultCupertinoLocalizations.delegate;
   }
 
@@ -559,7 +560,7 @@ class _MaterialAppState extends State<MaterialApp> {
       navigatorKey: widget.navigatorKey,
       navigatorObservers: _navigatorObservers,
       pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) {
-        return MaterialPageRoute<T>(settings: settings, builder: builder);
+        return material_design.MaterialPageRoute<T>(settings: settings, builder: builder);
       },
       home: widget.home,
       routes: widget.routes,
@@ -569,7 +570,7 @@ class _MaterialAppState extends State<MaterialApp> {
       builder: (BuildContext context, Widget child) {
         // Use a light theme, dark theme, or fallback theme.
         final ThemeMode mode = widget.themeMode ?? ThemeMode.system;
-        ThemeData theme;
+        material_design.ThemeData theme;
         if (widget.darkTheme != null) {
           final ui.Brightness platformBrightness =
               MediaQuery.platformBrightnessOf(context);
@@ -579,9 +580,9 @@ class _MaterialAppState extends State<MaterialApp> {
             theme = widget.darkTheme;
           }
         }
-        theme ??= widget.theme ?? ThemeData.fallback();
+        theme ??= widget.theme ?? material_design.ThemeData.fallback();
 
-        return AnimatedTheme(
+        return material_design.AnimatedTheme(
           data: theme,
           isMaterialAppTheme: true,
           child: widget.builder != null
@@ -614,7 +615,7 @@ class _MaterialAppState extends State<MaterialApp> {
       // Android's switcher UI.
       //
       // blue is the primary color of the default theme
-      color: widget.color ?? widget.theme?.primaryColor ?? Colors.blue,
+      color: widget.color ?? widget.theme?.primaryColor ?? material_design.Colors.blue,
       locale: widget.locale,
       localizationsDelegates: _localizationsDelegates,
       localeResolutionCallback: widget.localeResolutionCallback,
@@ -627,8 +628,8 @@ class _MaterialAppState extends State<MaterialApp> {
       debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
       inspectorSelectButtonBuilder:
           (BuildContext context, VoidCallback onPressed) {
-        return FloatingActionButton(
-          child: const Icon(Icons.search),
+        return material_design.FloatingActionButton(
+          child: const Icon(material_design.Icons.search),
           onPressed: onPressed,
           mini: true,
         );
