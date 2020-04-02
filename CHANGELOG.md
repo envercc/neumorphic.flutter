@@ -1,4 +1,8 @@
-## 0.1.1+1
+# 0.1.2
+
+* Fixed switch background color
+
+# 0.1.1+1
 
 * Added `Getting Started` section in readme
 
