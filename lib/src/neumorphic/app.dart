@@ -52,7 +52,7 @@ enum ThemeMode {
 
 /// An application that uses neumorphic design with material design.
 /// Requires [NeumThemeData] to work.
-/// 
+///
 /// A convenience widget that wraps a number of widgets that are commonly
 /// required for material design applications. It builds upon a [WidgetsApp] by
 /// adding material-design specific functionality, such as [AnimatedTheme] and
@@ -510,7 +510,7 @@ class _NeumorphicAppState extends State<NeumorphicApp> {
   }
 
   @override
-  void didUpdateWidget(MaterialApp oldWidget) {
+  void didUpdateWidget(NeumorphicApp oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.navigatorKey != oldWidget.navigatorKey) {
       // If the Navigator changes, we have to create a new observer, because the
@@ -560,7 +560,8 @@ class _NeumorphicAppState extends State<NeumorphicApp> {
       navigatorKey: widget.navigatorKey,
       navigatorObservers: _navigatorObservers,
       pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) {
-        return material_design.MaterialPageRoute<T>(settings: settings, builder: builder);
+        return material_design.MaterialPageRoute<T>(
+            settings: settings, builder: builder);
       },
       home: widget.home,
       routes: widget.routes,
@@ -615,7 +616,9 @@ class _NeumorphicAppState extends State<NeumorphicApp> {
       // Android's switcher UI.
       //
       // blue is the primary color of the default theme
-      color: widget.color ?? widget.theme?.primaryColor ?? material_design.Colors.blue,
+      color: widget.color ??
+          widget.theme?.primaryColor ??
+          material_design.Colors.blue,
       locale: widget.locale,
       localizationsDelegates: _localizationsDelegates,
       localeResolutionCallback: widget.localeResolutionCallback,

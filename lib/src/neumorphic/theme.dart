@@ -5,10 +5,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-
-import 'material_localizations.dart';
+import 'package:flutter/material.dart'
+    show MaterialLocalizations, ScriptCategory;
 import 'theme_data.dart';
-import 'typography.dart';
 
 export 'theme_data.dart' show Brightness, ThemeData;
 
@@ -42,9 +41,9 @@ class Theme extends StatelessWidget {
     @required this.data,
     this.isMaterialAppTheme = false,
     @required this.child,
-  }) : assert(child != null),
-       assert(data != null),
-       super(key: key);
+  })  : assert(child != null),
+        assert(data != null),
+        super(key: key);
 
   /// Specifies the color and typography values for descendant widgets.
   final ThemeData data;
@@ -124,18 +123,22 @@ class Theme extends StatelessWidget {
   ///   );
   /// }
   /// ```
-  static ThemeData of(BuildContext context, { bool shadowThemeOnly = false }) {
-    final _InheritedTheme inheritedTheme = context.dependOnInheritedWidgetOfExactType<_InheritedTheme>();
+  static ThemeData of(BuildContext context, {bool shadowThemeOnly = false}) {
+    final _InheritedTheme inheritedTheme =
+        context.dependOnInheritedWidgetOfExactType<_InheritedTheme>();
     if (shadowThemeOnly) {
       if (inheritedTheme == null || inheritedTheme.theme.isMaterialAppTheme)
         return null;
       return inheritedTheme.theme.data;
     }
 
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
-    final ScriptCategory category = localizations?.scriptCategory ?? ScriptCategory.englishLike;
+    final MaterialLocalizations localizations =
+        MaterialLocalizations.of(context);
+    final ScriptCategory category =
+        localizations?.scriptCategory ?? ScriptCategory.englishLike;
     final ThemeData theme = inheritedTheme?.theme?.data ?? _kFallbackTheme;
-    return ThemeData.localize(theme, theme.typography.geometryThemeFor(category));
+    return ThemeData.localize(
+        theme, theme.typography.geometryThemeFor(category));
   }
 
   @override
@@ -160,7 +163,8 @@ class Theme extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<ThemeData>('data', data, showName: false));
+    properties
+        .add(DiagnosticsProperty<ThemeData>('data', data, showName: false));
   }
 }
 
@@ -169,15 +173,18 @@ class _InheritedTheme extends InheritedTheme {
     Key key,
     @required this.theme,
     @required Widget child,
-  }) : assert(theme != null),
-       super(key: key, child: child);
+  })  : assert(theme != null),
+        super(key: key, child: child);
 
   final Theme theme;
 
   @override
   Widget wrap(BuildContext context, Widget child) {
-    final _InheritedTheme ancestorTheme = context.findAncestorWidgetOfExactType<_InheritedTheme>();
-    return identical(this, ancestorTheme) ? child : Theme(data: theme.data, child: child);
+    final _InheritedTheme ancestorTheme =
+        context.findAncestorWidgetOfExactType<_InheritedTheme>();
+    return identical(this, ancestorTheme)
+        ? child
+        : Theme(data: theme.data, child: child);
   }
 
   @override
@@ -196,7 +203,8 @@ class ThemeDataTween extends Tween<ThemeData> {
   /// The [begin] and [end] properties must be non-null before the tween is
   /// first used, but the arguments can be null if the values are going to be
   /// filled in later.
-  ThemeDataTween({ ThemeData begin, ThemeData end }) : super(begin: begin, end: end);
+  ThemeDataTween({ThemeData begin, ThemeData end})
+      : super(begin: begin, end: end);
 
   @override
   ThemeData lerp(double t) => ThemeData.lerp(begin, end, t);
@@ -229,9 +237,9 @@ class AnimatedTheme extends ImplicitlyAnimatedWidget {
     Duration duration = kThemeAnimationDuration,
     VoidCallback onEnd,
     @required this.child,
-  }) : assert(child != null),
-       assert(data != null),
-       super(key: key, curve: curve, duration: duration, onEnd: onEnd);
+  })  : assert(child != null),
+        assert(data != null),
+        super(key: key, curve: curve, duration: duration, onEnd: onEnd);
 
   /// Specifies the color and typography values for descendant widgets.
   final ThemeData data;
@@ -254,7 +262,8 @@ class _AnimatedThemeState extends AnimatedWidgetBaseState<AnimatedTheme> {
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
     // TODO(ianh): Use constructor tear-offs when it becomes possible
-    _data = visitor(_data, widget.data, (dynamic value) => ThemeDataTween(begin: value));
+    _data = visitor(
+        _data, widget.data, (dynamic value) => ThemeDataTween(begin: value));
     assert(_data != null);
   }
 
@@ -270,6 +279,7 @@ class _AnimatedThemeState extends AnimatedWidgetBaseState<AnimatedTheme> {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder description) {
     super.debugFillProperties(description);
-    description.add(DiagnosticsProperty<ThemeDataTween>('data', _data, showName: false, defaultValue: null));
+    description.add(DiagnosticsProperty<ThemeDataTween>('data', _data,
+        showName: false, defaultValue: null));
   }
 }
