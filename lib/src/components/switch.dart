@@ -478,7 +478,7 @@ class _NeuSwitchState<T> extends State<NeuSwitch<T>>
           constrainedAxis: Axis.horizontal,
           child: NeuCard(
             bevel: 12,
-            curveType: SurfaceType.emboss,
+            curveType: CurveType.emboss,
             padding: widget.padding.resolve(Directionality.of(context)),
             decoration: NeumorphicDecoration(
               color: widget.backgroundColor,

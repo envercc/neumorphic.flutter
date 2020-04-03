@@ -18,7 +18,7 @@ class Card extends StatelessWidget {
     Key key,
     this.color,
     this.shape,
-    this.surface = SurfaceType.concave,
+    this.surface = CurveType.concave,
     this.lightSource,
     this.borderOnForeground = true,
     this.margin,
@@ -52,10 +52,10 @@ class Card extends StatelessWidget {
 
   /// The surface shape type of the card's surface.
   ///
-  /// Defines the card's [SurfaceType].
+  /// Defines the card's [CurveType].
   ///
-  /// If this property is null then [SurfaceType.concave] is used.
-  final SurfaceType surface;
+  /// If this property is null then [CurveType.concave] is used.
+  final CurveType surface;
 
   /// Point to emulate light from.
   ///
@@ -109,13 +109,12 @@ class Card extends StatelessWidget {
     // Instead of checking platform's brightness using
     // MediaQuery.of(context).platformBrightness, Theme's brightness is used
     // if material is dark
-    final bool _isDarkThemeOn =
-        Theme.of(context).brightness == Brightness.dark;
+    final bool _isDarkThemeOn = Theme.of(context).brightness == Brightness.dark;
 
     // Assigns `SurfaceShape.concave` if surface is provided null
-    final SurfaceType surface = this.surface ?? SurfaceType.concave;
+    final CurveType surface = this.surface ?? CurveType.concave;
 
-    final bool isConcave = surface != SurfaceType.convex;
+    final bool isConcave = surface != CurveType.convex;
 
     final CardTheme cardTheme = CardTheme.of(context);
     final Color mainCardColor = color ?? Theme.of(context).cardColor;

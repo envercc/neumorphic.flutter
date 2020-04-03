@@ -10,7 +10,7 @@ class Neumorphic extends StatelessWidget {
   Neumorphic({
     this.child,
     this.bevel = 12.0,
-    this.status = SurfaceType.convex,
+    this.status = CurveType.convex,
     this.color,
     NeumorphicDecoration decoration,
     this.alignment,
@@ -36,7 +36,7 @@ class Neumorphic extends StatelessWidget {
   /// Elevation relative to parent. Main constituent of Neumorphism
   final double bevel;
   final Offset blurOffset;
-  final SurfaceType status;
+  final CurveType status;
   final Color color;
 
   /// The decoration to paint behind the [child].
@@ -68,7 +68,7 @@ class Neumorphic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = decoration?.color ?? Theme.of(context).backgroundColor;
-    final isConcave = status == SurfaceType.concave;
+    final isConcave = status == CurveType.concave;
     Widget _child = AnimatedContainer(
       duration: const Duration(milliseconds: 150),
       alignment: alignment,

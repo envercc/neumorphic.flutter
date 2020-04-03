@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:neumorphic_example/check/check.dart';
 import 'package:neumorphic_example/screens/showcase.dart';
 
 // import 'screen.dart';
@@ -44,7 +45,7 @@ class NeumorphicApp extends StatelessWidget {
         ),
       ),
       home: ShowcaseScreen(),
-      // home: Neumorphism(),
+      // home: CheckPage(), // (predatorx7) Used to test user issues. 
     );
   }
 }

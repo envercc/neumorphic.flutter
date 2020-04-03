@@ -55,7 +55,7 @@ enum ThemeMode {
 /// An application that uses neumorphic design with material design.
 ///
 /// You can provide a [NeuThemeData] with
-/// [NeuThemeData.surfaceType] & [NeuThemeData.lightSource].
+/// [NeuThemeData.curveType] & [NeuThemeData.lightSource].
 ///
 /// A convenience widget that wraps a number of widgets that are commonly
 /// required for material design applications. It builds upon a [WidgetsApp] by
@@ -140,7 +140,7 @@ enum ThemeMode {
 ///   theme: NeumorphicThemeData(
 ///     brightness: Brightness.dark,
 ///     primaryColor: Colors.blueGrey
-///     surfaceType: SurfaceType.concave,
+///     curveType: curveType.concave,
 ///     lightSource: LightSource.topLeft,
 ///   ),
 ///   materialTheme: ThemeData(

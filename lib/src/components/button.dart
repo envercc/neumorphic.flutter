@@ -42,7 +42,7 @@ class _NeuButtonState extends State<NeuButton> {
         onTapCancel: _tapUp,
         onTap: widget.onPressed,
         child: NeuCard(
-          curveType: _isPressed ? SurfaceType.concave : SurfaceType.flat,
+          curveType: _isPressed ? CurveType.concave : CurveType.flat,
           padding: widget.padding,
           child: widget.child,
           alignment: Alignment.center,

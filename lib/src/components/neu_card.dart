@@ -8,7 +8,7 @@ class NeuCard extends StatelessWidget {
   NeuCard({
     this.child,
     this.bevel = 12.0,
-    this.curveType = SurfaceType.convex,
+    this.curveType = CurveType.convex,
     Color color,
     NeumorphicDecoration decoration,
     this.alignment,
@@ -30,7 +30,7 @@ class NeuCard extends StatelessWidget {
 
   /// Elevation relative to parent. Main constituent of Neumorphism
   final double bevel;
-  final SurfaceType curveType;
+  final CurveType curveType;
 
   /// The decoration to paint behind the [child].
   ///
@@ -50,7 +50,7 @@ class NeuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = decoration?.color ?? Theme.of(context).backgroundColor;
-    final emboss = curveType == SurfaceType.emboss;
+    final emboss = curveType == CurveType.emboss;
 
     Color colorValue = color;
 
@@ -86,14 +86,14 @@ class NeuCard extends StatelessWidget {
 
     Gradient gradient;
     switch (curveType) {
-      case SurfaceType.concave:
+      case CurveType.concave:
         gradient = _getConcaveGradients(colorValue, bevel);
         break;
-      case SurfaceType.convex:
+      case CurveType.convex:
         gradient = _getConvexGradients(colorValue, bevel);
         break;
-      case SurfaceType.emboss:
-      case SurfaceType.flat:
+      case CurveType.emboss:
+      case CurveType.flat:
         gradient = _getFlatGradients(colorValue, bevel);
         break;
     }
@@ -114,7 +114,11 @@ class NeuCard extends StatelessWidget {
         shape: decoration.shape,
         border: decoration.border,
       ),
-      child: child,
+      child: ClipRRect(
+        borderRadius: decoration.borderRadius,
+        clipBehavior: decoration.clipBehavior ?? Clip.antiAlias,
+        child: child,
+      ),
     );
   }
 
@@ -170,6 +174,7 @@ class NeumorphicDecoration {
   const NeumorphicDecoration({
     this.color,
     this.borderRadius,
+    this.clipBehavior,
     this.shape = BoxShape.rectangle,
     this.border,
   });
@@ -178,4 +183,5 @@ class NeumorphicDecoration {
   final BorderRadiusGeometry borderRadius;
   final BoxShape shape;
   final BoxBorder border;
+  final Clip clipBehavior;
 }

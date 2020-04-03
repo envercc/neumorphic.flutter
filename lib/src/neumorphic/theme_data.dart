@@ -129,16 +129,16 @@ const Color _kDarkThemeSplashColor = Color(0x40CCCCCC);
 class NeuThemeData extends Diagnosticable {
   /// Create a [NeuThemeData] given a set of preferred values.
   ///
-  /// Please consider providing a [LightSource] and [SurfaceType] although default
+  /// Please consider providing a [LightSource] and [CurveType] although default
   /// values will be provided.
   ///
   /// Default values will be derived for arguments that are omitted.
   ///
   /// The most useful values to give are, in order of importance:
   ///
-  ///  * The desired surface type with [surfaceType].
+  ///  * The desired surface type with [curveType].
   ///
-  ///  * [lightSource] to be simulated on [surfaceType].
+  ///  * [lightSource] to be simulated on [curveType].
   ///    (under development, not all Neumorphic widgets supports this.)
   ///
   ///  * The desired theme [brightness].
@@ -235,12 +235,12 @@ class NeuThemeData extends Diagnosticable {
     DividerThemeData dividerTheme,
     ButtonBarThemeData buttonBarTheme,
     LightSource lightSource,
-    SurfaceType surfaceType,
+    CurveType curveType,
     TextSelectionControls selectionControls,
   }) {
     selectionControls ??= neuSelectionControls;
     lightSource ??= LightSource.topLeft;
-    surfaceType ??= SurfaceType.concave;
+    curveType ??= CurveType.concave;
     brightness ??= Brightness.light;
     final bool isDark = brightness == Brightness.dark;
     primarySwatch ??= Colors.blue;
@@ -366,7 +366,7 @@ class NeuThemeData extends Diagnosticable {
     buttonBarTheme ??= const ButtonBarThemeData();
 
     return NeuThemeData.raw(
-      surfaceType: surfaceType,
+      curveType: curveType,
       lightSource: lightSource,
       brightness: brightness,
       primaryColor: primaryColor,
@@ -446,7 +446,7 @@ class NeuThemeData extends Diagnosticable {
     // operator == and in the hashValues method and in the order of fields
     // in this class, and in the lerp() method.
     @required this.selectionControls,
-    @required this.surfaceType,
+    @required this.curveType,
     @required this.lightSource,
     @required this.brightness,
     @required this.primaryColor,
@@ -510,7 +510,7 @@ class NeuThemeData extends Diagnosticable {
     @required this.bannerTheme,
     @required this.dividerTheme,
     @required this.buttonBarTheme,
-  })  : assert(surfaceType != null),
+  })  : assert(curveType != null),
         assert(lightSource != null),
         assert(brightness != null),
         assert(primaryColor != null),
@@ -615,7 +615,7 @@ class NeuThemeData extends Diagnosticable {
         isDark ? colorScheme.onSurface : colorScheme.onPrimary;
 
     return NeuThemeData(
-      surfaceType: SurfaceType.concave,
+      curveType: CurveType.concave,
       lightSource: LightSource.topLeft,
       brightness: colorScheme.brightness,
       primaryColor: primarySurfaceColor,
@@ -643,15 +643,13 @@ class NeuThemeData extends Diagnosticable {
   ///
   /// This theme does not contain text geometry. Instead, it is expected that
   /// this theme is localized using text geometry using [NeuThemeData.localize].
-  factory NeuThemeData.light() =>
-      NeuThemeData(brightness: Brightness.light);
+  factory NeuThemeData.light() => NeuThemeData(brightness: Brightness.light);
 
   /// A default dark theme with a teal accent color.
   ///
   /// This theme does not contain text geometry. Instead, it is expected that
   /// this theme is localized using text geometry using [NeuThemeData.localize].
-  factory NeuThemeData.dark() =>
-      NeuThemeData(brightness: Brightness.dark);
+  factory NeuThemeData.dark() => NeuThemeData(brightness: Brightness.dark);
 
   /// The default color theme. Same as [new NeuThemeData.light].
   ///
@@ -684,9 +682,9 @@ class NeuThemeData extends Diagnosticable {
   // TODO(predator): add
   final TextSelectionControls selectionControls;
 
-  /// The [SurfaceType] of [Neumorphic] material.
+  /// The [CurveType] of [Neumorphic] material.
   /// Can be [concave], [convex], [emboss] or [flat].
-  final SurfaceType surfaceType;
+  final CurveType curveType;
 
   /// The [LightSource] direction to be simulated on [Neumorphic] material.
   final LightSource lightSource;
@@ -1066,13 +1064,13 @@ class NeuThemeData extends Diagnosticable {
     MaterialBannerThemeData bannerTheme,
     DividerThemeData dividerTheme,
     ButtonBarThemeData buttonBarTheme,
-    SurfaceType surfaceType,
+    CurveType curveType,
     LightSource lightSource,
     TextSelectionControls selectionControls,
   }) {
     cupertinoOverrideTheme = cupertinoOverrideTheme?.noDefault();
     return NeuThemeData.raw(
-      surfaceType: surfaceType ?? this.surfaceType,
+      curveType: curveType ?? this.curveType,
       lightSource: lightSource ?? this.lightSource,
       brightness: brightness ?? this.brightness,
       primaryColor: primaryColor ?? this.primaryColor,
@@ -1221,16 +1219,14 @@ class NeuThemeData extends Diagnosticable {
 
   /// Mix with this theme with other theme.
   /// Performs Linear interpolation with this theme & ThemeData.
-  NeuThemeData mix(NeuThemeData other, double t) =>
-      lerp(this, other, t);
+  NeuThemeData mix(NeuThemeData other, double t) => lerp(this, other, t);
 
   /// Linearly interpolate between two themes.
   ///
   /// The arguments must not be null.
   ///
   /// {@macro dart.ui.shadow.lerp}
-  static NeuThemeData lerp(
-      NeuThemeData a, NeuThemeData b, double t) {
+  static NeuThemeData lerp(NeuThemeData a, NeuThemeData b, double t) {
     assert(a != null);
     assert(b != null);
     assert(t != null);
@@ -1239,7 +1235,7 @@ class NeuThemeData extends Diagnosticable {
     // the class and in the lerp() method.
     return NeuThemeData.raw(
       selectionControls: t < 0.5 ? a.selectionControls : b.selectionControls,
-      surfaceType: t < 0.5 ? a.surfaceType : b.surfaceType,
+      curveType: t < 0.5 ? a.curveType : b.curveType,
       lightSource: t < 0.5 ? a.lightSource : b.lightSource,
       brightness: t < 0.5 ? a.brightness : b.brightness,
       primaryColor: Color.lerp(a.primaryColor, b.primaryColor, t),
@@ -1409,8 +1405,7 @@ class NeuThemeData extends Diagnosticable {
   /// The arguments must not be null.
   ///
   /// {@macro dart.ui.shadow.lerp}
-  static NeuThemeData lerpWithThemeData(
-      NeuThemeData a, ThemeData b, double t) {
+  static NeuThemeData lerpWithThemeData(NeuThemeData a, ThemeData b, double t) {
     assert(a != null);
     assert(b != null);
     assert(t != null);
@@ -1419,7 +1414,7 @@ class NeuThemeData extends Diagnosticable {
     // the class and in the lerp() method.
     return NeuThemeData.raw(
       selectionControls: a.selectionControls,
-      surfaceType: a.surfaceType,
+      curveType: a.curveType,
       lightSource: a.lightSource,
       brightness: t < 0.5 ? a.brightness : b.brightness,
       primaryColor: Color.lerp(a.primaryColor, b.primaryColor, t),
@@ -1523,7 +1518,7 @@ class NeuThemeData extends Diagnosticable {
     // hashValues() and in the raw constructor and in the order of fields in
     // the class and in the lerp() method.
     return (otherData.selectionControls == selectionControls) &&
-        (otherData.surfaceType == surfaceType) &&
+        (otherData.curveType == curveType) &&
         (otherData.lightSource == lightSource) &&
         (otherData.brightness == brightness) &&
         (otherData.primaryColor == primaryColor) &&
@@ -1594,7 +1589,7 @@ class NeuThemeData extends Diagnosticable {
     // and in the order of fields in the class and in the lerp() method.
     final List<Object> values = <Object>[
       selectionControls,
-      surfaceType,
+      curveType,
       lightSource,
       brightness,
       primaryColor,

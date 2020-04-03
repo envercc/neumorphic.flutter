@@ -18,7 +18,7 @@ class SectionNeumorphic extends StatelessWidget {
                   margin: EdgeInsets.only(right: 16),
                   child: NeuCard(
                     padding: EdgeInsets.all(8),
-                    curveType: SurfaceType.concave,
+                    curveType: CurveType.concave,
                     decoration: NeumorphicDecoration(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -41,7 +41,7 @@ class SectionNeumorphic extends StatelessWidget {
                   margin: EdgeInsets.only(right: 16),
                   child: NeuCard(
                     padding: EdgeInsets.all(8),
-                    curveType: SurfaceType.flat,
+                    curveType: CurveType.flat,
                     decoration: NeumorphicDecoration(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -64,7 +64,7 @@ class SectionNeumorphic extends StatelessWidget {
                   margin: EdgeInsets.only(right: 16),
                   child: NeuCard(
                     padding: EdgeInsets.all(8),
-                    curveType: SurfaceType.convex,
+                    curveType: CurveType.convex,
                     decoration: NeumorphicDecoration(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -86,7 +86,7 @@ class SectionNeumorphic extends StatelessWidget {
                   height: 100,
                   margin: EdgeInsets.only(right: 16),
                   child: NeuCard(
-                    curveType: SurfaceType.emboss,
+                    curveType: CurveType.emboss,
                     padding: EdgeInsets.all(8),
                     decoration: NeumorphicDecoration(
                       borderRadius: BorderRadius.circular(8),
