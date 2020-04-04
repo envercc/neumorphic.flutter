@@ -9,6 +9,7 @@ export 'src/components/neu_card.dart';
 export 'src/components/selection_controls.dart';
 export 'src/components/switch.dart';
 export 'src/components/text.dart';
+export 'src/components/text_field.dart';
 export 'src/neumorphic/app.dart';
 export 'src/neumorphic/theme.dart';
 export 'src/neumorphic/theme_data.dart';
