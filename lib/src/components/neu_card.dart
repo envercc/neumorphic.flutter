@@ -98,6 +98,17 @@ class NeuCard extends StatelessWidget {
         break;
     }
 
+    Widget content = child;
+
+    if (decoration.borderRadius != null ||
+        decoration.clipBehavior != Clip.antiAlias) {
+      content = ClipRRect(
+        borderRadius: decoration.borderRadius,
+        clipBehavior: decoration.clipBehavior,
+        child: content,
+      );
+    }
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 150),
       alignment: alignment,
@@ -114,11 +125,7 @@ class NeuCard extends StatelessWidget {
         shape: decoration.shape,
         border: decoration.border,
       ),
-      child: ClipRRect(
-        borderRadius: decoration.borderRadius,
-        clipBehavior: decoration.clipBehavior ?? Clip.antiAlias,
-        child: child,
-      ),
+      child: content,
     );
   }
 
@@ -174,7 +181,7 @@ class NeumorphicDecoration {
   const NeumorphicDecoration({
     this.color,
     this.borderRadius,
-    this.clipBehavior,
+    this.clipBehavior = Clip.antiAlias,
     this.shape = BoxShape.rectangle,
     this.border,
   });

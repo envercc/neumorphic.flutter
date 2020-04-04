@@ -6,7 +6,6 @@ export 'src/components/app_bar.dart';
 export 'src/components/back_button.dart';
 export 'src/components/button.dart';
 export 'src/components/neu_card.dart';
-export 'src/components/neumorphic.dart';
 export 'src/components/selection_controls.dart';
 export 'src/components/switch.dart';
 export 'src/components/text.dart';

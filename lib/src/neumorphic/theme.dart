@@ -64,8 +64,7 @@ class NeuTheme extends StatelessWidget {
   /// {@macro flutter.widgets.child}
   final Widget child;
 
-  static final NeuThemeData _kFallbackTheme =
-      NeuThemeData.fallback();
+  static final NeuThemeData _kFallbackTheme = NeuThemeData.fallback();
 
   /// The data from the closest [NeuTheme] instance that encloses the given
   /// context.
@@ -124,8 +123,7 @@ class NeuTheme extends StatelessWidget {
   ///   );
   /// }
   /// ```
-  static NeuThemeData of(BuildContext context,
-      {bool shadowThemeOnly = false}) {
+  static NeuThemeData of(BuildContext context, {bool shadowThemeOnly = false}) {
     final _InheritedTheme inheritedTheme =
         context.dependOnInheritedWidgetOfExactType<_InheritedTheme>();
     if (shadowThemeOnly) {
@@ -138,8 +136,7 @@ class NeuTheme extends StatelessWidget {
         MaterialLocalizations.of(context);
     final ScriptCategory category =
         localizations?.scriptCategory ?? ScriptCategory.englishLike;
-    final NeuThemeData theme =
-        inheritedTheme?.theme?.data ?? _kFallbackTheme;
+    final NeuThemeData theme = inheritedTheme?.theme?.data ?? _kFallbackTheme;
     return NeuThemeData.localize(
         theme, theme.typography.geometryThemeFor(category));
   }
@@ -166,8 +163,8 @@ class NeuTheme extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<NeuThemeData>('data', data,
-        showName: false));
+    properties
+        .add(DiagnosticsProperty<NeuThemeData>('data', data, showName: false));
   }
 }
 
@@ -263,8 +260,7 @@ class AnimatedNeuTheme extends ImplicitlyAnimatedWidget {
   _AnimatedThemeState createState() => _AnimatedThemeState();
 }
 
-class _AnimatedThemeState
-    extends AnimatedWidgetBaseState<AnimatedNeuTheme> {
+class _AnimatedThemeState extends AnimatedWidgetBaseState<AnimatedNeuTheme> {
   NeumorphicThemeDataTween _data;
   ThemeDataTween _mData;
   @override

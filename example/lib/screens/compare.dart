@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:neumorphic/neumorphic.dart';
-import 'utils/size_config.dart';
+import 'package:neumorphic_example/utils/size_config.dart';
 
-class Neumorphism extends StatefulWidget {
+class CompareScreen extends StatefulWidget {
   @override
-  _NeumorphismState createState() => _NeumorphismState();
+  _CompareScreenState createState() => _CompareScreenState();
 }
 
-class _NeumorphismState extends State<Neumorphism> {
+class _CompareScreenState extends State<CompareScreen> {
   Widget sample = Padding(
     padding: const EdgeInsets.all(8.0),
     child: Text('Hello World!'),
@@ -24,15 +24,15 @@ class _NeumorphismState extends State<Neumorphism> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Neumorphic(
+                NeuCard(
                   bevel: 15,
                   child: sample,
                 ),
-                Neumorphic(
+                NeuCard(
                   bevel: 5,
                   child: sample,
                 ),
-                Neumorphic(
+                NeuCard(
                   bevel: 10,
                   child: sample,
                 ),

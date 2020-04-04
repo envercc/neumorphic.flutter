@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:neumorphic/neumorphic.dart';
 
-class CheckPage extends StatefulWidget {
+class CheckScreen extends StatefulWidget {
   @override
-  _CheckPageState createState() => _CheckPageState();
+  _CheckScreenState createState() => _CheckScreenState();
 }
 
-class _CheckPageState extends State<CheckPage> {
+class _CheckScreenState extends State<CheckScreen> {
   @override
   Widget build(BuildContext context) {
     Widget content;

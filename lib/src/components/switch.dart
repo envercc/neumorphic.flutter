@@ -148,7 +148,7 @@ class NeuSwitch<T> extends StatefulWidget {
     this.groupValue,
     this.thumbColor = _kThumbColor,
     this.padding = _kHorizontalItemPadding,
-    this.backgroundColor = CupertinoColors.tertiarySystemFill,
+    this.backgroundColor,
   })  : assert(children != null),
         assert(children.length >= 2),
         assert(padding != null),
