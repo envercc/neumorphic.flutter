@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// Neumorphic design back button
 class NeuBackButton extends StatelessWidget {
-  /// Creates an [IconButton] with the appropriate "back" icon for the current
-  /// target platform.
+  /// Creates an [IconButton] with the "back" icon. You can provide your own
+  /// Widget through [icon] parameter.
   const NeuBackButton({Key key, this.color, this.onPressed, this.icon})
       : super(key: key);
 

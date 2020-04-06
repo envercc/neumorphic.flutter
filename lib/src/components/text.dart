@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 
+/// A Text widget which uses Neumorphic design.
 class NeuText extends StatelessWidget {
+  /// Creates a Neumorphic Text widget [NeuText].
+  ///
+  /// [parentColor], [spread], [depth], [style], [emboss] are properties
+  /// of this widget which can be modified to obtain
+  /// different results.
+  ///
+  /// If the [style] argument is null, then the text will use default style.
+  ///
+  /// The [text] parameter must not be null.
   const NeuText(
     this.text, {
     this.parentColor,
@@ -10,13 +20,23 @@ class NeuText extends StatelessWidget {
     this.emboss,
   });
 
+  /// The test to be displayed
   final String text;
-  final Color parentColor;
-  final TextStyle style;
-  final double spread;
-  final int depth;
-  final bool emboss;
 
+  /// The color to put on as effect to parents
+  final Color parentColor;
+
+  /// The TextStyle to use for modifying styles of text.
+  final TextStyle style;
+
+  /// Amount of spread to apply on effects
+  final double spread;
+
+  /// The depth of colors, emboss, shadows under text
+  final int depth;
+
+  /// Parameter to control the whether to use [emboss] effect or not.
+  final bool emboss;
   @override
   Widget build(BuildContext context) {
     final int depthValue = depth == null ? 40 : depth;

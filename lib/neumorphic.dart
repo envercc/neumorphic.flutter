@@ -6,7 +6,7 @@ export 'src/components/app_bar.dart';
 export 'src/components/back_button.dart';
 export 'src/components/button.dart';
 export 'src/components/neu_card.dart';
-export 'src/components/selection_controls.dart';
+export 'src/components/selection_controls.dart' show neuSelectionControls;
 export 'src/components/switch.dart';
 export 'src/components/text.dart';
 export 'src/components/text_field.dart';

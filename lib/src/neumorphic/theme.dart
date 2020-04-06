@@ -6,13 +6,13 @@ import 'package:flutter/cupertino.dart' show CupertinoTheme;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart'
-    show MaterialLocalizations, ScriptCategory, Theme, ThemeDataTween;
+    show MaterialBasedCupertinoThemeData, MaterialLocalizations, ScriptCategory, Theme, ThemeDataTween;
 import 'theme_data.dart';
 
 export 'theme_data.dart' show Brightness, NeuThemeData;
 
-/// The duration over which theme changes animate by default.
-const Duration kThemeAnimationDuration = Duration(milliseconds: 200);
+// The duration over which theme changes animate by default.
+const Duration _kThemeAnimationDuration = Duration(milliseconds: 200);
 
 /// Applies a theme to descendant widgets.
 ///
@@ -150,7 +150,7 @@ class NeuTheme extends StatelessWidget {
         // CupertinoThemeData because it defers some properties to the Material
         // ThemeData.
         data: MaterialBasedCupertinoThemeData(
-          materialTheme: data,
+          materialTheme: data.themeData,
         ),
         child: IconTheme(
           data: data.iconTheme,
@@ -235,7 +235,7 @@ class AnimatedNeuTheme extends ImplicitlyAnimatedWidget {
     this.isNeumorphicAppTheme = false,
     this.isMaterialAppTheme = false,
     Curve curve = Curves.linear,
-    Duration duration = kThemeAnimationDuration,
+    Duration duration = _kThemeAnimationDuration,
     VoidCallback onEnd,
     @required this.child,
   })  : assert(child != null),

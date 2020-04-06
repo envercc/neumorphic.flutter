@@ -35,7 +35,7 @@ class _FlexWellState extends State<FlexWell> {
     if (widget.text.toString() != null.toString()) {
       // text is not null or a String representation of null
       child = Text(
-        '${widget.text[0].toUpperCase()}${widget.text.substring(1).toLowerCase()}',
+        '${_toUpperCamelCase(widget.text)}',
         style: widget.style ??
             TextStyle(
               fontWeight: FontWeight.w500,

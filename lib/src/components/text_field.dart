@@ -13,9 +13,7 @@ import 'package:flutter/material.dart'
         TextSelection,
         Theme,
         ThemeData,
-        iOSHorizontalOffset,
-        // fallback
-        materialTextSelectionControls;
+        iOSHorizontalOffset;
 import 'package:neumorphic/src/components/selection_controls.dart';
 import 'package:neumorphic/src/neumorphic/theme.dart';
 
@@ -24,16 +22,16 @@ export 'package:flutter/services.dart'
 
 /// Signature for the [NeuTextField.buildCounter] callback.
 typedef InputCounterWidgetBuilder = Widget Function(
-  /// The build context for the TextField
+  /// The build context for the NeuTextField
   BuildContext context, {
 
   /// The length of the string currently in the input.
   @required int currentLength,
 
-  /// The maximum string length that can be entered into the TextField.
+  /// The maximum string length that can be entered into the NeuTextField.
   @required int maxLength,
 
-  /// Whether or not the TextField is currently focused.  Mainly provided for
+  /// Whether or not the NeuTextField is currently focused.  Mainly provided for
   /// the [liveRegion] parameter in the [Semantics] widget for accessibility.
   @required bool isFocused,
 });
@@ -122,9 +120,11 @@ class _TextFieldSelectionGestureDetectorBuilder
   }
 }
 
-/// A neu text field.
+/// A neumophic text field.
 ///
-/// A text field lets the user enter text, either with hardware keyboard or with
+/// A regular text field with some tweaks & additions for flexibility.
+/// 
+/// lets the user enter text, either with hardware keyboard or with
 /// an onscreen keyboard.
 ///
 /// The text field calls the [onChanged] callback whenever the user changes the
@@ -144,24 +144,11 @@ class _TextFieldSelectionGestureDetectorBuilder
 /// property to null, the decoration will be removed entirely, including the
 /// extra padding introduced by the decoration to save space for the labels.
 ///
-/// If [decoration] is non-null (which is the default), the text field requires
-/// one of its ancestors to be a [Material] widget.
-///
-/// To integrate the [NeuTextField] into a [Form] with other [FormField] widgets,
-/// consider using [TextFormField].
-///
-/// Remember to [dispose] of the [TextEditingController] when it is no longer needed.
+/// Remember to dispose of the [TextEditingController] when it is no longer needed.
 /// This will ensure we discard any resources used by the object.
 ///
-/// {@tool sample}
-/// This example shows how to create a [NeuTextField] that will obscure input. The
-/// [InputDecoration] surrounds the field in a border using [OutlineInputBorder]
-/// and adds a label.
-///
-/// ![](https://flutter.github.io/assets-for-api-docs/assets/material/text_field.png)
-///
 /// ```dart
-/// TextField(
+/// NeuTextField(
 ///   obscureText: true,
 ///   decoration: InputDecoration(
 ///     border: OutlineInputBorder(),
@@ -169,17 +156,14 @@ class _TextFieldSelectionGestureDetectorBuilder
 ///   ),
 /// )
 /// ```
-/// {@end-tool}
 ///
 /// ## Reading values
 ///
-/// A common way to read a value from a TextField is to use the [onSubmitted]
+/// A common way to read a value from a NeuTextField is to use the [onSubmitted]
 /// callback. This callback is applied to the text field's current value when
 /// the user finishes editing.
 ///
-/// {@tool dartpad --template=stateful_widget_material}
-///
-/// This sample shows how to get a value from a TextField via the [onSubmitted]
+/// This sample shows how to get a value from a NeuTextField via the [onSubmitted]
 /// callback.
 ///
 /// ```dart
@@ -198,7 +182,7 @@ class _TextFieldSelectionGestureDetectorBuilder
 /// Widget build(BuildContext context) {
 ///   return Scaffold(
 ///     body: Center(
-///       child: TextField(
+///       child: NeuTextField(
 ///         controller: _controller,
 ///         onSubmitted: (String value) async {
 ///           await showDialog<void>(
@@ -233,7 +217,7 @@ class _TextFieldSelectionGestureDetectorBuilder
 /// require different behavior can override the default [onEditingComplete]
 /// callback.
 ///
-/// Keep in mind you can also always read the current string from a TextField's
+/// Keep in mind you can also always read the current string from a NeuTextField's
 /// [TextEditingController] using [TextEditingController.text].
 class NeuTextField extends StatefulWidget {
   /// Creates a Material Design text field.

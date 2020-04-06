@@ -290,4 +290,8 @@ class _NeuSelectionControls extends TextSelectionControls {
 }
 
 /// Text selection controls for Neumorphic widgets.
+/// Follows design of Android's Native selection controls.
+///
+/// In the future it may support extendable addtional controls &
+/// magnification of text when moving cursor by touch.
 final TextSelectionControls neuSelectionControls = _NeuSelectionControls();

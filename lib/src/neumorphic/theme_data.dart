@@ -125,12 +125,14 @@ const Color _kDarkThemeSplashColor = Color(0x40CCCCCC);
 /// )
 /// ```
 /// {@end-tool}
+// TODO(predatorx7): Change NeuThemeData to work more like MaterialBasedCupertinoThemeData to use less space
 @immutable
 class NeuThemeData extends Diagnosticable {
   /// Create a [NeuThemeData] given a set of preferred values.
   ///
-  /// Please consider providing a [LightSource] and [CurveType] although default
-  /// values will be provided.
+  /// You can access the theme using [NeuTheme.of(context)] which will be used by both
+  /// properties for both Material & Neumorphic widgets or [Theme.of(context)] which
+  /// has properties only used by Material widgets.
   ///
   /// Default values will be derived for arguments that are omitted.
   ///
@@ -1655,131 +1657,6 @@ class NeuThemeData extends Diagnosticable {
       buttonBarTheme,
     ];
     return hashList(values);
-  }
-}
-
-/// A [CupertinoThemeData] that defers unspecified theme attributes to an
-/// upstream Material [NeuThemeData].
-///
-/// This type of [CupertinoThemeData] is used by the Material [Theme] to
-/// harmonize the [CupertinoTheme] with the material theme's colors and text
-/// styles.
-///
-/// In the most basic case, [NeuThemeData]'s `cupertinoOverrideTheme` is null and
-/// and descendant Cupertino widgets' styling is derived from the Material theme.
-///
-/// To override individual parts of the Material-derived Cupertino styling,
-/// `cupertinoOverrideTheme`'s construction parameters can be used.
-///
-/// To completely decouple the Cupertino styling from Material theme derivation,
-/// another [CupertinoTheme] widget can be inserted as a descendant of the
-/// Material [Theme]. On a [MaterialApp], this can be done using the `builder`
-/// parameter on the constructor.
-///
-/// See also:
-///
-///  * [CupertinoThemeData], whose null constructor parameters default to
-///    reasonable iOS styling defaults rather than harmonizing with a Material
-///    theme.
-///  * [Theme], widget which inserts a [CupertinoTheme] with this
-///    [MaterialBasedCupertinoThemeData].
-// This class subclasses CupertinoThemeData rather than composes one because it
-// _is_ a CupertinoThemeData with partially altered behavior. e.g. its textTheme
-// is from the superclass and based on the primaryColor but the primaryColor
-// comes from the Material theme unless overridden.
-class MaterialBasedCupertinoThemeData extends CupertinoThemeData {
-  /// Create a [MaterialBasedCupertinoThemeData] based on a Material [NeuThemeData]
-  /// and its `cupertinoOverrideTheme`.
-  ///
-  /// The [materialTheme] parameter must not be null.
-  MaterialBasedCupertinoThemeData({
-    @required NeuThemeData materialTheme,
-  }) : this._(
-          materialTheme,
-          (materialTheme.cupertinoOverrideTheme ?? const CupertinoThemeData())
-              .noDefault(),
-        );
-
-  MaterialBasedCupertinoThemeData._(
-    this._materialTheme,
-    this._cupertinoOverrideTheme,
-  )   : assert(_materialTheme != null),
-        assert(_cupertinoOverrideTheme != null),
-        // Pass all values to the superclass so Material-agnostic properties
-        // like barBackgroundColor can still behave like a normal
-        // CupertinoThemeData.
-        super.raw(
-          _cupertinoOverrideTheme.brightness,
-          _cupertinoOverrideTheme.primaryColor,
-          _cupertinoOverrideTheme.primaryContrastingColor,
-          _cupertinoOverrideTheme.textTheme,
-          _cupertinoOverrideTheme.barBackgroundColor,
-          _cupertinoOverrideTheme.scaffoldBackgroundColor,
-        );
-
-  final NeuThemeData _materialTheme;
-  final CupertinoThemeData _cupertinoOverrideTheme;
-
-  @override
-  Brightness get brightness =>
-      _cupertinoOverrideTheme.brightness ?? _materialTheme.brightness;
-
-  @override
-  Color get primaryColor =>
-      _cupertinoOverrideTheme.primaryColor ??
-      _materialTheme.colorScheme.primary;
-
-  @override
-  Color get primaryContrastingColor =>
-      _cupertinoOverrideTheme.primaryContrastingColor ??
-      _materialTheme.colorScheme.onPrimary;
-
-  @override
-  Color get scaffoldBackgroundColor =>
-      _cupertinoOverrideTheme.scaffoldBackgroundColor ??
-      _materialTheme.scaffoldBackgroundColor;
-
-  /// Copies the [NeuThemeData]'s `cupertinoOverrideTheme`.
-  ///
-  /// Only the specified override attributes of the [NeuThemeData]'s
-  /// `cupertinoOverrideTheme` and the newly specified parameters are in the
-  /// returned [CupertinoThemeData]. No derived attributes from iOS defaults or
-  /// from cascaded Material theme attributes are copied.
-  ///
-  /// [MaterialBasedCupertinoThemeData.copyWith] cannot change the base
-  /// Material [NeuThemeData]. To change the base Material [NeuThemeData], create a
-  /// new Material [Theme] and use `copyWith` on the Material [NeuThemeData]
-  /// instead.
-  @override
-  MaterialBasedCupertinoThemeData copyWith({
-    Brightness brightness,
-    Color primaryColor,
-    Color primaryContrastingColor,
-    CupertinoTextThemeData textTheme,
-    Color barBackgroundColor,
-    Color scaffoldBackgroundColor,
-  }) {
-    return MaterialBasedCupertinoThemeData._(
-      _materialTheme,
-      _cupertinoOverrideTheme.copyWith(
-        brightness: brightness,
-        primaryColor: primaryColor,
-        primaryContrastingColor: primaryContrastingColor,
-        textTheme: textTheme,
-        barBackgroundColor: barBackgroundColor,
-        scaffoldBackgroundColor: scaffoldBackgroundColor,
-      ),
-    );
-  }
-
-  @override
-  CupertinoThemeData resolveFrom(BuildContext context, {bool nullOk = false}) {
-    // Only the cupertino override theme part will be resolved.
-    // If the color comes from the material theme it's not resolved.
-    return MaterialBasedCupertinoThemeData._(
-      _materialTheme,
-      _cupertinoOverrideTheme.resolveFrom(context, nullOk: nullOk),
-    );
   }
 }
 

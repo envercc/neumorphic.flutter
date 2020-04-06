@@ -26,7 +26,7 @@ import 'theme.dart';
 ///
 /// In most [Text] widgets are contained in widgets
 /// which sets a specific [DefaultTextStyle]. If you're seeing text that uses
-/// this text style, consider putting your text in a [Material] or [Neumorphic] widget (or
+/// this text style, consider putting your text in a [Material] or Neumorphic widgets (or
 /// another widget that sets a [DefaultTextStyle]).
 const TextStyle _errorTextStyle = TextStyle(
   color: Color(0xD0FF0000),
@@ -54,13 +54,12 @@ enum ThemeMode {
 
 /// An application that uses neumorphic design with material design.
 ///
-/// You can provide a [NeuThemeData] with
+/// You can provide a [NeuThemeData] with [NeuThemeData.selectionControls]
 /// [NeuThemeData.curveType] & [NeuThemeData.lightSource].
 ///
 /// A convenience widget that wraps a number of widgets that are commonly
-/// required for material design applications. It builds upon a [WidgetsApp] by
-/// adding material-design specific functionality, such as [AnimatedTheme] and
-/// [GridPaper].
+/// required for neumorphic & material design applications. It builds upon a [WidgetsApp] by
+/// adding neumorphic & material-design specific functionality.
 ///
 /// The [NeuApp] configures the top-level [Navigator] to search for routes
 /// in the following order:
@@ -130,8 +129,8 @@ enum ThemeMode {
 /// {@end-tool}
 ///
 /// {@tool sample}
-/// This example shows how to create a [NeuApp] that defines a a [theme] and/or a [materialTheme] that
-/// will be used for material widgets in the app.
+/// This example shows how to create a [NeuApp] that defines a a [theme] that
+/// will be used for neumorphic & material widgets in the app.
 ///
 /// ![The NeumorphicApp displays a Scaffold with a dark background and a blue / grey AppBar at the top](https://flutter.github.io/assets-for-api-docs/assets/material/theme_material_app.png)
 ///
@@ -154,10 +153,16 @@ enum ThemeMode {
 ///   ),
 /// )
 /// ```
+///
+/// You can access these themes as `NeuTheme.of(context)` or `Theme.of(context)`.
 /// {@end-tool}
 class NeuApp extends StatefulWidget {
   /// Creates a NeumorphicApp which utilizes [NeuThemeData].
-  /// Is compatible with [material_design].
+  ///
+  /// The NeuThemeData also provides ThemeData, so you don't have to
+  /// worry about using MaterialApp & Material designs having side-effects.
+  ///
+  /// Is compatible with [material_design] & Material widgets.
   ///
   /// At least one of [home], [routes], [onGenerateRoute], or [builder] must be
   /// non-null. If only [routes] is given, it must include an entry for the
@@ -254,11 +259,15 @@ class NeuApp extends StatefulWidget {
   /// Default visual properties, like colors fonts and shapes, for this app's
   /// material widgets.
   ///
+  /// You can access the theme using [NeuTheme.of(context)] which will be used by both
+  /// properties for both Material & Neumorphic widgets or [Theme.of(context)] which
+  /// has properties only used by Material widgets.
+  ///
   /// A second [darkTheme] [material_design.ThemeData] value, which is used to provide a dark
   /// version of the user interface can also be specified. [themeMode] will
   /// control which theme will be used if a [materialDarkTheme] is provided.
   ///
-  /// The default value of this property is the value of [ThemeData.light()].
+  /// The default value of this property is the value of [NeuThemeData.light()].
   ///
   /// See also:
   ///
@@ -279,6 +288,10 @@ class NeuApp extends StatefulWidget {
   final NeuThemeData theme;
 
   /// The [material_design.ThemeData] to use when a 'dark mode' is requested by the system.
+  ///
+  /// You can access the theme using [NeuTheme.of(context)] which will be used by both
+  /// properties for both Material & Neumorphic widgets or [Theme.of(context)] which
+  /// has properties only used by Material widgets.
   ///
   /// Some host platforms allow the users to select a system-wide 'dark mode',
   /// or the application may want to offer the user the ability to choose a
