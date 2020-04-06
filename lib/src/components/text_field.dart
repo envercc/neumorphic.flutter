@@ -123,7 +123,7 @@ class _TextFieldSelectionGestureDetectorBuilder
 /// A neumophic text field.
 ///
 /// A regular text field with some tweaks & additions for flexibility.
-/// 
+///
 /// lets the user enter text, either with hardware keyboard or with
 /// an onscreen keyboard.
 ///

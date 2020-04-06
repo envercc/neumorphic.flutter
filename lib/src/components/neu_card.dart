@@ -21,7 +21,7 @@ class NeuCard extends StatelessWidget {
     this.padding,
     this.transform,
     Key key,
-  })  : decoration = decoration ?? NeumorphicDecoration(color: color),
+  })  : decoration = decoration.copyWith(color: color),
         constraints = (width != null || height != null)
             ? constraints?.tighten(width: width, height: height) ??
                 BoxConstraints.tightFor(width: width, height: height)
@@ -193,4 +193,20 @@ class NeumorphicDecoration {
   final BoxShape shape;
   final BoxBorder border;
   final Clip clipBehavior;
+
+  /// Copy properties to this
+  NeumorphicDecoration copyWith({
+    Color color,
+    BorderRadiusGeometry borderRadius,
+    Clip clipBehavior,
+    BoxShape shape,
+    BoxBorder border,
+  }) =>
+      NeumorphicDecoration(
+        color: color ?? this.color,
+        borderRadius: borderRadius ?? this.borderRadius,
+        clipBehavior: clipBehavior ?? this.clipBehavior,
+        shape: shape ?? this.shape,
+        border: border ?? this.border,
+      );
 }

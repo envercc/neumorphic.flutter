@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'screens/showcase.dart';
+import 'check.dart';
+// import 'screens/compare.dart';
 
+// flutter run -t test/debug/debug.dart
 void main() => runApp(NeumorphicApp());
 
 Color _color = Color(0xFFf2f2f2); // Colors.grey[200]
@@ -40,7 +42,7 @@ class NeumorphicApp extends StatelessWidget {
           ),
         ),
       ),
-      home: ShowcaseScreen(),
+      home: CheckScreen(), // (predatorx7) Used to test user issues.
     );
   }
 }

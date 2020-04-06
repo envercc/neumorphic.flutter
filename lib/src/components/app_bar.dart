@@ -61,11 +61,11 @@ class NeuAppBar extends StatelessWidget implements PreferredSizeWidget {
           if (leading != null) leading,
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(16)
+              padding: EdgeInsets.all(
+                      12) // Decreased padding from 16 to 12 as padding above 14 caused the text to clip below baseline
                   .copyWith(right: (leading != null) ? cToolbarHeight : 0),
               child: DefaultTextStyle(
                 style: textTheme.headline.copyWith(
-                  /// TODO: (ISSUE) Causes part of text below baseline to not show
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                 ),

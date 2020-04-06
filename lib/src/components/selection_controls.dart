@@ -4,12 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart'
     show
+        InkRipple,
+        InkWell,
         Material,
         MaterialLocalizations,
         Theme,
         debugCheckHasMaterialLocalizations;
-
-import 'flex_well.dart';
 
 const double _cHandleSize = 22.0;
 
@@ -20,6 +20,69 @@ const double _cToolbarHeight = 44.0;
 // Padding when positioning toolbar below selection.
 const double _cToolbarContentDistanceBelow = 16.0;
 const double _cToolbarContentDistance = 8.0;
+
+// Don't document this, not for public use, for use only with selection controls
+class _FlexWell extends StatefulWidget {
+  const _FlexWell({
+    Key key,
+    this.onTap,
+    this.text,
+    this.padding,
+    this.color,
+    this.icon,
+    this.style,
+  }) : super(key: key);
+  final void Function() onTap;
+  final String text;
+  final Icon icon;
+  final EdgeInsetsGeometry padding;
+  final Color color;
+  final TextStyle style;
+  @override
+  _FlexWellState createState() => _FlexWellState();
+}
+
+class _FlexWellState extends State<_FlexWell> {
+  static String _toUpperCamelCase(String text) {
+    return '${text[0].toUpperCase()}${text.substring(1).toLowerCase()}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final EdgeInsetsGeometry _padding =
+        widget.padding ?? EdgeInsets.fromLTRB(10, 12, 10, 12);
+    Widget child;
+
+    if (widget.text.toString() != null.toString()) {
+      // text is not null or a String representation of null
+      child = Text(
+        '${_toUpperCamelCase(widget.text)}',
+        style: widget.style ??
+            TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+            ),
+      );
+    } else {
+      child = widget.icon;
+    }
+
+    child = Container(
+      padding: _padding,
+      color: widget.color,
+      child: child,
+    );
+
+    return Flexible(
+      flex: 1,
+      child: InkWell(
+        splashFactory: InkRipple.splashFactory,
+        child: child,
+        onTap: widget.onTap,
+      ),
+    );
+  }
+}
 
 /// Manages a copy/paste text selection toolbar.
 class _TextSelectionToolbar extends StatelessWidget {
@@ -43,22 +106,22 @@ class _TextSelectionToolbar extends StatelessWidget {
     // TODO(predatorx7): Fix padding of elements with their position i.e first & last options should have different padding
     final List<Widget> items = <Widget>[
       if (handleCut != null)
-        FlexWell(
+        _FlexWell(
           text: localizations.cutButtonLabel,
           onTap: handleCut,
         ),
       if (handleCopy != null)
-        FlexWell(
+        _FlexWell(
           text: localizations.copyButtonLabel,
           onTap: handleCopy,
         ),
       if (handlePaste != null)
-        FlexWell(
+        _FlexWell(
           text: localizations.pasteButtonLabel,
           onTap: handlePaste,
         ),
       if (handleSelectAll != null)
-        FlexWell(
+        _FlexWell(
           text: localizations.selectAllButtonLabel,
           onTap: handleSelectAll,
         ),
