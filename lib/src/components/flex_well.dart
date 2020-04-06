@@ -22,9 +22,7 @@ class FlexWell extends StatefulWidget {
 }
 
 class _FlexWellState extends State<FlexWell> {
-  static String _toUpperCamelCase(String text) {
-    return '${text[0].toUpperCase()}${text.substring(1).toLowerCase()}';
-  }
+  static String _toUpperCamelCase(String text) => '${text[0].toUpperCase()}${text.substring(1).toLowerCase()}';
 
   @override
   Widget build(BuildContext context) {

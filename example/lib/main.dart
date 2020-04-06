@@ -43,7 +43,7 @@ class NeumorphicApp extends StatelessWidget {
         ),
       ),
       home: ShowcaseScreen(),
-      // home: CheckScreen(), // (predatorx7) Used to test user issues. 
+      // home: CheckScreen(), // (predatorx7) Used to test user issues.
     );
   }
 }

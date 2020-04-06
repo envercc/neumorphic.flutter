@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import '../../neumorphic.dart';
 
 /// A Neumorphic design button.
-/// 
+///
 /// The Button automatically when pressed toggle the status of [CurveType]
 /// from [CurveType.concave] to [CurveType.convex] and back.
 class NeuButton extends StatefulWidget {

@@ -65,7 +65,7 @@ class NeuAppBar extends StatelessWidget implements PreferredSizeWidget {
                   .copyWith(right: (leading != null) ? cToolbarHeight : 0),
               child: DefaultTextStyle(
                 style: textTheme.headline.copyWith(
-                  /// TODO: (ISSUE) Causes part of text below baseline to not show
+                  /// TODO(noname): (ISSUE) Causes part of text below baseline to not show
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                 ),

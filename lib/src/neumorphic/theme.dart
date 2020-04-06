@@ -6,7 +6,12 @@ import 'package:flutter/cupertino.dart' show CupertinoTheme;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart'
-    show MaterialBasedCupertinoThemeData, MaterialLocalizations, ScriptCategory, Theme, ThemeDataTween;
+    show
+        MaterialBasedCupertinoThemeData,
+        MaterialLocalizations,
+        ScriptCategory,
+        Theme,
+        ThemeDataTween;
 import 'theme_data.dart';
 
 export 'theme_data.dart' show Brightness, NeuThemeData;
