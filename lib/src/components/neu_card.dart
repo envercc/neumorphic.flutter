@@ -1,15 +1,12 @@
-/// Based on the code by Ivan Cherepanov
-/// https://medium.com/flutter-community/neumorphic-designs-in-flutter-eab9a4de2059
+// Based on the code by Ivan Cherepanov
+// https://medium.com/flutter-community/neumorphic-designs-in-flutter-eab9a4de2059
 import 'package:flutter/material.dart';
 
-enum CurveType {
-  concave,
-  convex,
-  emboss,
-  flat,
-}
+import '../params.dart';
 
+/// It is container like a `Material` merged with `Container`, but implements Neumorphism.
 class NeuCard extends StatelessWidget {
+  /// Creates a Neumorphic design card
   NeuCard({
     this.child,
     this.bevel = 12.0,
@@ -33,7 +30,7 @@ class NeuCard extends StatelessWidget {
 
   final Widget child;
 
-  /// Elevation relative to parent. Main constituent of Neumorphism
+  /// Elevation relative to parent. Main constituent of Neumorphism.
   final double bevel;
   final CurveType curveType;
 
@@ -103,6 +100,17 @@ class NeuCard extends StatelessWidget {
         break;
     }
 
+    Widget content = child;
+
+    if (decoration.borderRadius != null ||
+        decoration.clipBehavior != Clip.antiAlias) {
+      content = ClipRRect(
+        borderRadius: decoration.borderRadius,
+        clipBehavior: decoration.clipBehavior,
+        child: content,
+      );
+    }
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 150),
       alignment: alignment,
@@ -119,7 +127,7 @@ class NeuCard extends StatelessWidget {
         shape: decoration.shape,
         border: decoration.border,
       ),
-      child: child,
+      child: content,
     );
   }
 
@@ -175,6 +183,7 @@ class NeumorphicDecoration {
   const NeumorphicDecoration({
     this.color,
     this.borderRadius,
+    this.clipBehavior = Clip.antiAlias,
     this.shape = BoxShape.rectangle,
     this.border,
   });
@@ -183,4 +192,5 @@ class NeumorphicDecoration {
   final BorderRadiusGeometry borderRadius;
   final BoxShape shape;
   final BoxBorder border;
+  final Clip clipBehavior;
 }

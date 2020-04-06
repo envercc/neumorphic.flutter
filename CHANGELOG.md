@@ -1,3 +1,15 @@
+# 0.2.0
+
+* Added some new widgets:
+1. NeuText
+2. NeuTextField
+3. NeuBackButton
+4. NeuAppBar
+5. NeuApp
+6. NeuTheme
+
+* Fixed [issue#3](https://github.com/neumorphic/neumorphic.flutter/issues/3)
+
 # 0.1.2
 
 * Fixed switch background color

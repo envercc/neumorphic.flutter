@@ -6,10 +6,3 @@ class NeuTorch extends InheritedWidget {
     throw UnimplementedError();
   }
 }
-
-enum LightPosition {
-  topLeft,
-  topRight,
-  bottomLeft,
-  bottomRight,
-}

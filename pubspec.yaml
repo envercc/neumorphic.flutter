@@ -1,6 +1,6 @@
 name: neumorphic
 description: Neumorphic UI. Implementation of Neumorphism user interface consisting of sets of principles and widgets for the Flutter framework
-version: 0.1.2
+version: 0.2.0
 homepage: https://github.com/neumorphic/neumorphic
 
 environment:

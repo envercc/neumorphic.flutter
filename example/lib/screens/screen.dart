@@ -2,9 +2,9 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:neumorphic_example/utils/size_config.dart';
-import 'package:neumorphic_example/utils/ui_data.dart';
 import 'package:neumorphic/neumorphic.dart';
+import '../utils/size_config.dart';
+import '../utils/ui_data.dart';
 
 /// this screen is a copy from
 /// https://github.com/Tomison-E/neuomorphic_container/blob/master/example/lib/neuomorphism.dart

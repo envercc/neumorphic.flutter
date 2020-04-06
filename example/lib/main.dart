@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:neumorphic_example/screens/showcase.dart';
-
-Color _color = Color(0xFFf2f2f2); // Colors.grey[200]
+import 'screens/showcase.dart';
+// import 'screens/check.dart';
+// import 'screens/compare.dart';
 
 void main() => runApp(NeumorphicApp());
+
+Color _color = Color(0xFFf2f2f2); // Colors.grey[200]
 
 class NeumorphicApp extends StatelessWidget {
   @override
@@ -13,8 +15,8 @@ class NeumorphicApp extends StatelessWidget {
       statusBarColor: Colors.transparent,
       statusBarBrightness: Brightness.light,
       statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: _color,
       systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: _color,
     ));
 
     return MaterialApp(
@@ -41,6 +43,7 @@ class NeumorphicApp extends StatelessWidget {
         ),
       ),
       home: ShowcaseScreen(),
+      // home: CheckScreen(), // (predatorx7) Used to test user issues. 
     );
   }
 }
