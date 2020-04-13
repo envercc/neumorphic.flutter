@@ -1,3 +1,10 @@
+# 0.3.0 
+
+* Added `decoration` option in button component
+* Removed `shape` option from button (usage `decoration` instead)
+* Fixed [issue#6](https://github.com/neumorphic/neumorphic.flutter/issues/6), [issue#8](https://github.com/neumorphic/neumorphic.flutter/issues/8)
+* Fixed `NeuApp`, `NeuTheme`
+
 # 0.2.0
 
 * Added some new widgets:

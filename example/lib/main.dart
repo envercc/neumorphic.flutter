@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:neumorphic/neumorphic.dart';
 import 'screens/showcase.dart';
 // import 'screens/check.dart';
 // import 'screens/compare.dart';
@@ -19,9 +20,9 @@ class NeumorphicApp extends StatelessWidget {
       systemNavigationBarColor: _color,
     ));
 
-    return MaterialApp(
+    return NeuApp(
       title: 'Neumorphic App',
-      theme: ThemeData(
+      theme: NeuThemeData(
         platform: TargetPlatform.iOS,
         primarySwatch: Colors.blue,
         backgroundColor: Color.lerp(_color, Colors.black, 0.005),

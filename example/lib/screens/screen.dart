@@ -233,7 +233,9 @@ class _NeumorphismState extends State<Neumorphism> {
                               color: Colors.blueGrey,
                               size: 30.0,
                             ),
-                            shape: BoxShape.circle,
+                            decoration: NeumorphicDecoration(
+                              shape: BoxShape.circle,
+                            ),
                             onPressed: () {},
                           )
                         ],

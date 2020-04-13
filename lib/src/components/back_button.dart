@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:neumorphic/neumorphic.dart';
+import 'package:neumorphic/src/components/button.dart';
 
 /// Neumorphic design back button
 class NeuBackButton extends StatelessWidget {
@@ -31,16 +33,20 @@ class NeuBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterialLocalizations(context));
-    return IconButton(
-      icon: icon ?? Icon(Icons.arrow_back_ios),
-      color: color,
-      onPressed: () {
-        if (onPressed != null) {
-          onPressed();
-        } else {
-          Navigator.maybePop(context);
-        }
-      },
+    return Padding(
+      padding: EdgeInsets.all(6).copyWith(left: 12),
+      child: NeuButton(
+        child: icon ?? Icon(Icons.arrow_back_ios),
+        padding: EdgeInsets.all(6).copyWith(left: 2),
+        decoration: NeumorphicDecoration(shape: BoxShape.circle),
+        onPressed: () {
+          if (onPressed != null) {
+            onPressed();
+          } else {
+            Navigator.maybePop(context);
+          }
+        },
+      ),
     );
   }
 }

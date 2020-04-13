@@ -17,9 +17,9 @@ import 'package:flutter/material.dart' as material_design
         MaterialRectArcTween,
         DefaultMaterialLocalizations,
         MaterialPageRoute;
-import 'package:neumorphic/src/neumorphic/theme_data.dart';
 
 import 'theme.dart';
+import 'theme_data.dart';
 
 /// [NeuApp] uses this [TextStyle] as its [DefaultTextStyle] to encourage
 /// developers to be intentional about their [DefaultTextStyle].
@@ -532,14 +532,15 @@ class _MaterialScrollBehavior extends ScrollBehavior {
 
 class _NeuAppState extends State<NeuApp> {
   HeroController _heroController;
-  material_design.ThemeData materialTheme;
-  material_design.ThemeData materialDarkTheme;
+  NeuThemeData materialTheme;
+  NeuThemeData materialDarkTheme;
+
   @override
   void initState() {
     super.initState();
     _heroController = HeroController(createRectTween: _createRectTween);
-    materialTheme = widget.theme.themeData;
-    materialDarkTheme = widget.darkTheme.themeData;
+    materialTheme = (widget.theme ?? NeuThemeData.light()).themeData;
+    materialDarkTheme = (widget.darkTheme ?? NeuThemeData.dark()).themeData;
     _updateNavigator();
   }
 
@@ -617,7 +618,7 @@ class _NeuAppState extends State<NeuApp> {
             theme = widget.darkTheme;
           }
         }
-        theme ??= theme ?? NeuThemeData.fallback();
+        theme ??= widget.theme ?? NeuThemeData.fallback();
 
         return AnimatedNeuTheme(
           data: theme,

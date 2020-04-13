@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../neumorphic.dart';
+import 'package:neumorphic/src/components/neu_card.dart';
+import 'package:neumorphic/src/params.dart';
 
 /// A Neumorphic design button.
 ///
@@ -17,7 +18,7 @@ class NeuButton extends StatefulWidget {
     @required this.onPressed,
     this.child,
     this.padding = const EdgeInsets.all(12.0),
-    this.shape = BoxShape.rectangle,
+    this.decoration,
     Key key,
   }) : super(key: key);
 
@@ -34,8 +35,13 @@ class NeuButton extends StatefulWidget {
   /// The padding insets to add around the [child]
   final EdgeInsetsGeometry padding;
 
-  /// The shape of the button. Defaults to  [BoxShape.rectangle]
-  final BoxShape shape;
+  /// The decoration to paint behind the [child].
+  ///
+  /// A shorthand for specifying just a solid color is available in the
+  /// constructor: set the `color` argument instead of the `decoration`
+  /// argument.
+  final NeumorphicDecoration decoration;
+
   @override
   _NeuButtonState createState() => _NeuButtonState();
 }
@@ -56,22 +62,22 @@ class _NeuButtonState extends State<NeuButton> {
   void _tapUp() => _toggle(false);
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTapDown: (_) => _tapDown(),
-        onTapUp: (_) => _tapUp(),
-        onTapCancel: _tapUp,
-        onTap: widget.onPressed,
-        child: NeuCard(
-          curveType: _isPressed ? CurveType.concave : CurveType.flat,
-          padding: widget.padding,
-          child: widget.child,
-          alignment: Alignment.center,
-          decoration: NeumorphicDecoration(
-            borderRadius: widget.shape == BoxShape.circle
-                ? null
-                : BorderRadius.circular(16),
-            shape: widget.shape,
-          ),
-        ),
-      );
+  Widget build(BuildContext context) {
+    final decoration = widget.decoration ??
+        NeumorphicDecoration(borderRadius: BorderRadius.circular(16));
+
+    return GestureDetector(
+      onTapDown: (_) => _tapDown(),
+      onTapUp: (_) => _tapUp(),
+      onTapCancel: _tapUp,
+      onTap: widget.onPressed,
+      child: NeuCard(
+        curveType: _isPressed ? CurveType.concave : CurveType.flat,
+        padding: widget.padding,
+        child: widget.child,
+        alignment: Alignment.center,
+        decoration: decoration,
+      ),
+    );
+  }
 }

@@ -126,8 +126,11 @@ const Color _kDarkThemeSplashColor = Color(0x40CCCCCC);
 /// ```
 /// {@end-tool}
 // TODO(predatorx7): Change NeuThemeData to work more like MaterialBasedCupertinoThemeData to use less space
+// TODO(Serge): add Diagnosticable
+// Flutter > 1.13 `with Diagnosticable`
+// FLutter <= 1.13 `extends Diagnosticable`
 @immutable
-class NeuThemeData extends Diagnosticable {
+class NeuThemeData {
   /// Create a [NeuThemeData] given a set of preferred values.
   ///
   /// You can access the theme using [NeuTheme.of(context)] which will be used by both
@@ -1236,8 +1239,8 @@ class NeuThemeData extends Diagnosticable {
     // hashValues() and in the raw constructor and in the order of fields in
     // the class and in the lerp() method.
     return NeuThemeData.raw(
-      selectionControls: t < 0.5 ? a.selectionControls : b.selectionControls,
       curveType: t < 0.5 ? a.curveType : b.curveType,
+      selectionControls: t < 0.5 ? a.selectionControls : b.selectionControls,
       lightSource: t < 0.5 ? a.lightSource : b.lightSource,
       brightness: t < 0.5 ? a.brightness : b.brightness,
       primaryColor: Color.lerp(a.primaryColor, b.primaryColor, t),
@@ -1332,7 +1335,9 @@ class NeuThemeData extends Diagnosticable {
   }
 
   /// Returns a [ThemeData] from properties & fields of this [NeuThemeData]
-  ThemeData get themeData => ThemeData.raw(
+  NeuThemeData get themeData => NeuThemeData.raw(
+        curveType: curveType,
+        lightSource: lightSource,
         brightness: brightness,
         primaryColor: primaryColor,
         primaryColorBrightness: primaryColorBrightness,

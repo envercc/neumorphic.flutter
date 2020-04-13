@@ -1,6 +1,7 @@
 // Based on the code by Ivan Cherepanov
 // https://medium.com/flutter-community/neumorphic-designs-in-flutter-eab9a4de2059
 import 'package:flutter/material.dart';
+import 'package:neumorphic/src/neumorphic/theme.dart';
 
 import '../params.dart';
 
@@ -51,7 +52,9 @@ class NeuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = decoration?.color ?? Theme.of(context).backgroundColor;
+    final color = decoration?.color ??
+        NeuTheme.of(context).backgroundColor ??
+        Theme.of(context).backgroundColor;
     final emboss = curveType == CurveType.emboss;
 
     Color colorValue = color;

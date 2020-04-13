@@ -68,7 +68,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
       appBar: NeuAppBar(
         title: Text('UI Showcase'),
       ),
-      body: content,
+      body: SafeArea(child: content),
     );
   }
 }

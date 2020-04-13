@@ -2,16 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/cupertino.dart' show CupertinoTheme;
+import 'package:flutter/cupertino.dart'
+    show CupertinoTextThemeData, CupertinoTheme, CupertinoThemeData;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart'
-    show
-        MaterialBasedCupertinoThemeData,
-        MaterialLocalizations,
-        ScriptCategory,
-        Theme,
-        ThemeDataTween;
+    show MaterialLocalizations, ScriptCategory, Theme;
 import 'theme_data.dart';
 
 export 'theme_data.dart' show Brightness, NeuThemeData;
@@ -151,10 +147,10 @@ class NeuTheme extends StatelessWidget {
     return _InheritedTheme(
       theme: this,
       child: CupertinoTheme(
-        // We're using a MaterialBasedCupertinoThemeData here instead of a
+        // We're using a NeuBasedCupertinoTheme here instead of a
         // CupertinoThemeData because it defers some properties to the Material
         // ThemeData.
-        data: MaterialBasedCupertinoThemeData(
+        data: NeuBasedCupertinoTheme(
           materialTheme: data.themeData,
         ),
         child: IconTheme(
@@ -267,22 +263,23 @@ class AnimatedNeuTheme extends ImplicitlyAnimatedWidget {
 
 class _AnimatedThemeState extends AnimatedWidgetBaseState<AnimatedNeuTheme> {
   NeumorphicThemeDataTween _data;
-  ThemeDataTween _mData;
+  NeumorphicThemeDataTween _mData;
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
     // TODO(ianh): Use constructor tear-offs when it becomes possible
     _data = visitor(_data, widget.data,
         (dynamic value) => NeumorphicThemeDataTween(begin: value));
     _mData = visitor(_mData, widget.data.themeData,
-        (dynamic value) => ThemeDataTween(begin: value));
+        (dynamic value) => NeumorphicThemeDataTween(begin: value));
     assert(_data != null);
     assert(_mData != null);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      isMaterialAppTheme: widget.isMaterialAppTheme,
+    return NeuTheme(
+      // isMaterialAppTheme: widget.isMaterialAppTheme,
+      isNeumorphicAppTheme: true,
       data: _mData.evaluate(animation),
       child: NeuTheme(
         isNeumorphicAppTheme: widget.isNeumorphicAppTheme,
@@ -297,5 +294,100 @@ class _AnimatedThemeState extends AnimatedWidgetBaseState<AnimatedNeuTheme> {
     super.debugFillProperties(description);
     description.add(DiagnosticsProperty<NeumorphicThemeDataTween>('data', _data,
         showName: false, defaultValue: null));
+  }
+}
+
+class NeuBasedCupertinoTheme extends CupertinoThemeData {
+  /// Create a [NeuBasedCupertinoTheme] based on a Material [ThemeData]
+  /// and its `cupertinoOverrideTheme`.
+  ///
+  /// The [materialTheme] parameter must not be null.
+  NeuBasedCupertinoTheme({
+    @required NeuThemeData materialTheme,
+  }) : this._(
+          materialTheme,
+          (materialTheme.cupertinoOverrideTheme ?? const CupertinoThemeData())
+              .noDefault(),
+        );
+
+  NeuBasedCupertinoTheme._(
+    this._neuThemeData,
+    this._cupertinoOverrideTheme,
+  )   : assert(_neuThemeData != null),
+        assert(_cupertinoOverrideTheme != null),
+        // Pass all values to the superclass so Material-agnostic properties
+        // like barBackgroundColor can still behave like a normal
+        // CupertinoThemeData.
+        super.raw(
+          _cupertinoOverrideTheme.brightness,
+          _cupertinoOverrideTheme.primaryColor,
+          _cupertinoOverrideTheme.primaryContrastingColor,
+          _cupertinoOverrideTheme.textTheme,
+          _cupertinoOverrideTheme.barBackgroundColor,
+          _cupertinoOverrideTheme.scaffoldBackgroundColor,
+        );
+
+  final NeuThemeData _neuThemeData;
+  final CupertinoThemeData _cupertinoOverrideTheme;
+
+  @override
+  Brightness get brightness =>
+      _cupertinoOverrideTheme.brightness ?? _neuThemeData.brightness;
+
+  @override
+  Color get primaryColor =>
+      _cupertinoOverrideTheme.primaryColor ?? _neuThemeData.colorScheme.primary;
+
+  @override
+  Color get primaryContrastingColor =>
+      _cupertinoOverrideTheme.primaryContrastingColor ??
+      _neuThemeData.colorScheme.onPrimary;
+
+  @override
+  Color get scaffoldBackgroundColor =>
+      _cupertinoOverrideTheme.scaffoldBackgroundColor ??
+      _neuThemeData.scaffoldBackgroundColor;
+
+  /// Copies the [ThemeData]'s `cupertinoOverrideTheme`.
+  ///
+  /// Only the specified override attributes of the [ThemeData]'s
+  /// `cupertinoOverrideTheme` and the newly specified parameters are in the
+  /// returned [CupertinoThemeData]. No derived attributes from iOS defaults or
+  /// from cascaded Material theme attributes are copied.
+  ///
+  /// [NeuBasedCupertinoTheme.copyWith] cannot change the base
+  /// Material [ThemeData]. To change the base Material [ThemeData], create a
+  /// new Material [Theme] and use `copyWith` on the Material [ThemeData]
+  /// instead.
+  @override
+  NeuBasedCupertinoTheme copyWith({
+    Brightness brightness,
+    Color primaryColor,
+    Color primaryContrastingColor,
+    CupertinoTextThemeData textTheme,
+    Color barBackgroundColor,
+    Color scaffoldBackgroundColor,
+  }) {
+    return NeuBasedCupertinoTheme._(
+      _neuThemeData,
+      _cupertinoOverrideTheme.copyWith(
+        brightness: brightness,
+        primaryColor: primaryColor,
+        primaryContrastingColor: primaryContrastingColor,
+        textTheme: textTheme,
+        barBackgroundColor: barBackgroundColor,
+        scaffoldBackgroundColor: scaffoldBackgroundColor,
+      ),
+    );
+  }
+
+  @override
+  CupertinoThemeData resolveFrom(BuildContext context, {bool nullOk = false}) {
+    // Only the cupertino override theme part will be resolved.
+    // If the color comes from the material theme it's not resolved.
+    return NeuBasedCupertinoTheme._(
+      _neuThemeData,
+      _cupertinoOverrideTheme.resolveFrom(context, nullOk: nullOk),
+    );
   }
 }
