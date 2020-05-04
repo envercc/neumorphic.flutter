@@ -17,7 +17,7 @@ dependencies:
 
 <!-- Below line only works in documentation-->
 
-Check out [library documentation](neumorphic/neumorphic-library.html).
+Check out [library documentation (latest stable)](https://pub.dev/documentation/neumorphic/latest/neumorphic/neumorphic-library.html).
 
 ## Api
 
