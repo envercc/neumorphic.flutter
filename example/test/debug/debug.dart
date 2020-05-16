@@ -11,18 +11,19 @@ Color _color = Color(0xFFf2f2f2); // Colors.grey[200]
 class NeumorphicApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarBrightness: Brightness.light,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: _color,
-    ));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   statusBarColor: Colors.transparent,
+    //   statusBarBrightness: Brightness.light,
+    //   statusBarIconBrightness: Brightness.dark,
+    //   systemNavigationBarIconBrightness: Brightness.dark,
+    //   systemNavigationBarColor: _color,
+    // ));
 
     return MaterialApp(
       title: 'Neumorphic App',
       theme: ThemeData(
-        platform: TargetPlatform.iOS,
+        // platform: TargetPlatform.iOS,
+        brightness: Brightness.light,
         primarySwatch: Colors.blue,
         backgroundColor: Color.lerp(_color, Colors.black, 0.005),
         scaffoldBackgroundColor: _color,
@@ -31,7 +32,7 @@ class NeumorphicApp extends StatelessWidget {
           brightness: Brightness.light,
           color: _color,
           textTheme: TextTheme(
-            title: TextStyle(
+            headline6: TextStyle(
               color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.w500,

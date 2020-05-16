@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:neumorphic_example/data/item.dart';
-import 'package:neumorphic_example/screens/widget_details.dart';
-import 'package:neumorphic_example/screens/widget_listing.dart';
 import 'package:neumorphic/neumorphic.dart';
+
+import '../data/item.dart';
+import 'widget_details.dart';
+import 'widget_listing.dart';
 
 class ShowcaseScreen extends StatefulWidget {
   @override

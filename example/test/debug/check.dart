@@ -15,26 +15,17 @@ class _CheckScreenState extends State<CheckScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        NeuCard(
-          curveType: CurveType.concave,
-          bevel: 8,
-          decoration: NeumorphicDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          child: Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            // padding: EdgeInsets.all(10),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            maxLines: 3,
           ),
         ),
-        NeuButton(
-          bevel: 10,
-          color: Colors.red[200],
-          onPressed: () {},
-          child: Text('Hello'),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: NeuTextField(
+            maxLines: 3,
+          ),
         ),
       ],
     );

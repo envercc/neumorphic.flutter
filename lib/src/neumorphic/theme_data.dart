@@ -41,7 +41,6 @@ const Color _kDarkThemeSplashColor = Color(0x40CCCCCC);
 ///   * [OutlineButton]
 ///   * [FlatButton]
 ///   * [RaisedButton]
-///   * [TimePicker]
 ///   * [SnackBar]
 ///   * [Chip]
 ///   * [RawChip]
@@ -96,7 +95,7 @@ const Color _kDarkThemeSplashColor = Color(0x40CCCCCC);
 /// This sample creates a [MaterialApp] widget that stores `ThemeData` and
 /// passes the `ThemeData` to descendant widgets. The [AppBar] widget uses the
 /// [primaryColor] to create a blue background. The [Text] widget uses the
-/// [TextTheme.body1] to create purple text. The [FloatingActionButton] widget
+/// [TextTheme.bodyText2] to create purple text. The [FloatingActionButton] widget
 /// uses the [accentColor] to create a green background.
 ///
 /// ![](https://flutter.github.io/assets-for-api-docs/assets/material/material_app_theme_data.png)
@@ -127,7 +126,7 @@ const Color _kDarkThemeSplashColor = Color(0x40CCCCCC);
 /// {@end-tool}
 // TODO(predatorx7): Change NeuThemeData to work more like MaterialBasedCupertinoThemeData to use less space
 @immutable
-class NeuThemeData extends Diagnosticable {
+class NeuThemeData with Diagnosticable {
   /// Create a [NeuThemeData] given a set of preferred values.
   ///
   /// You can access the theme using [NeuTheme.of(context)] which will be used by both
@@ -302,7 +301,7 @@ class NeuThemeData extends Diagnosticable {
         ? const IconThemeData(color: Colors.white)
         : const IconThemeData(color: Colors.black87);
     platform ??= defaultTargetPlatform;
-    typography ??= Typography(platform: platform);
+    typography ??= Typography.material2018(platform: platform);
     TextTheme defaultTextTheme = isDark ? typography.white : typography.black;
     TextTheme defaultPrimaryTextTheme =
         primaryIsDark ? typography.white : typography.black;

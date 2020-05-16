@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
-import 'package:neumorphic_example/widgets/section_button.dart';
-import 'package:neumorphic_example/widgets/section_neumorphic.dart';
-import 'package:neumorphic_example/widgets/section_switch.dart';
+
+import '../widgets/section_button.dart';
+import '../widgets/section_neumorphic.dart';
+import '../widgets/section_switch.dart';
 
 class Item {
   Item({

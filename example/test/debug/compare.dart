@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:neumorphic/neumorphic.dart';
-import 'package:neumorphic_example/utils/size_config.dart';
+
+import '../../lib/utils/size_config.dart';
 
 class CompareScreen extends StatefulWidget {
   @override

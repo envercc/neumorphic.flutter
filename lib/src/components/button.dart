@@ -18,7 +18,7 @@ class NeuButton extends StatefulWidget {
     @required this.onPressed,
     this.padding = const EdgeInsets.all(12.0),
     this.shape = BoxShape.rectangle,
-    this.bevel,
+    this.bevel = 1,
     this.color,
     this.borderRadius,
     this.child,

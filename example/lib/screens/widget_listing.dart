@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:neumorphic_example/data/item.dart';
 import 'package:neumorphic/neumorphic.dart';
+import '../data/item.dart';
 
 class WidgetListingScreen extends StatelessWidget {
   const WidgetListingScreen({
