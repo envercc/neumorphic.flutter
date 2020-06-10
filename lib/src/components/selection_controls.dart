@@ -186,6 +186,7 @@ class _NeuSelectionControls extends TextSelectionControls {
     Offset position,
     List<TextSelectionPoint> endpoints,
     TextSelectionDelegate delegate,
+    ClipboardStatusNotifier clipboardStatusNotifier,
   ) {
     assert(debugCheckHasMediaQuery(context));
     assert(debugCheckHasMaterialLocalizations(context));
@@ -219,7 +220,7 @@ class _NeuSelectionControls extends TextSelectionControls {
         ),
         child: _TextSelectionToolbar(
           handleCut: canCut(delegate) ? () => handleCut(delegate) : null,
-          handleCopy: canCopy(delegate) ? () => handleCopy(delegate) : null,
+          handleCopy: canCopy(delegate) ? () => handleCopy(delegate,clipboardStatusNotifier) : null,
           handlePaste: canPaste(delegate) ? () => handlePaste(delegate) : null,
           handleSelectAll:
               canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
