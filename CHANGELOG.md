@@ -1,3 +1,7 @@
+# 0.3.2
+
+* Fixed build
+
 # 0.3.1
 
 * Fixed [issue#12](https://github.com/neumorphic/neumorphic.flutter/issues/12)
