@@ -1,3 +1,7 @@
+# 0.3.1
+
+* Fixed [issue#12](https://github.com/neumorphic/neumorphic.flutter/issues/12)
+
 # 0.3.0 
 
 * Added `decoration` option in button component
