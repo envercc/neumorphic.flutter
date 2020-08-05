@@ -7,7 +7,6 @@ import 'dart:ui' show Color, hashList;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:neumorphic/src/components/selection_controls.dart';
 import 'package:neumorphic/src/params.dart';
 
 export 'package:flutter/services.dart' show Brightness;
@@ -243,7 +242,6 @@ class NeuThemeData {
     CurveType curveType,
     TextSelectionControls selectionControls,
   }) {
-    selectionControls ??= neuSelectionControls;
     lightSource ??= LightSource.topLeft;
     curveType ??= CurveType.concave;
     brightness ??= Brightness.light;
