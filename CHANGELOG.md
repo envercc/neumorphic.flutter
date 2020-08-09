@@ -1,3 +1,7 @@
+# 0.4.0
+
+* Flutter 1.20 capability [issue#14](https://github.com/neumorphic/neumorphic.flutter/issues/14)
+
 # 0.3.2
 
 * Fixed build
