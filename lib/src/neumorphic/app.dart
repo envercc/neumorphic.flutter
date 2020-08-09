@@ -180,6 +180,7 @@ class NeuApp extends StatefulWidget {
     this.routes = const <String, WidgetBuilder>{},
     this.initialRoute,
     this.onGenerateRoute,
+    this.onGenerateInitialRoutes,
     this.onUnknownRoute,
     this.navigatorObservers = const <NavigatorObserver>[],
     this.builder,
@@ -200,6 +201,8 @@ class NeuApp extends StatefulWidget {
     this.checkerboardOffscreenLayers = false,
     this.showSemanticsDebugger = false,
     this.debugShowCheckedModeBanner = true,
+    this.shortcuts,
+    this.actions,
   })  : assert(routes != null),
         assert(navigatorObservers != null),
         assert(title != null),
@@ -232,6 +235,9 @@ class NeuApp extends StatefulWidget {
 
   /// {@macro flutter.widgets.widgetsApp.onGenerateRoute}
   final RouteFactory onGenerateRoute;
+
+  /// {@macro flutter.widgets.widgetsApp.onGenerateInitialRoutes}
+  final InitialRouteListFactory onGenerateInitialRoutes;
 
   /// {@macro flutter.widgets.widgetsApp.onUnknownRoute}
   final RouteFactory onUnknownRoute;
@@ -490,6 +496,67 @@ class NeuApp extends StatefulWidget {
   /// {@macro flutter.widgets.widgetsApp.debugShowCheckedModeBanner}
   final bool debugShowCheckedModeBanner;
 
+  /// {@macro flutter.widgets.widgetsApp.shortcuts}
+  /// {@tool snippet}
+  /// This example shows how to add a single shortcut for
+  /// [LogicalKeyboardKey.select] to the default shortcuts without needing to
+  /// add your own [Shortcuts] widget.
+  ///
+  /// Alternatively, you could insert a [Shortcuts] widget with just the mapping
+  /// you want to add between the [WidgetsApp] and its child and get the same
+  /// effect.
+  ///
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///   return WidgetsApp(
+  ///     shortcuts: <LogicalKeySet, Intent>{
+  ///       ... WidgetsApp.defaultShortcuts,
+  ///       LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+  ///     },
+  ///     color: const Color(0xFFFF0000),
+  ///     builder: (BuildContext context, Widget child) {
+  ///       return const Placeholder();
+  ///     },
+  ///   );
+  /// }
+  /// ```
+  /// {@end-tool}
+  /// {@macro flutter.widgets.widgetsApp.shortcuts.seeAlso}
+  final Map<LogicalKeySet, Intent> shortcuts;
+
+  /// {@macro flutter.widgets.widgetsApp.actions}
+  /// {@tool snippet}
+  /// This example shows how to add a single action handling an
+  /// [ActivateAction] to the default actions without needing to
+  /// add your own [Actions] widget.
+  ///
+  /// Alternatively, you could insert a [Actions] widget with just the mapping
+  /// you want to add between the [WidgetsApp] and its child and get the same
+  /// effect.
+  ///
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///   return WidgetsApp(
+  ///     actions: <Type, Action<Intent>>{
+  ///       ... WidgetsApp.defaultActions,
+  ///       ActivateAction: CallbackAction(
+  ///         onInvoke: (Intent intent) {
+  ///           // Do something here...
+  ///           return null;
+  ///         },
+  ///       ),
+  ///     },
+  ///     color: const Color(0xFFFF0000),
+  ///     builder: (BuildContext context, Widget child) {
+  ///       return const Placeholder();
+  ///     },
+  ///   );
+  /// }
+  /// ```
+  /// {@end-tool}
+  /// {@macro flutter.widgets.widgetsApp.actions.seeAlso}
+  final Map<Type, Action<Intent>> actions;
+
   /// Turns on a [GridPaper] overlay that paints a baseline grid
   /// Material apps.
   ///
@@ -517,6 +584,9 @@ class _MaterialScrollBehavior extends ScrollBehavior {
     // the base class as well.
     switch (getPlatform(context)) {
       case TargetPlatform.iOS:
+      case TargetPlatform.linux:
+      case TargetPlatform.macOS:
+      case TargetPlatform.windows:
         return child;
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
@@ -592,90 +662,96 @@ class _NeuAppState extends State<NeuApp> {
 
   @override
   Widget build(BuildContext context) {
-    Widget result = WidgetsApp(
-      key: GlobalObjectKey(this),
-      navigatorKey: widget.navigatorKey,
-      navigatorObservers: _navigatorObservers,
-      pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) {
-        return material_design.MaterialPageRoute<T>(
-            settings: settings, builder: builder);
-      },
-      home: widget.home,
-      routes: widget.routes,
-      initialRoute: widget.initialRoute,
-      onGenerateRoute: widget.onGenerateRoute,
-      onUnknownRoute: widget.onUnknownRoute,
-      builder: (BuildContext context, Widget child) {
-        // Use a light theme, dark theme, or fallback theme.
-        final ThemeMode mode = widget.themeMode ?? ThemeMode.system;
-        NeuThemeData theme;
-        if (widget.darkTheme != null) {
-          final ui.Brightness platformBrightness =
-              MediaQuery.platformBrightnessOf(context);
-          if (mode == ThemeMode.dark ||
-              (mode == ThemeMode.system &&
-                  platformBrightness == ui.Brightness.dark)) {
-            theme = widget.darkTheme;
+    Widget result = HeroControllerScope(
+      controller: _heroController,
+      child: WidgetsApp(
+        key: GlobalObjectKey(this),
+        navigatorKey: widget.navigatorKey,
+        navigatorObservers: widget.navigatorObservers,
+        pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) {
+          return material_design.MaterialPageRoute<T>(
+              settings: settings, builder: builder);
+        },
+        home: widget.home,
+        routes: widget.routes,
+        initialRoute: widget.initialRoute,
+        onGenerateRoute: widget.onGenerateRoute,
+        onGenerateInitialRoutes: widget.onGenerateInitialRoutes,
+        onUnknownRoute: widget.onUnknownRoute,
+        builder: (BuildContext context, Widget child) {
+          // Use a light theme, dark theme, or fallback theme.
+          final ThemeMode mode = widget.themeMode ?? ThemeMode.system;
+          NeuThemeData theme;
+          if (widget.darkTheme != null) {
+            final ui.Brightness platformBrightness =
+                MediaQuery.platformBrightnessOf(context);
+            if (mode == ThemeMode.dark ||
+                (mode == ThemeMode.system &&
+                    platformBrightness == ui.Brightness.dark)) {
+              theme = widget.darkTheme;
+            }
           }
-        }
-        theme ??= widget.theme ?? NeuThemeData.fallback();
+          theme ??= widget.theme ?? NeuThemeData.fallback();
 
-        return AnimatedNeuTheme(
-          data: theme,
-          isNeumorphicAppTheme: true,
-          // To prevent side effects
-          isMaterialAppTheme: true,
-          child: widget.builder != null
-              ? Builder(
-                  builder: (BuildContext context) {
-                    // Why are we surrounding a builder with a builder?
-                    //
-                    // The widget.builder may contain code that invokes
-                    // Theme.of(), which should return the theme we selected
-                    // above in AnimatedTheme. However, if we invoke
-                    // widget.builder() directly as the child of AnimatedTheme
-                    // then there is no Context separating them, and the
-                    // widget.builder() will not find the theme. Therefore, we
-                    // surround widget.builder with yet another builder so that
-                    // a context separates them and Theme.of() correctly
-                    // resolves to the theme we passed to AnimatedTheme.
-                    return widget.builder(context, child);
-                  },
-                )
-              : child,
-        );
-      },
-      title: widget.title,
-      onGenerateTitle: widget.onGenerateTitle,
-      textStyle: _errorTextStyle,
-      // The color property is always pulled from the light theme, even if dark
-      // mode is activated. This was done to simplify the technical details
-      // of switching themes and it was deemed acceptable because this color
-      // property is only used on old Android OSes to color the app bar in
-      // Android's switcher UI.
-      //
-      // blue is the primary color of the default theme
-      color: widget.color ??
-          materialTheme?.primaryColor ??
-          material_design.Colors.blue,
-      locale: widget.locale,
-      localizationsDelegates: _localizationsDelegates,
-      localeResolutionCallback: widget.localeResolutionCallback,
-      localeListResolutionCallback: widget.localeListResolutionCallback,
-      supportedLocales: widget.supportedLocales,
-      showPerformanceOverlay: widget.showPerformanceOverlay,
-      checkerboardRasterCacheImages: widget.checkerboardRasterCacheImages,
-      checkerboardOffscreenLayers: widget.checkerboardOffscreenLayers,
-      showSemanticsDebugger: widget.showSemanticsDebugger,
-      debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
-      inspectorSelectButtonBuilder:
-          (BuildContext context, VoidCallback onPressed) {
-        return material_design.FloatingActionButton(
-          child: const Icon(material_design.Icons.search),
-          onPressed: onPressed,
-          mini: true,
-        );
-      },
+          return AnimatedNeuTheme(
+            data: theme,
+            isNeumorphicAppTheme: true,
+            // To prevent side effects
+            isMaterialAppTheme: true,
+            child: widget.builder != null
+                ? Builder(
+                    builder: (BuildContext context) {
+                      // Why are we surrounding a builder with a builder?
+                      //
+                      // The widget.builder may contain code that invokes
+                      // Theme.of(), which should return the theme we selected
+                      // above in AnimatedTheme. However, if we invoke
+                      // widget.builder() directly as the child of AnimatedTheme
+                      // then there is no Context separating them, and the
+                      // widget.builder() will not find the theme. Therefore, we
+                      // surround widget.builder with yet another builder so that
+                      // a context separates them and Theme.of() correctly
+                      // resolves to the theme we passed to AnimatedTheme.
+                      return widget.builder(context, child);
+                    },
+                  )
+                : child,
+          );
+        },
+        title: widget.title,
+        onGenerateTitle: widget.onGenerateTitle,
+        textStyle: _errorTextStyle,
+        // The color property is always pulled from the light theme, even if dark
+        // mode is activated. This was done to simplify the technical details
+        // of switching themes and it was deemed acceptable because this color
+        // property is only used on old Android OSes to color the app bar in
+        // Android's switcher UI.
+        //
+        // blue is the primary color of the default theme
+        color: widget.color ??
+            widget.theme?.primaryColor ??
+            material_design.Colors.blue,
+        locale: widget.locale,
+        localizationsDelegates: _localizationsDelegates,
+        localeResolutionCallback: widget.localeResolutionCallback,
+        localeListResolutionCallback: widget.localeListResolutionCallback,
+        supportedLocales: widget.supportedLocales,
+        showPerformanceOverlay: widget.showPerformanceOverlay,
+        checkerboardRasterCacheImages: widget.checkerboardRasterCacheImages,
+        checkerboardOffscreenLayers: widget.checkerboardOffscreenLayers,
+        showSemanticsDebugger: widget.showSemanticsDebugger,
+        debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
+        inspectorSelectButtonBuilder:
+            (BuildContext context, VoidCallback onPressed) {
+          return material_design.FloatingActionButton(
+            child: const Icon(material_design.Icons.search),
+            onPressed: onPressed,
+            mini: true,
+          );
+        },
+        shortcuts: widget.shortcuts,
+        actions: widget.actions,
+      ),
     );
 
     assert(() {

@@ -32,7 +32,7 @@ class NeumorphicApp extends StatelessWidget {
           brightness: Brightness.light,
           color: _color,
           textTheme: TextTheme(
-            title: TextStyle(
+            headline6: TextStyle(
               color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.w500,

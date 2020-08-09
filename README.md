@@ -32,10 +32,6 @@ Now implemented some widgets:
 - NeuAppBar
 - NeuApp
 
-Selection controller
-
-- neuSelectionControls
-
 ### NeuCard
 
 It is container like a `Material` merged with `Container`, but implements Neumorphism
@@ -118,13 +114,6 @@ NeuTextField(
   ),
 )
 ```
-
-#### neuSelectionControls
-
-- This Selection controls resembles more to android's native text selection tool.
-  Support for additional options will be added in future.
-
-- NeuTextField's selection controls already defaults to this neuSelectionControls.
 
 ### NeuBackButton
 
