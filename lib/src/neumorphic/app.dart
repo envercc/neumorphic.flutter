@@ -624,8 +624,8 @@ class _NeuAppState extends State<NeuApp> {
       // Navigator has a GlobalKey).
       _heroController = HeroController(createRectTween: _createRectTween);
     }
-    materialTheme = widget.theme.themeData;
-    materialDarkTheme = widget.darkTheme.themeData;
+    materialTheme = (widget.theme ?? NeuThemeData.light()).themeData;
+    materialDarkTheme = (widget.darkTheme ?? NeuThemeData.dark()).themeData;
     _updateNavigator();
   }
 
