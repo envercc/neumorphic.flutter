@@ -12,16 +12,16 @@ class NeuCard extends StatelessWidget {
     this.child,
     this.bevel = 12.0,
     this.curveType = CurveType.convex,
-    Color color,
-    NeumorphicDecoration decoration,
+    Color? color,
+    NeumorphicDecoration? decoration,
     this.alignment,
     this.width,
     this.height,
-    BoxConstraints constraints,
+    BoxConstraints? constraints,
     this.margin,
     this.padding,
     this.transform,
-    Key key,
+    Key? key,
   })  : decoration = decoration ?? NeumorphicDecoration(color: color),
         constraints = (width != null || height != null)
             ? constraints?.tighten(width: width, height: height) ??
@@ -29,7 +29,7 @@ class NeuCard extends StatelessWidget {
             : constraints,
         super(key: key);
 
-  final Widget child;
+  final Widget? child;
 
   /// Elevation relative to parent. Main constituent of Neumorphism.
   final double bevel;
@@ -42,18 +42,18 @@ class NeuCard extends StatelessWidget {
   /// argument.
   final NeumorphicDecoration decoration;
 
-  final AlignmentGeometry alignment;
-  final double width;
-  final double height;
-  final BoxConstraints constraints;
-  final EdgeInsetsGeometry margin;
-  final EdgeInsets padding;
-  final Matrix4 transform;
+  final AlignmentGeometry? alignment;
+  final double? width;
+  final double? height;
+  final BoxConstraints? constraints;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsets? padding;
+  final Matrix4? transform;
 
   @override
   Widget build(BuildContext context) {
-    final color = decoration?.color ??
-        NeuTheme.of(context).backgroundColor ??
+    final color = decoration.color ??
+        NeuTheme.of(context)?.backgroundColor ??
         Theme.of(context).backgroundColor;
     final emboss = curveType == CurveType.emboss;
 
@@ -89,7 +89,7 @@ class NeuCard extends StatelessWidget {
       colorValue = _getAdjustColor(colorValue, 0 - bevel / 2);
     }
 
-    Gradient gradient;
+    Gradient? gradient;
     switch (curveType) {
       case CurveType.concave:
         gradient = _getConcaveGradients(colorValue, bevel);
@@ -103,12 +103,12 @@ class NeuCard extends StatelessWidget {
         break;
     }
 
-    Widget content = child;
+    Widget? content = child;
 
     if (decoration.borderRadius != null ||
         decoration.clipBehavior != Clip.antiAlias) {
       content = ClipRRect(
-        borderRadius: decoration.borderRadius,
+        borderRadius: decoration.borderRadius as BorderRadius?,
         clipBehavior: decoration.clipBehavior,
         child: content,
       );
@@ -150,7 +150,7 @@ class NeuCard extends StatelessWidget {
       }
       return MapEntry(key, (value + amount).floor());
     });
-    return Color.fromRGBO(colors['r'], colors['g'], colors['b'], 1);
+    return Color.fromRGBO(colors['r']!, colors['g']!, colors['b']!, 1);
   }
 
   Gradient _getFlatGradients(Color baseColor, double depth) => LinearGradient(
@@ -191,9 +191,9 @@ class NeumorphicDecoration {
     this.border,
   });
 
-  final Color color;
-  final BorderRadiusGeometry borderRadius;
+  final Color? color;
+  final BorderRadiusGeometry? borderRadius;
   final BoxShape shape;
-  final BoxBorder border;
+  final BoxBorder? border;
   final Clip clipBehavior;
 }

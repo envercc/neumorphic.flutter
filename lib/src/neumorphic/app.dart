@@ -174,7 +174,7 @@ class NeuApp extends StatefulWidget {
   ///
   /// The boolean arguments, [routes], and [navigatorObservers], must not be null.
   const NeuApp({
-    Key key,
+    Key? key,
     this.navigatorKey,
     this.home,
     this.routes = const <String, WidgetBuilder>{},
@@ -215,10 +215,10 @@ class NeuApp extends StatefulWidget {
         super(key: key);
 
   /// {@macro flutter.widgets.widgetsApp.navigatorKey}
-  final GlobalKey<NavigatorState> navigatorKey;
+  final GlobalKey<NavigatorState>? navigatorKey;
 
   /// {@macro flutter.widgets.widgetsApp.home}
-  final Widget home;
+  final Widget? home;
 
   /// The application's top-level routing table.
   ///
@@ -231,16 +231,16 @@ class NeuApp extends StatefulWidget {
   final Map<String, WidgetBuilder> routes;
 
   /// {@macro flutter.widgets.widgetsApp.initialRoute}
-  final String initialRoute;
+  final String? initialRoute;
 
   /// {@macro flutter.widgets.widgetsApp.onGenerateRoute}
-  final RouteFactory onGenerateRoute;
+  final RouteFactory? onGenerateRoute;
 
   /// {@macro flutter.widgets.widgetsApp.onGenerateInitialRoutes}
-  final InitialRouteListFactory onGenerateInitialRoutes;
+  final InitialRouteListFactory? onGenerateInitialRoutes;
 
   /// {@macro flutter.widgets.widgetsApp.onUnknownRoute}
-  final RouteFactory onUnknownRoute;
+  final RouteFactory? onUnknownRoute;
 
   /// {@macro flutter.widgets.widgetsApp.navigatorObservers}
   final List<NavigatorObserver> navigatorObservers;
@@ -250,7 +250,7 @@ class NeuApp extends StatefulWidget {
   /// Material specific features such as [showDialog] and [showMenu], and widgets
   /// such as [Tooltip], [PopupMenuButton], also require a [Navigator] to properly
   /// function.
-  final TransitionBuilder builder;
+  final TransitionBuilder? builder;
 
   /// {@macro flutter.widgets.widgetsApp.title}
   ///
@@ -260,7 +260,7 @@ class NeuApp extends StatefulWidget {
   /// {@macro flutter.widgets.widgetsApp.onGenerateTitle}
   ///
   /// This value is passed unmodified to [WidgetsApp.onGenerateTitle].
-  final GenerateAppTitle onGenerateTitle;
+  final GenerateAppTitle? onGenerateTitle;
 
   /// Default visual properties, like colors fonts and shapes, for this app's
   /// material widgets.
@@ -291,7 +291,7 @@ class NeuApp extends StatefulWidget {
   /// A second [darkTheme] [NeuThemeData] value, which is used to provide a dark
   /// version of the user interface can also be specified. [themeMode] will
   /// control which theme will be used if a [darkTheme] is provided.
-  final NeuThemeData theme;
+  final NeuThemeData? theme;
 
   /// The [material_design.ThemeData] to use when a 'dark mode' is requested by the system.
   ///
@@ -325,7 +325,7 @@ class NeuApp extends StatefulWidget {
   /// or the application may want to offer the user the ability to choose a
   /// dark theme just for this application. This is theme that will be used for
   /// such cases. [themeMode] will control which theme will be used.
-  final NeuThemeData darkTheme;
+  final NeuThemeData? darkTheme;
 
   /// Determines which theme will be used by the application if both [materialTheme]
   /// and [materialDarkTheme] are provided.
@@ -354,10 +354,10 @@ class NeuApp extends StatefulWidget {
   final ThemeMode themeMode;
 
   /// {@macro flutter.widgets.widgetsApp.color}
-  final Color color;
+  final Color? color;
 
   /// {@macro flutter.widgets.widgetsApp.locale}
-  final Locale locale;
+  final Locale? locale;
 
   /// {@macro flutter.widgets.widgetsApp.localizationsDelegates}
   ///
@@ -450,17 +450,17 @@ class NeuApp extends StatefulWidget {
   ///    which provides material localizations for many languages.
   ///  * The Flutter Internationalization Tutorial,
   ///    <https://flutter.dev/tutorials/internationalization/>.
-  final Iterable<LocalizationsDelegate<dynamic>> localizationsDelegates;
+  final Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates;
 
   /// {@macro flutter.widgets.widgetsApp.localeListResolutionCallback}
   ///
   /// This callback is passed along to the [WidgetsApp] built by this widget.
-  final LocaleListResolutionCallback localeListResolutionCallback;
+  final LocaleListResolutionCallback? localeListResolutionCallback;
 
   /// {@macro flutter.widgets.widgetsApp.localeResolutionCallback}
   ///
   /// This callback is passed along to the [WidgetsApp] built by this widget.
-  final LocaleResolutionCallback localeResolutionCallback;
+  final LocaleResolutionCallback? localeResolutionCallback;
 
   /// {@macro flutter.widgets.widgetsApp.supportedLocales}
   ///
@@ -522,7 +522,7 @@ class NeuApp extends StatefulWidget {
   /// ```
   /// {@end-tool}
   /// {@macro flutter.widgets.widgetsApp.shortcuts.seeAlso}
-  final Map<LogicalKeySet, Intent> shortcuts;
+  final Map<LogicalKeySet, Intent>? shortcuts;
 
   /// {@macro flutter.widgets.widgetsApp.actions}
   /// {@tool snippet}
@@ -555,7 +555,7 @@ class NeuApp extends StatefulWidget {
   /// ```
   /// {@end-tool}
   /// {@macro flutter.widgets.widgetsApp.actions.seeAlso}
-  final Map<Type, Action<Intent>> actions;
+  final Map<Type, Action<Intent>>? actions;
 
   /// Turns on a [GridPaper] overlay that paints a baseline grid
   /// Material apps.
@@ -596,14 +596,13 @@ class _MaterialScrollBehavior extends ScrollBehavior {
           color: material_design.Theme.of(context).accentColor,
         );
     }
-    return null;
   }
 }
 
 class _NeuAppState extends State<NeuApp> {
-  HeroController _heroController;
-  NeuThemeData materialTheme;
-  NeuThemeData materialDarkTheme;
+  HeroController? _heroController;
+  NeuThemeData? materialTheme;
+  NeuThemeData? materialDarkTheme;
 
   @override
   void initState() {
@@ -629,7 +628,7 @@ class _NeuAppState extends State<NeuApp> {
     _updateNavigator();
   }
 
-  List<NavigatorObserver> _navigatorObservers;
+  List<NavigatorObserver?>? _navigatorObservers;
 
   void _updateNavigator() {
     if (widget.home != null ||
@@ -637,14 +636,14 @@ class _NeuAppState extends State<NeuApp> {
         widget.onGenerateRoute != null ||
         widget.onUnknownRoute != null) {
       _navigatorObservers =
-          List<NavigatorObserver>.from(widget.navigatorObservers)
+          List<NavigatorObserver?>.from(widget.navigatorObservers)
             ..add(_heroController);
     } else {
       _navigatorObservers = const <NavigatorObserver>[];
     }
   }
 
-  RectTween _createRectTween(Rect begin, Rect end) {
+  RectTween _createRectTween(Rect? begin, Rect? end) {
     return material_design.MaterialRectArcTween(begin: begin, end: end);
   }
 
@@ -655,7 +654,7 @@ class _NeuAppState extends State<NeuApp> {
   // _MaterialLocalizationsDelegate.
   Iterable<LocalizationsDelegate<dynamic>> get _localizationsDelegates sync* {
     if (widget.localizationsDelegates != null)
-      yield* widget.localizationsDelegates;
+      yield* widget.localizationsDelegates!;
     yield material_design.DefaultMaterialLocalizations.delegate;
     yield DefaultCupertinoLocalizations.delegate;
   }
@@ -663,7 +662,7 @@ class _NeuAppState extends State<NeuApp> {
   @override
   Widget build(BuildContext context) {
     Widget result = HeroControllerScope(
-      controller: _heroController,
+      controller: _heroController!,
       child: WidgetsApp(
         key: GlobalObjectKey(this),
         navigatorKey: widget.navigatorKey,
@@ -678,10 +677,10 @@ class _NeuAppState extends State<NeuApp> {
         onGenerateRoute: widget.onGenerateRoute,
         onGenerateInitialRoutes: widget.onGenerateInitialRoutes,
         onUnknownRoute: widget.onUnknownRoute,
-        builder: (BuildContext context, Widget child) {
+        builder: (BuildContext context, Widget? child) {
           // Use a light theme, dark theme, or fallback theme.
-          final ThemeMode mode = widget.themeMode ?? ThemeMode.system;
-          NeuThemeData theme;
+          final ThemeMode mode = widget.themeMode;
+          NeuThemeData? theme;
           if (widget.darkTheme != null) {
             final ui.Brightness platformBrightness =
                 MediaQuery.platformBrightnessOf(context);
@@ -712,10 +711,10 @@ class _NeuAppState extends State<NeuApp> {
                       // surround widget.builder with yet another builder so that
                       // a context separates them and Theme.of() correctly
                       // resolves to the theme we passed to AnimatedTheme.
-                      return widget.builder(context, child);
+                      return widget.builder!(context, child);
                     },
                   )
-                : child,
+                : child!,
           );
         },
         title: widget.title,

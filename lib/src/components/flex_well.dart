@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // Don't export this, for use only with selection controls
 class FlexWell extends StatefulWidget {
   const FlexWell({
-    Key key,
+    Key? key,
     this.onTap,
     this.text,
     this.padding,
@@ -11,12 +11,12 @@ class FlexWell extends StatefulWidget {
     this.icon,
     this.style,
   }) : super(key: key);
-  final void Function() onTap;
-  final String text;
-  final Icon icon;
-  final EdgeInsetsGeometry padding;
-  final Color color;
-  final TextStyle style;
+  final void Function()? onTap;
+  final String? text;
+  final Icon? icon;
+  final EdgeInsetsGeometry? padding;
+  final Color? color;
+  final TextStyle? style;
   @override
   _FlexWellState createState() => _FlexWellState();
 }
@@ -28,12 +28,12 @@ class _FlexWellState extends State<FlexWell> {
   Widget build(BuildContext context) {
     final EdgeInsetsGeometry _padding =
         widget.padding ?? EdgeInsets.fromLTRB(10, 12, 10, 12);
-    Widget child;
+    Widget? child;
 
     if (widget.text.toString() != null.toString()) {
       // text is not null or a String representation of null
       child = Text(
-        '${_toUpperCamelCase(widget.text)}',
+        '${_toUpperCamelCase(widget.text!)}',
         style: widget.style ??
             TextStyle(
               fontWeight: FontWeight.w500,

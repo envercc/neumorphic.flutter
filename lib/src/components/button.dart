@@ -15,15 +15,15 @@ class NeuButton extends StatefulWidget {
   ///
   /// If the [onPressed] is null than the button will be rendered as disabled.
   const NeuButton({
-    @required this.onPressed,
+    required this.onPressed,
     this.child,
     this.padding = const EdgeInsets.all(12.0),
     this.decoration,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   /// The widget to be shown on the button, usually a [Text] widget or an [Icon]
-  final Widget child;
+  final Widget? child;
 
   /// An override callback to perform when the button is pressed.
   ///
@@ -40,7 +40,7 @@ class NeuButton extends StatefulWidget {
   /// A shorthand for specifying just a solid color is available in the
   /// constructor: set the `color` argument instead of the `decoration`
   /// argument.
-  final NeumorphicDecoration decoration;
+  final NeumorphicDecoration? decoration;
 
   @override
   _NeuButtonState createState() => _NeuButtonState();
@@ -73,7 +73,7 @@ class _NeuButtonState extends State<NeuButton> {
       onTap: widget.onPressed,
       child: NeuCard(
         curveType: _isPressed ? CurveType.concave : CurveType.flat,
-        padding: widget.padding,
+        padding: widget.padding as EdgeInsets?,
         child: widget.child,
         alignment: Alignment.center,
         decoration: decoration,

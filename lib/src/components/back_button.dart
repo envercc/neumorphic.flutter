@@ -6,7 +6,7 @@ import 'package:neumorphic/src/components/button.dart';
 class NeuBackButton extends StatelessWidget {
   /// Creates an [IconButton] with the "back" icon. You can provide your own
   /// Widget through [icon] parameter.
-  const NeuBackButton({Key key, this.color, this.onPressed, this.icon})
+  const NeuBackButton({Key? key, this.color, this.onPressed, this.icon})
       : super(key: key);
 
   /// The color to use for the icon.
@@ -14,7 +14,7 @@ class NeuBackButton extends StatelessWidget {
   /// Defaults to the [IconThemeData.color]
   /// specified in the ambient [IconTheme],
   /// which usually matches the ambient [Theme]'s [ThemeData.iconTheme].
-  final Color color;
+  final Color? color;
 
   /// An override callback to perform instead of the default behavior which is
   /// to pop the [Navigator].
@@ -24,11 +24,11 @@ class NeuBackButton extends StatelessWidget {
   /// situations.
   ///
   /// Defaults to null.
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   /// The Widget to be used as [icon] in place of "back" icon for the current
   /// target platform. Usually an [Icon] widget.
-  final Widget icon;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class NeuBackButton extends StatelessWidget {
         decoration: NeumorphicDecoration(shape: BoxShape.circle),
         onPressed: () {
           if (onPressed != null) {
-            onPressed();
+            onPressed!();
           } else {
             Navigator.maybePop(context);
           }

@@ -14,28 +14,28 @@ class NeuAppBar extends StatelessWidget implements PreferredSizeWidget {
   const NeuAppBar({
     this.leading,
     this.title,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   /// The [leading] widget placed on the left side of appBar.
   /// Usually a back button or a menu button.
-  final Widget leading;
+  final Widget? leading;
 
   /// The [title] widget displayed after the [leading] on AppBar.
-  final Widget title;
+  final Widget? title;
 
   @override
   Widget build(BuildContext context) {
     final MediaQueryData media = MediaQuery.of(context);
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final ModalRoute<dynamic> parentRoute = ModalRoute.of(context);
-    final ScaffoldState scaffold = Scaffold.maybeOf(context);
+    final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
+    final ScaffoldState? scaffold = Scaffold.maybeOf(context);
     final bool hasDrawer = scaffold?.hasDrawer ?? false;
     final bool canPop = parentRoute?.canPop ?? false;
     final bool useCloseButton =
         parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
 
-    Widget leading = this.leading;
+    Widget? leading = this.leading;
     if (leading == null) {
       if (hasDrawer) {
         leading = IconButton(
@@ -64,13 +64,13 @@ class NeuAppBar extends StatelessWidget implements PreferredSizeWidget {
               padding: EdgeInsets.all(16)
                   .copyWith(right: (leading != null) ? cToolbarHeight : 0),
               child: DefaultTextStyle(
-                style: textTheme.headline.copyWith(
+                style: textTheme.headline!.copyWith(
                   /// TODO(noname): (ISSUE) Causes part of text below baseline to not show
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,
-                child: title,
+                child: title!,
               ),
             ),
           ),
