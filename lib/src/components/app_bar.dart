@@ -29,7 +29,7 @@ class NeuAppBar extends StatelessWidget implements PreferredSizeWidget {
     final MediaQueryData media = MediaQuery.of(context);
     final TextTheme textTheme = Theme.of(context).textTheme;
     final ModalRoute<dynamic> parentRoute = ModalRoute.of(context);
-    final ScaffoldState scaffold = Scaffold.of(context, nullOk: true);
+    final ScaffoldState scaffold = Scaffold.maybeOf(context);
     final bool hasDrawer = scaffold?.hasDrawer ?? false;
     final bool canPop = parentRoute?.canPop ?? false;
     final bool useCloseButton =

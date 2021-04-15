@@ -387,7 +387,7 @@ class NeuBasedCupertinoTheme extends CupertinoThemeData {
     // If the color comes from the material theme it's not resolved.
     return NeuBasedCupertinoTheme._(
       _neuThemeData,
-      _cupertinoOverrideTheme.resolveFrom(context, nullOk: nullOk),
+      _cupertinoOverrideTheme.resolveFrom(context),
     );
   }
 }

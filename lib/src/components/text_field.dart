@@ -949,9 +949,8 @@ class _NeuTextFieldState extends State<NeuTextField>
   }
 
   bool get _canRequestFocus {
-    final NavigationMode mode =
-        MediaQuery.of(context, nullOk: true)?.navigationMode ??
-            NavigationMode.traditional;
+    final NavigationMode mode = MediaQuery.maybeOf(context)?.navigationMode ??
+        NavigationMode.traditional;
     switch (mode) {
       case NavigationMode.traditional:
         return _isEnabled;
